@@ -10,35 +10,24 @@
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
 body{background:#f5f0e8;font-family:'Courier New',Courier,monospace;min-height:100vh;-webkit-text-size-adjust:100%;}
-input,textarea,button,select{font-family:'Courier New',Courier,monospace;}
+input,textarea,button{font-family:'Courier New',Courier,monospace;}
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
 button{cursor:pointer;border:none;background:none;}
 textarea{resize:vertical;}
 
-/* ── GLOBAL NAV ── */
-.global-nav{
-  display:flex;background:#1a0f08;position:sticky;top:0;z-index:100;
-  border-bottom:2px solid #c8a96e;
-}
-.global-nav button{
-  flex:1;padding:13px 0;color:#9a7a5a;font-size:11px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;border-bottom:3px solid transparent;
-  transition:all .2s;
-}
+.global-nav{display:flex;background:#1a0f08;position:sticky;top:0;z-index:100;border-bottom:2px solid #c8a96e;}
+.global-nav button{flex:1;padding:13px 0;color:#9a7a5a;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-bottom:3px solid transparent;transition:all .2s;}
 .global-nav button.active{color:#c8a96e;border-bottom:3px solid #c8a96e;}
-
 .page{display:none;padding:16px 12px 80px;}
 .page.active{display:block;}
 .inner{max-width:680px;margin:0 auto;}
 
-/* ── HEADER ── */
 .hdr{text-align:center;border-top:3px solid #3d2b1a;border-bottom:3px solid #3d2b1a;padding:14px 0 10px;margin-bottom:12px;}
 .hdr-sub{font-size:9px;letter-spacing:7px;color:#7a5c3a;text-transform:uppercase;margin-bottom:3px;}
 .hdr-main{font-size:24px;font-weight:900;letter-spacing:6px;color:#3d2b1a;text-transform:uppercase;}
 .hdr-desc{font-size:9px;letter-spacing:3px;color:#7a5c3a;margin-top:4px;text-transform:uppercase;}
 .hdr-count{font-size:10px;color:#c8622a;letter-spacing:2px;margin-top:4px;}
 
-/* ── TOP BAR ── */
 .topbar{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .save-box{flex:1;min-width:150px;display:flex;align-items:center;justify-content:space-between;background:#faf7f0;border:1px solid #d4c5a9;padding:7px 12px;gap:6px;flex-wrap:wrap;}
 .save-time{font-size:9px;color:#9a7a5a;}
@@ -47,7 +36,6 @@ textarea{resize:vertical;}
 .rate-box span{font-size:10px;opacity:.7;white-space:nowrap;}
 .rate-box input{width:52px;background:transparent;border:none;border-bottom:1px solid rgba(200,169,110,.5);color:#c8a96e;font-size:15px;font-weight:900;text-align:center;outline:none;padding:1px 0;}
 
-/* ── STATS ── */
 .stats{background:#3d2b1a;color:#f5f0e8;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
 .stats-num{min-width:48px;}
 .stats-num .label{font-size:8px;letter-spacing:2px;opacity:.5;margin-bottom:1px;text-transform:uppercase;}
@@ -59,794 +47,651 @@ textarea{resize:vertical;}
 .stats-legend{display:flex;gap:8px;font-size:8px;opacity:.65;flex-wrap:wrap;}
 .stats-pct{font-size:18px;font-weight:900;color:#c8a96e;min-width:38px;text-align:right;}
 
-/* ── VIEW TABS ── */
 .view-tabs{display:flex;gap:4px;margin-bottom:10px;}
 .view-tabs button{border:1.5px solid #3d2b1a;background:transparent;color:#3d2b1a;font-size:11px;font-weight:700;padding:6px 14px;transition:all .15s;}
 .view-tabs button.active{background:#3d2b1a;color:#f5f0e8;}
 
-/* ── SEARCH ── */
 .search-box{display:flex;align-items:center;gap:8px;background:#faf7f0;border:1px solid #d4c5a9;padding:8px 12px;margin-bottom:10px;}
 .search-box input{flex:1;border:none;background:transparent;color:#3d2b1a;font-size:12px;outline:none;}
-.search-clear{color:#b89f7a;font-size:14px;}
-
-/* ── FILTER ── */
 .filter-bar{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;}
 .filter-bar button{border:1.5px solid #3d2b1a;background:transparent;color:#3d2b1a;font-size:10px;font-weight:700;padding:4px 9px;transition:all .15s;}
 .filter-bar button.active{background:#3d2b1a;color:#f5f0e8;}
 
-/* ── CATEGORY ── */
-.cat-header{
-  width:100%;display:flex;align-items:center;justify-content:space-between;
-  background:#3d2b1a;padding:10px 15px;color:#f5f0e8;text-align:left;
-}
-.cat-header .left{display:flex;align-items:center;gap:8px;}
-.cat-header .icon{font-size:13px;}
-.cat-header .name{font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;}
-.cat-header .right{display:flex;align-items:center;gap:8px;}
+.cat-hdr{width:100%;display:flex;align-items:center;justify-content:space-between;background:#3d2b1a;padding:10px 15px;color:#f5f0e8;text-align:left;}
+.cat-hdr .left{display:flex;align-items:center;gap:8px;}
+.cat-hdr .name{font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;}
+.cat-hdr .right{display:flex;align-items:center;gap:8px;}
 .cat-badge{font-size:9px;padding:2px 6px;}
-.cat-arrow{font-size:10px;opacity:.5;}
 .cat-body{border:1px solid #3d2b1a;border-top:none;background:#fdfaf4;}
 
-/* ── ITEM CARD ── */
 .item-card{padding:11px 13px 10px;transition:background .2s;}
-.item-card + .item-card{border-top:1px dashed #d4c5a9;}
+.item-card+.item-card{border-top:1px dashed #d4c5a9;}
 .item-inner{display:flex;align-items:flex-start;gap:10px;}
 
-/* ── IMAGE UPLOAD ── */
-.item-img{
-  width:68px;height:68px;flex-shrink:0;border:1px solid #d4c5a9;
-  background:#f0ebe0;overflow:hidden;position:relative;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-}
+.item-img{width:68px;height:68px;flex-shrink:0;border:1px solid #d4c5a9;background:#f0ebe0;overflow:hidden;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .item-img img{width:100%;height:100%;object-fit:cover;display:block;}
-.item-img .img-placeholder{text-align:center;font-size:9px;color:#b89f7a;line-height:1.4;padding:4px;}
-.item-img .img-placeholder span{display:block;font-size:18px;margin-bottom:2px;}
+.img-placeholder{text-align:center;font-size:9px;color:#b89f7a;line-height:1.4;padding:4px;}
+.img-placeholder span{display:block;font-size:18px;margin-bottom:2px;}
 .item-img input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.item-img .img-remove{
-  position:absolute;top:2px;right:2px;background:rgba(61,43,26,.7);
-  color:#f5f0e8;font-size:10px;width:18px;height:18px;
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  z-index:2;
-}
+.img-remove{position:absolute;top:2px;right:2px;background:rgba(61,43,26,.75);color:#f5f0e8;font-size:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;}
 
-/* ── ITEM INFO ── */
 .item-info{flex:1;min-width:0;}
 .item-name-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:2px;}
-.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.item-name{font-size:12px;font-weight:700;color:#3d2b1a;}
-.item-name.skip{text-decoration:line-through;opacity:.6;color:#a06050;}
-.pri-badge{font-size:9px;font-weight:800;padding:1px 5px;border:1px solid;}
-.item-model{font-size:10px;color:#9a7a5a;margin-bottom:6px;}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.iname{font-size:12px;font-weight:700;color:#3d2b1a;}
+.iname.skip{text-decoration:line-through;opacity:.6;color:#a06050;}
+.pribadge{font-size:9px;font-weight:800;padding:1px 5px;border:1px solid;}
+.imodel{font-size:10px;color:#9a7a5a;margin-bottom:6px;}
 
-/* ── BUDGET ── */
-.budget-row{display:flex;align-items:center;gap:5px;margin-bottom:5px;}
-.budget-row .yen{font-size:9px;color:#9a7a5a;}
-.budget-row input{width:70px;border:none;border-bottom:1px solid #c5b49a;background:transparent;color:#3d2b1a;font-size:11px;outline:none;padding:1px 2px;}
-.budget-krw{font-size:10px;color:#6b8fb5;font-weight:700;}
+.brow{display:flex;align-items:center;gap:5px;margin-bottom:5px;}
+.brow .yen{font-size:9px;color:#9a7a5a;}
+.brow input{width:70px;border:none;border-bottom:1px solid #c5b49a;background:transparent;color:#3d2b1a;font-size:11px;outline:none;padding:1px 2px;}
+.bkrw{font-size:10px;color:#6b8fb5;font-weight:700;}
 
-/* ── BUTTONS ── */
-.btn-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:5px;}
-.btn-divider{width:1px;background:#d4c5a9;margin:0 1px;align-self:stretch;}
-.tag-btn{font-size:10px;font-weight:400;padding:3px 7px;border:1.5px solid #d4c5a9;color:#b89f7a;white-space:nowrap;transition:all .15s;}
-.tag-btn.active{font-weight:800;}
+.brow2{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:5px;}
+.bdiv{width:1px;background:#d4c5a9;margin:0 1px;align-self:stretch;}
+.tbtn{font-size:10px;padding:3px 7px;border:1.5px solid #d4c5a9;color:#b89f7a;white-space:nowrap;transition:all .15s;}
+.tbtn.on{font-weight:800;}
 
-/* ── INPUT LINES ── */
-.input-line{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
-.input-line .ico{font-size:10px;flex-shrink:0;}
-.input-line input{flex:1;border:none;border-bottom:1px solid #d4c5a9;background:transparent;color:#3d2b1a;font-size:11px;outline:none;padding:2px;}
+.iline{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.iline .ico{font-size:10px;flex-shrink:0;}
+.iline input{flex:1;border:none;border-bottom:1px solid #d4c5a9;background:transparent;color:#3d2b1a;font-size:11px;outline:none;padding:2px;}
 
-/* ── MEMO ── */
-.memo-btn{font-size:10px;padding:3px 8px;border:1.5px solid #d4c5a9;color:#b89f7a;margin-top:4px;}
-.memo-btn.has{border-color:#8a6a4a;color:#7a5c3a;font-weight:700;background:rgba(122,92,58,.08);}
-.memo-textarea{margin-top:6px;width:100%;border:1px solid #c5b49a;background:#faf7f0;color:#3d2b1a;font-size:11px;padding:7px 9px;outline:none;line-height:1.6;}
-.memo-preview{margin-top:5px;font-size:11px;color:#6a4c2e;background:rgba(122,92,58,.06);border-left:2px solid #c8a96e;padding:4px 8px;line-height:1.5;white-space:pre-wrap;word-break:break-all;cursor:pointer;}
+.mbtn{font-size:10px;padding:3px 8px;border:1.5px solid #d4c5a9;color:#b89f7a;margin-top:4px;}
+.mbtn.has{border-color:#8a6a4a;color:#7a5c3a;font-weight:700;background:rgba(122,92,58,.08);}
+.mta{margin-top:6px;width:100%;border:1px solid #c5b49a;background:#faf7f0;color:#3d2b1a;font-size:11px;padding:7px 9px;outline:none;line-height:1.6;}
+.mprev{margin-top:5px;font-size:11px;color:#6a4c2e;background:rgba(122,92,58,.06);border-left:2px solid #c8a96e;padding:4px 8px;line-height:1.5;white-space:pre-wrap;word-break:break-all;cursor:pointer;}
 
-/* ── SUMMARY VIEW ── */
-.budget-cards{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.budget-card{flex:1;min-width:100px;background:#fdfaf4;padding:10px 12px;}
-.budget-card .bc-label{font-size:8px;color:#9a7a5a;margin-bottom:4px;letter-spacing:.5px;}
-.budget-card .bc-yen{font-size:16px;font-weight:900;}
-.budget-card .bc-krw{font-size:10px;color:#9a7a5a;}
+.bcards{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.bcard{flex:1;min-width:100px;background:#fdfaf4;padding:10px 12px;}
+.bcard .bl{font-size:8px;color:#9a7a5a;margin-bottom:4px;}
+.bcard .by{font-size:16px;font-weight:900;}
+.bcard .bk{font-size:10px;color:#9a7a5a;}
 
-/* ── GUIDE ── */
-.guide-header{width:100%;display:flex;align-items:center;justify-content:space-between;background:#1e3a2e;padding:11px 15px;color:#f5f0e8;text-align:left;}
-.guide-header .left{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;}
-.guide-body{border:1px solid #1e3a2e;border-top:none;background:#fdfaf4;}
-.guide-area{border-bottom:1px solid #e0d4bc;}
-.guide-area:last-child{border-bottom:none;}
-.guide-area-name{padding:8px 13px;font-size:11px;font-weight:900;color:#3d2b1a;border-left:3px solid;}
-.guide-shop{padding:7px 13px 7px 20px;display:flex;gap:8px;border-bottom:1px dashed #e8dcc8;}
-.guide-shop:last-child{border-bottom:none;}
-.guide-shop-name{font-size:11px;font-weight:700;color:#3d2b1a;margin-bottom:1px;}
-.guide-shop-note{font-size:10px;color:#9a7a5a;}
-
-/* ── FOOTER ── */
+.ghdr{width:100%;display:flex;align-items:center;justify-content:space-between;background:#1e3a2e;padding:11px 15px;color:#f5f0e8;text-align:left;}
+.ghdr .left{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;}
+.gbody{border:1px solid #1e3a2e;border-top:none;background:#fdfaf4;}
+.garea{border-bottom:1px solid #e0d4bc;}
+.garea:last-child{border-bottom:none;}
+.ganame{padding:8px 13px;font-size:11px;font-weight:900;color:#3d2b1a;border-left:3px solid;}
+.gshop{padding:7px 13px 7px 20px;display:flex;gap:8px;border-bottom:1px dashed #e8dcc8;}
+.gshop:last-child{border-bottom:none;}
+.gsname{font-size:11px;font-weight:700;color:#3d2b1a;margin-bottom:1px;}
+.gsnote{font-size:10px;color:#9a7a5a;}
 .footer{text-align:center;margin-top:20px;padding:12px 0;border-top:1px solid #b89f7a;font-size:9px;letter-spacing:4px;color:#b89f7a;text-transform:uppercase;}
 
-/* ═══════════════════════════════════════
-   JAPANESE PAGE
-═══════════════════════════════════════ */
-.jp-header{text-align:center;border-top:3px solid #1e3a2e;border-bottom:3px solid #1e3a2e;padding:14px 0 10px;margin-bottom:14px;}
-.jp-header .title{font-size:22px;font-weight:900;letter-spacing:4px;color:#1e3a2e;text-transform:uppercase;}
-.jp-header .sub{font-size:9px;letter-spacing:5px;color:#4a7c59;text-transform:uppercase;margin-bottom:4px;}
-.jp-header .desc{font-size:10px;color:#4a7c59;margin-top:4px;}
-
-.jp-tabs{display:flex;gap:4px;margin-bottom:14px;}
-.jp-tabs button{flex:1;border:1.5px solid #1e3a2e;background:transparent;color:#1e3a2e;font-size:11px;font-weight:700;padding:8px;transition:all .15s;}
-.jp-tabs button.active{background:#1e3a2e;color:#f5f0e8;}
-
-.jp-section-title{
-  display:flex;align-items:center;gap:8px;
-  padding:9px 13px;background:#1e3a2e;color:#f5f0e8;
-  font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;
-  margin-bottom:0;
-}
-.jp-cards{border:1px solid #1e3a2e;border-top:none;margin-bottom:14px;}
-.jp-card{padding:13px 14px;border-bottom:1px dashed #c8dbc4;}
-.jp-card:last-child{border-bottom:none;}
-.jp-japanese{font-size:18px;font-weight:900;color:#1e3a2e;margin-bottom:4px;letter-spacing:1px;}
-.jp-reading{font-size:11px;color:#c8622a;font-weight:700;margin-bottom:3px;letter-spacing:.5px;}
-.jp-meaning{font-size:12px;color:#3d2b1a;margin-bottom:3px;}
-.jp-tip{font-size:10px;color:#7a9a5a;font-style:italic;}
-
-/* search in jp */
-.jp-search{display:flex;align-items:center;gap:8px;background:#faf7f0;border:1px solid #d4c5a9;padding:8px 12px;margin-bottom:10px;}
-.jp-search input{flex:1;border:none;background:transparent;color:#3d2b1a;font-size:12px;outline:none;}
-
-/* copy button */
-.jp-copy{float:right;font-size:9px;color:#9a7a5a;border:1px solid #d4c5a9;padding:2px 7px;margin-top:2px;background:#faf7f0;}
-.jp-copy:active{background:#e8dcc8;}
-
-@media(max-width:400px){
-  .btn-row{gap:3px;}
-  .tag-btn{font-size:9px;padding:3px 5px;}
-}
+.jphdr{text-align:center;border-top:3px solid #1e3a2e;border-bottom:3px solid #1e3a2e;padding:14px 0 10px;margin-bottom:14px;}
+.jphdr .title{font-size:22px;font-weight:900;letter-spacing:4px;color:#1e3a2e;text-transform:uppercase;}
+.jphdr .sub{font-size:9px;letter-spacing:5px;color:#4a7c59;text-transform:uppercase;margin-bottom:4px;}
+.jphdr .desc{font-size:10px;color:#4a7c59;margin-top:4px;}
+.jptabs{display:flex;gap:4px;margin-bottom:14px;}
+.jptabs button{flex:1;border:1.5px solid #1e3a2e;background:transparent;color:#1e3a2e;font-size:11px;font-weight:700;padding:8px;transition:all .15s;}
+.jptabs button.active{background:#1e3a2e;color:#f5f0e8;}
+.jpstitle{display:flex;align-items:center;gap:8px;padding:9px 13px;background:#1e3a2e;color:#f5f0e8;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;}
+.jpcards{border:1px solid #1e3a2e;border-top:none;margin-bottom:14px;}
+.jpcard{padding:14px;border-bottom:1px dashed #c8dbc4;}
+.jpcard:last-child{border-bottom:none;}
+.jpjp{font-size:22px;font-weight:900;color:#1e3a2e;margin-bottom:5px;letter-spacing:1px;}
+.jpread{font-size:12px;color:#c8622a;font-weight:700;margin-bottom:4px;}
+.jpmean{font-size:12px;color:#3d2b1a;margin-bottom:4px;}
+.jptip{font-size:10px;color:#7a9a5a;font-style:italic;margin-bottom:10px;}
+.jpbtns{display:flex;gap:6px;flex-wrap:wrap;}
+.jpbtn{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:6px 12px;border:1.5px solid;border-radius:2px;text-decoration:none;transition:opacity .15s;}
+.jpbtn:active{opacity:.6;}
+.jbpapago{color:#03c75a;border-color:#03c75a;background:rgba(3,199,90,.08);}
+.jbnaver{color:#3d7a4a;border-color:#3d7a4a;background:rgba(61,122,74,.08);}
+.jbcopy{color:#8f6bb5;border-color:#8f6bb5;background:rgba(143,107,181,.08);}
+.jbjisho{color:#4a6bb5;border-color:#4a6bb5;background:rgba(74,107,181,.08);}
+/* 검색창 */
+.jp-searchbox{display:flex;align-items:center;gap:10px;background:#faf7f0;border:2px solid #1e3a2e;padding:10px 14px;margin-bottom:12px;}
+.jp-searchbox input{flex:1;border:none;background:transparent;color:#1e3a2e;font-size:14px;outline:none;font-weight:700;}
+.jp-searchbox input::placeholder{color:#aaa;font-weight:400;font-size:12px;}
+#jp-external{background:#faf7f0;border:1px solid #c8dbc4;padding:12px 14px;margin-bottom:12px;}
 </style>
 </head>
 <body>
 
-<!-- ── GLOBAL NAV ── -->
 <nav class="global-nav">
   <button class="active" onclick="switchPage('checklist')">🛍 체크리스트</button>
   <button onclick="switchPage('japanese')">🗾 일본어 회화</button>
 </nav>
 
-<!-- ══════════════════════════════════════
-     PAGE: 체크리스트
-══════════════════════════════════════ -->
+<!-- ══ 체크리스트 ══ -->
 <div id="page-checklist" class="page active">
 <div class="inner">
-
-<div class="hdr">
-  <div class="hdr-sub">American Casual — Tokyo Shopping</div>
-  <div class="hdr-main">AMEKAJI</div>
-  <div class="hdr-desc">Essential Wardrobe Checklist</div>
-  <div class="hdr-count" id="hdr-count">🗾 도쿄 쇼핑 에디션</div>
-</div>
-
-<!-- top bar -->
-<div class="topbar">
-  <div class="save-box">
-    <div class="save-time" id="save-time">저장 기록 없음</div>
-    <div class="save-badge" id="save-badge" style="color:#9a7a5a;border-color:#c5b49a;">자동저장 ON</div>
+  <div class="hdr">
+    <div class="hdr-sub">American Casual — Tokyo Shopping</div>
+    <div class="hdr-main">AMEKAJI</div>
+    <div class="hdr-desc">Essential Wardrobe Checklist</div>
+    <div class="hdr-count" id="hdr-count">🗾 도쿄 쇼핑 에디션 · 총 46개 아이템</div>
   </div>
-  <div class="rate-box">
-    <span>¥100 =</span>
-    <input type="number" id="rate-input" value="920" oninput="onRateChange(this.value)"/>
-    <span>원</span>
+  <div class="topbar">
+    <div class="save-box">
+      <div class="save-time" id="save-time">저장 기록 없음</div>
+      <div class="save-badge" id="save-badge" style="color:#9a7a5a;border-color:#c5b49a;">자동저장 ON</div>
+    </div>
+    <div class="rate-box">
+      <span>¥100 =</span>
+      <input type="number" id="rate-input" value="920" onchange="onRateChange(this.value)"/>
+      <span>원</span>
+    </div>
   </div>
-</div>
-
-<!-- stats -->
-<div class="stats">
-  <div class="stats-num">
-    <div class="label">보유/완료</div>
-    <div class="val" id="stats-done">0<small>/46</small></div>
+  <div class="stats">
+    <div class="stats-num">
+      <div class="label">보유/완료</div>
+      <div class="val" id="stats-done">0<small>/46</small></div>
+    </div>
+    <div class="stats-bar-wrap">
+      <div class="stats-bar" id="stats-bar"></div>
+      <div class="stats-legend" id="stats-legend"></div>
+    </div>
+    <div class="stats-pct" id="stats-pct">0%</div>
   </div>
-  <div class="stats-bar-wrap">
-    <div class="stats-bar" id="stats-bar"></div>
-    <div class="stats-legend" id="stats-legend"></div>
+  <div class="view-tabs">
+    <button class="active" id="btn-list" onclick="switchView('list')">📋 리스트</button>
+    <button id="btn-summary" onclick="switchView('summary')">🛍 쇼핑 요약</button>
   </div>
-  <div class="stats-pct" id="stats-pct">0%</div>
-</div>
-
-<!-- view tabs -->
-<div class="view-tabs">
-  <button class="active" onclick="switchView('list',this)">📋 리스트</button>
-  <button onclick="switchView('summary',this)">🛍 쇼핑 요약</button>
-</div>
-
-<!-- list view -->
-<div id="list-view">
-  <div class="search-box">
-    <span style="font-size:12px;color:#9a7a5a;">🔍</span>
-    <input type="text" placeholder="검색 (데님, 플라넬, Carhartt...)" oninput="onSearch(this.value)" id="search-input"/>
-    <button class="search-clear" onclick="clearSearch()">✕</button>
+  <div id="list-view">
+    <div class="search-box">
+      <span style="font-size:12px;color:#9a7a5a">🔍</span>
+      <input type="text" id="search-input" placeholder="검색 (데님, 플라넬, Carhartt...)" oninput="onSearch(this.value)"/>
+      <button style="color:#b89f7a;font-size:14px" onclick="clearSearch()">✕</button>
+    </div>
+    <div class="filter-bar" id="filter-bar"></div>
+    <div id="cat-list"></div>
+    <div style="margin-top:16px;margin-bottom:10px;">
+      <button class="ghdr" onclick="toggleGuide()">
+        <div class="left"><span>🗾</span>도쿄 쇼핑 가이드</div>
+        <span id="garrow" style="font-size:10px;opacity:.5">▼</span>
+      </button>
+      <div id="gbody" class="gbody" style="display:none"></div>
+    </div>
   </div>
-  <div class="filter-bar" id="filter-bar"></div>
-  <div id="cat-list"></div>
-
-  <!-- tokyo guide -->
-  <div style="margin-top:16px;margin-bottom:10px;">
-    <button class="guide-header" onclick="toggleGuide()">
-      <div class="left"><span>🗾</span>도쿄 쇼핑 가이드</div>
-      <span id="guide-arrow" style="font-size:10px;opacity:.5;">▼</span>
-    </button>
-    <div id="guide-body" class="guide-body" style="display:none;"></div>
+  <div id="summary-view" style="display:none">
+    <div class="bcards" id="budget-cards"></div>
+    <div id="summary-list"></div>
   </div>
-</div>
-
-<!-- summary view -->
-<div id="summary-view" style="display:none;">
-  <div class="budget-cards" id="budget-cards"></div>
-  <div id="summary-list"></div>
-</div>
-
-<div class="footer" id="footer-text">◆ AMEKAJI WARDROBE ◆</div>
+  <div class="footer" id="footer-text">◆ AMEKAJI WARDROBE ◆</div>
 </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     PAGE: 일본어 회화
-══════════════════════════════════════ -->
+<!-- ══ 일본어 ══ -->
 <div id="page-japanese" class="page">
 <div class="inner">
+  <div class="jphdr">
+    <div class="sub">Tokyo Travel — Language Guide</div>
+    <div class="title">日本語 회화</div>
+    <div class="desc">검색 → 없는 단어는 파파고·네이버에서 바로 확인</div>
+  </div>
 
-<div class="jp-header">
-  <div class="sub">Tokyo Travel — Language Guide</div>
-  <div class="title">日本語 회화</div>
-  <div class="desc">도쿄 쇼핑 여행 필수 일본어</div>
-</div>
+  <!-- 검색창 -->
+  <div class="jp-searchbox">
+    <span style="font-size:14px">🔍</span>
+    <input type="text" id="jp-input" placeholder="한국어 또는 일본어로 검색 (예: 얼마, 사이즈, ありがとう)"
+      oninput="jpSearch(this.value)" autocomplete="off" autocorrect="off"/>
+    <button onclick="jpClear()" style="color:#b89f7a;font-size:16px;padding:0 4px">✕</button>
+  </div>
 
-<div class="jp-search">
-  <span style="font-size:12px;color:#9a7a5a;">🔍</span>
-  <input type="text" placeholder="검색 (예: 사이즈, 얼마, 감사...)" oninput="searchJP(this.value)" id="jp-search"/>
-  <button onclick="clearJPSearch()" style="color:#b89f7a;font-size:14px;">✕</button>
-</div>
+  <!-- AI 번역 결과 -->
+  <div id="jp-ai-result"></div>
 
-<div class="jp-tabs">
-  <button class="active" onclick="switchJPTab('common',this)">💬 자주 쓰는 일본어</button>
-  <button onclick="switchJPTab('shopping',this)">🛍 쇼핑 관련</button>
-</div>
+  <!-- 탭 (검색 없을 때) -->
+  <div class="jptabs" id="jp-tab-wrap">
+    <button class="active" id="jp-tab-common" onclick="switchJPTab('common')">💬 자주 쓰는 일본어</button>
+    <button id="jp-tab-shopping" onclick="switchJPTab('shopping')">🛍 쇼핑 관련</button>
+  </div>
 
-<div id="jp-common"></div>
-<div id="jp-shopping" style="display:none;"></div>
-
+  <div id="jp-results"></div>
+  <div id="jp-common"></div>
+  <div id="jp-shopping" style="display:none"></div>
 </div>
 </div>
 
 <script>
-// ════════════════════════════════
-// DATA
-// ════════════════════════════════
-const CATEGORIES = [
-  { id:"tops", label:"01. 상의 TOPS", icon:"👕", items:[
-    {id:"t1",  name:"포켓 티셔츠",        en:"Pocket T-Shirt",       model:"Hanes Beefy-T / Velva Sheen / Warehouse"},
-    {id:"t2",  name:"헨리넥 티셔츠",       en:"Henley Neck T",        model:"Merz B. Schwanen / Warehouse / Nigel Cabourn"},
-    {id:"t3",  name:"링거 티셔츠",         en:"Ringer T-Shirt",       model:"Velva Sheen / Warehouse / Fruit of the Loom"},
-    {id:"t4",  name:"보더 티셔츠",         en:"Border Stripe T",      model:"Saint James / Orcival / Warehouse"},
-    {id:"t5",  name:"롱슬리브 티셔츠",     en:"L/S T-Shirt",          model:"Merz B. Schwanen 215 / Warehouse / Loopwheeled"},
-    {id:"t6",  name:"럭비 셔츠",           en:"Rugby Shirt",          model:"Polo Ralph Lauren / Beams Plus / Gymphlex"},
-    {id:"t7",  name:"샴브레이 셔츠",       en:"Chambray Shirt",       model:"Orslow / Warehouse / Kapital"},
-    {id:"t8",  name:"플라넬 셔츠",         en:"Flannel Shirt",        model:"Pendleton / Warehouse / Jelado"},
-    {id:"t9",  name:"옥스포드 버튼다운",   en:"OCBD",                 model:"Brooks Brothers / Individualized Shirts / Kamakura"},
-    {id:"t10", name:"워크 셔츠",           en:"Work Shirt",           model:"Carhartt / Jelado / Warehouse"},
-    {id:"t11", name:"헤비웨이트 스웨트셔츠",en:"Sweatshirt",          model:"Champion Reverse Weave / Warehouse / Loopwheeled"},
-    {id:"t12", name:"헤비웨이트 후디",     en:"Hoodie",               model:"Champion Reverse Weave / Loopwheeled / Warehouse"},
-    {id:"t13", name:"서멀 티셔츠",         en:"Thermal / Waffle",     model:"Duofold / Warehouse / Merz B. Schwanen"},
-    {id:"t14", name:"코튼 니트 스웨터",   en:"Knit / Sweater",       model:"Inverallan / Jamieson's / Beams Plus"},
+// ════════════ 데이터 ════════════
+const CATS = [
+  {id:"tops",label:"01. 상의 TOPS",icon:"👕",items:[
+    {id:"t1", name:"포켓 티셔츠",        en:"Pocket T-Shirt",        model:"Hanes Beefy-T / Velva Sheen / Warehouse"},
+    {id:"t2", name:"헨리넥 티셔츠",       en:"Henley Neck T",         model:"Merz B. Schwanen / Warehouse / Nigel Cabourn"},
+    {id:"t3", name:"링거 티셔츠",         en:"Ringer T-Shirt",        model:"Velva Sheen / Warehouse / Fruit of the Loom"},
+    {id:"t4", name:"보더 티셔츠",         en:"Border Stripe T",       model:"Saint James / Orcival / Warehouse"},
+    {id:"t5", name:"롱슬리브 티셔츠",     en:"L/S T-Shirt",           model:"Merz B. Schwanen 215 / Warehouse / Loopwheeled"},
+    {id:"t6", name:"럭비 셔츠",           en:"Rugby Shirt",           model:"Polo Ralph Lauren / Beams Plus / Gymphlex"},
+    {id:"t7", name:"샴브레이 셔츠",       en:"Chambray Shirt",        model:"Orslow / Warehouse / Kapital"},
+    {id:"t8", name:"플라넬 셔츠",         en:"Flannel Shirt",         model:"Pendleton / Warehouse / Jelado"},
+    {id:"t9", name:"옥스포드 버튼다운",   en:"OCBD",                  model:"Brooks Brothers / Individualized Shirts / Kamakura"},
+    {id:"t10",name:"워크 셔츠",           en:"Work Shirt",            model:"Carhartt / Jelado / Warehouse"},
+    {id:"t11",name:"헤비웨이트 스웨트셔츠",en:"Sweatshirt",           model:"Champion Reverse Weave / Warehouse / Loopwheeled"},
+    {id:"t12",name:"헤비웨이트 후디",     en:"Hoodie",                model:"Champion Reverse Weave / Loopwheeled / Warehouse"},
+    {id:"t13",name:"서멀 티셔츠",         en:"Thermal / Waffle",      model:"Duofold / Warehouse / Merz B. Schwanen"},
+    {id:"t14",name:"코튼 니트 스웨터",    en:"Knit / Sweater",        model:"Inverallan / Jamieson's / Beams Plus"},
   ]},
-  { id:"outer", label:"02. 아우터 OUTERWEAR", icon:"🧥", items:[
-    {id:"o1",  name:"데님 자켓 1st",       en:"One Pocket Denim Jacket", model:"Warehouse 1st / The Strike Gold / Iron Heart"},
-    {id:"o2",  name:"데님 자켓 2nd",       en:"Two Pocket Denim Jacket", model:"Warehouse 2nd / Oni Denim / Samurai"},
-    {id:"o3",  name:"데님 자켓 3rd 트러커",en:"Trucker Jacket",          model:"Oni Denim / The Strike Gold / Samurai"},
-    {id:"o4",  name:"CPO 자켓",            en:"CPO Shirt Jacket",        model:"Pendleton / Beams Plus / Orslow"},
-    {id:"o5",  name:"코치 자켓",           en:"Coach / Nylon Jacket",    model:"Taion / Beams Plus / Needles"},
-    {id:"o6",  name:"커버올",              en:"Coverall / Engineer Jacket",model:"Orslow / Freewheelers / Jelado"},
-    {id:"o7",  name:"쇼어 코트",           en:"Chore Coat",              model:"Orslow / Kapital / Engineered Garments"},
-    {id:"o8",  name:"헌팅 자켓",           en:"Hunting Jacket",          model:"Filson / Barbour / Freewheelers"},
-    {id:"o9",  name:"MA-1 플라이트 자켓",  en:"MA-1 Flight Jacket",      model:"Alpha Industries / Buzz Rickson's / Toyo Enterprise"},
-    {id:"o10", name:"M-65 필드 자켓 야상", en:"M-65 Field Jacket",       model:"Alpha Industries / Buzz Rickson's / Real McCoy's"},
-    {id:"o11", name:"정글 퍼티그 자켓",    en:"Jungle Fatigue Jacket",   model:"Buzz Rickson's / Freewheelers / Real McCoy's"},
-    {id:"o12", name:"N-1 덱 자켓",        en:"N-1 Deck Jacket",         model:"Buzz Rickson's / Warehouse / Toyo Enterprise"},
-    {id:"o13", name:"바시티 자켓",         en:"Varsity / Stadium Jacket",model:"Taion / Beams Plus / Toyo Enterprise"},
-    {id:"o14", name:"피코트",              en:"Pea Coat",                model:"Gloverall / Schott / Beams Plus"},
-    {id:"o15", name:"레더 자켓",           en:"Leather Jacket",          model:"Schott / Real McCoy's / Freewheelers"},
+  {id:"outer",label:"02. 아우터 OUTERWEAR",icon:"🧥",items:[
+    {id:"o1", name:"데님 자켓 1st",       en:"One Pocket Denim Jacket",  model:"Warehouse 1st / The Strike Gold / Iron Heart"},
+    {id:"o2", name:"데님 자켓 2nd",       en:"Two Pocket Denim Jacket",  model:"Warehouse 2nd / Oni Denim / Samurai"},
+    {id:"o3", name:"데님 자켓 3rd 트러커",en:"Trucker Jacket",           model:"Oni Denim / The Strike Gold / Samurai"},
+    {id:"o4", name:"CPO 자켓",            en:"CPO Shirt Jacket",         model:"Pendleton / Beams Plus / Orslow"},
+    {id:"o5", name:"코치 자켓",           en:"Coach / Nylon Jacket",     model:"Taion / Beams Plus / Needles"},
+    {id:"o6", name:"커버올",              en:"Coverall",                 model:"Orslow / Freewheelers / Jelado"},
+    {id:"o7", name:"쇼어 코트",           en:"Chore Coat",               model:"Orslow / Kapital / Engineered Garments"},
+    {id:"o8", name:"헌팅 자켓",           en:"Hunting Jacket",           model:"Filson / Barbour / Freewheelers"},
+    {id:"o9", name:"MA-1 플라이트 자켓",  en:"MA-1 Flight Jacket",       model:"Alpha Industries / Buzz Rickson's / Toyo Enterprise"},
+    {id:"o10",name:"M-65 필드 자켓 야상", en:"M-65 Field Jacket",        model:"Alpha Industries / Buzz Rickson's / Real McCoy's"},
+    {id:"o11",name:"정글 퍼티그 자켓",    en:"Jungle Fatigue Jacket",    model:"Buzz Rickson's / Freewheelers / Real McCoy's"},
+    {id:"o12",name:"N-1 덱 자켓",        en:"N-1 Deck Jacket",          model:"Buzz Rickson's / Warehouse / Toyo Enterprise"},
+    {id:"o13",name:"바시티 자켓",         en:"Varsity / Stadium Jacket", model:"Taion / Beams Plus / Toyo Enterprise"},
+    {id:"o14",name:"피코트",              en:"Pea Coat",                 model:"Gloverall / Schott / Beams Plus"},
+    {id:"o15",name:"레더 자켓",           en:"Leather Jacket",           model:"Schott / Real McCoy's / Freewheelers"},
   ]},
-  { id:"bottoms", label:"03. 하의 BOTTOMS", icon:"👖", items:[
-    {id:"b1", name:"셀비지 데님",          en:"Selvedge Denim Jeans", model:"Samurai Jeans / Iron Heart / The Strike Gold"},
-    {id:"b2", name:"치노 팬츠",            en:"Chino Pants",          model:"Orslow / Beams Plus / Engineered Garments"},
-    {id:"b3", name:"퍼티그 팬츠",          en:"Fatigue / Baker Pants",model:"Orslow / Buzz Rickson's / Freewheelers"},
-    {id:"b4", name:"덕 캔버스 팬츠",       en:"Duck Canvas Pants",    model:"Carhartt / Orslow / Jelado"},
-    {id:"b5", name:"오버올",               en:"Bib Overall",          model:"Orslow / Kapital / Warehouse"},
-    {id:"b6", name:"스웨트 팬츠",          en:"Sweat Pants",          model:"Loopwheeled / Warehouse / Velva Sheen"},
-    {id:"b7", name:"카고 팬츠",            en:"Cargo Pants",          model:"Engineered Garments / Gramicci / Orslow"},
+  {id:"bottoms",label:"03. 하의 BOTTOMS",icon:"👖",items:[
+    {id:"b1",name:"셀비지 데님",    en:"Selvedge Denim",  model:"Samurai Jeans / Iron Heart / The Strike Gold"},
+    {id:"b2",name:"치노 팬츠",      en:"Chino Pants",     model:"Orslow / Beams Plus / Engineered Garments"},
+    {id:"b3",name:"퍼티그 팬츠",    en:"Fatigue / Baker", model:"Orslow / Buzz Rickson's / Freewheelers"},
+    {id:"b4",name:"덕 캔버스 팬츠", en:"Duck Canvas",     model:"Carhartt / Orslow / Jelado"},
+    {id:"b5",name:"오버올",         en:"Bib Overall",     model:"Orslow / Kapital / Warehouse"},
+    {id:"b6",name:"스웨트 팬츠",    en:"Sweat Pants",     model:"Loopwheeled / Warehouse / Velva Sheen"},
+    {id:"b7",name:"카고 팬츠",      en:"Cargo Pants",     model:"Engineered Garments / Gramicci / Orslow"},
   ]},
-  { id:"footwear", label:"04. 신발 FOOTWEAR", icon:"👢", items:[
-    {id:"f1", name:"워크 부츠 아이언레인저",en:"Iron Ranger",         model:"Red Wing 8111 / Wesco / White's"},
-    {id:"f2", name:"워크 부츠 모크토",     en:"Moc Toe",              model:"Red Wing 875 / Thorogood / Wesco"},
-    {id:"f3", name:"엔지니어 부츠",        en:"Engineer Boots",       model:"Wesco / Chippewa / Clinch"},
-    {id:"f4", name:"챠카 부츠",            en:"Chukka Boots",         model:"Clarks Desert Boot / Tricker's / Beams Plus"},
-    {id:"f5", name:"서비스 슈즈",          en:"Service Shoes",        model:"Alden / Corcoran"},
-    {id:"f6", name:"모카신",               en:"Moccasin / Camp Moc",  model:"Russell Moccasin / Quoddy / Yuketen"},
-    {id:"f7", name:"로우컷 스니커즈",      en:"Low Sneakers",         model:"Converse CT / Vans Authentic / Moonstar"},
-    {id:"f8", name:"하이컷 스니커즈",      en:"High Sneakers",        model:"Converse All Star / Vans Old Skool Hi"},
-    {id:"f9", name:"데크 슈즈",            en:"Deck Shoes",           model:"Sperry Top-Sider / Sebago / Beams Plus"},
+  {id:"footwear",label:"04. 신발 FOOTWEAR",icon:"👢",items:[
+    {id:"f1",name:"워크 부츠 아이언레인저",en:"Iron Ranger",   model:"Red Wing 8111 / Wesco / White's"},
+    {id:"f2",name:"워크 부츠 모크토",      en:"Moc Toe",       model:"Red Wing 875 / Thorogood / Wesco"},
+    {id:"f3",name:"엔지니어 부츠",         en:"Engineer Boots",model:"Wesco / Chippewa / Clinch"},
+    {id:"f4",name:"챠카 부츠",             en:"Chukka Boots",  model:"Clarks Desert Boot / Tricker's / Beams Plus"},
+    {id:"f5",name:"서비스 슈즈",           en:"Service Shoes", model:"Alden / Corcoran"},
+    {id:"f6",name:"모카신",                en:"Camp Moc",      model:"Russell Moccasin / Quoddy / Yuketen"},
+    {id:"f7",name:"로우컷 스니커즈",       en:"Low Sneakers",  model:"Converse CT / Vans Authentic / Moonstar"},
+    {id:"f8",name:"하이컷 스니커즈",       en:"High Sneakers", model:"Converse All Star / Vans Old Skool Hi"},
+    {id:"f9",name:"데크 슈즈",             en:"Deck Shoes",    model:"Sperry Top-Sider / Sebago / Beams Plus"},
   ]},
-  { id:"acc", label:"05. 액세서리 ACCESSORIES", icon:"🎩", items:[
-    {id:"a1",  name:"반다나",              en:"Bandana",              model:"Kapital / Engineered Garments / RRL"},
-    {id:"a2",  name:"울 스카프",           en:"Wool Scarf",           model:"Beams Plus / Inverallan / Drake's"},
-    {id:"a3",  name:"선글라스",            en:"Sunglasses",           model:"Ray-Ban Wayfarer / Persol / Oliver Peoples"},
-    {id:"a4",  name:"레더 벨트",           en:"Leather Belt",         model:"Filson / Beams Plus / Ganzo"},
-    {id:"a5",  name:"웨빙 벨트",           en:"GI / Web Belt",        model:"Rothco GI Belt / Engineered Garments / Gramicci"},
-    {id:"a6",  name:"서스펜더",            en:"Suspender / Braces",   model:"Albert Thurston / Trafalgar / Beams Plus"},
-    {id:"a7",  name:"필드워치",            en:"Field Watch",          model:"Seiko SNK809 / Hamilton Khaki / Timex MK1"},
-    {id:"a8",  name:"캔버스 툴백 토트백",  en:"Canvas Tote Bag",      model:"Filson / L.L.Bean / Tembea"},
-    {id:"a9",  name:"가죽 지갑",           en:"Leather Wallet",       model:"Ganzo / Saddleback / Billykirk"},
-    {id:"a10", name:"울 립 양말",          en:"Wool / Rib Socks",     model:"Darn Tough / Wigwam / Tabio"},
+  {id:"acc",label:"05. 액세서리 ACCESSORIES",icon:"🎩",items:[
+    {id:"a1", name:"반다나",        en:"Bandana",         model:"Kapital / Engineered Garments / RRL"},
+    {id:"a2", name:"울 스카프",     en:"Wool Scarf",      model:"Beams Plus / Inverallan / Drake's"},
+    {id:"a3", name:"선글라스",      en:"Sunglasses",      model:"Ray-Ban Wayfarer / Persol / Oliver Peoples"},
+    {id:"a4", name:"레더 벨트",     en:"Leather Belt",    model:"Filson / Beams Plus / Ganzo"},
+    {id:"a5", name:"웨빙 벨트",     en:"GI / Web Belt",   model:"Rothco GI Belt / Engineered Garments / Gramicci"},
+    {id:"a6", name:"서스펜더",      en:"Suspender",       model:"Albert Thurston / Trafalgar / Beams Plus"},
+    {id:"a7", name:"필드워치",      en:"Field Watch",     model:"Seiko SNK809 / Hamilton Khaki / Timex MK1"},
+    {id:"a8", name:"캔버스 토트백", en:"Canvas Tote Bag", model:"Filson / L.L.Bean / Tembea"},
+    {id:"a9", name:"가죽 지갑",     en:"Leather Wallet",  model:"Ganzo / Saddleback / Billykirk"},
+    {id:"a10",name:"울 립 양말",    en:"Wool / Rib Socks",model:"Darn Tough / Wigwam / Tabio"},
+  ]},
+];
+const ALL = CATS.flatMap(c=>c.items);
+const ICAT = {};
+CATS.forEach(c=>c.items.forEach(i=>ICAT[i.id]=c));
+
+const GUIDE = [
+  {area:"하라주쿠 / 오모테산도",color:"#6b8fb5",shops:[
+    {name:"Beams Japan",note:"일본 편집샵 대표. 아메카지 전 카테고리"},
+    {name:"Chicago Vintage",note:"미군복·워크웨어 빈티지 전문"},
+    {name:"Flamingo (하라주쿠)",note:"가성비 빈티지 편집샵"},
+    {name:"Ragtag 하라주쿠",note:"고급 빈티지·리셀"},
+  ]},
+  {area:"시부야 / 다이칸야마",color:"#8f6bb5",shops:[
+    {name:"United Arrows",note:"어덜트 아메카지·트래드 편집샵"},
+    {name:"Kapital 시부야",note:"독자적 아메카지 스타일"},
+  ]},
+  {area:"시모키타자와",color:"#7aaa74",shops:[
+    {name:"빈티지 거리 전체",note:"20~30개 빈티지샵 밀집. 워크·밀리터리 발굴"},
+    {name:"Flamingo 시모키타",note:"하라주쿠점보다 저렴하고 재고 다양"},
+    {name:"New York Joe Exchange",note:"교환형 빈티지샵"},
+  ]},
+  {area:"우에노 / 아메요코",color:"#c8a96e",shops:[
+    {name:"아메요코 시장",note:"군용·워크웨어 빈티지 저렴하게"},
+    {name:"2nd Street 우에노",note:"대형 빈티지 체인. 재고 방대"},
+  ]},
+  {area:"아사쿠사",color:"#b05a4a",shops:[
+    {name:"Clinch (아사쿠사)",note:"일본 수제 엔지니어 부츠 명가"},
+    {name:"Wesco Japan",note:"미국 부츠 브랜드 일본 공식 매장"},
+  ]},
+  {area:"온라인 활용",color:"#888",shops:[
+    {name:"Mercari (메루카리)",note:"일본 중고거래 앱. 숙박 중 저렴한 빈티지"},
+    {name:"Yahoo! Auctions Japan",note:"데님·워크웨어 경매"},
   ]},
 ];
 
-const ALL_ITEMS = CATEGORIES.flatMap(c => c.items);
-const ITEM_CAT  = {};
-CATEGORIES.forEach(c => c.items.forEach(i => ITEM_CAT[i.id] = c));
-
-const TOKYO_GUIDE = [
-  {area:"하라주쿠 / 오모테산도", color:"#6b8fb5", shops:[
-    {name:"Beams Japan", note:"일본 편집샵 대표. 아메카지 전 카테고리"},
-    {name:"Chicago Vintage", note:"미군복·워크웨어 빈티지 전문"},
-    {name:"Flamingo (하라주쿠)", note:"가성비 빈티지 편집샵"},
-    {name:"Ragtag 하라주쿠", note:"고급 빈티지·리셀"},
-  ]},
-  {area:"시부야 / 다이칸야마", color:"#8f6bb5", shops:[
-    {name:"United Arrows", note:"어덜트 아메카지·트래드 편집샵"},
-    {name:"Kapital 시부야", note:"독자적 아메카지 스타일"},
-  ]},
-  {area:"시모키타자와", color:"#7aaa74", shops:[
-    {name:"빈티지 거리 전체", note:"20~30개 빈티지샵 밀집. 워크·밀리터리 발굴"},
-    {name:"Flamingo 시모키타", note:"하라주쿠점보다 저렴하고 재고 다양"},
-    {name:"New York Joe Exchange", note:"교환형 빈티지샵"},
-  ]},
-  {area:"우에노 / 아메요코", color:"#c8a96e", shops:[
-    {name:"아메요코 시장", note:"군용·워크웨어 빈티지 저렴하게"},
-    {name:"2nd Street 우에노", note:"대형 빈티지 체인. 재고 방대"},
-  ]},
-  {area:"아사쿠사", color:"#b05a4a", shops:[
-    {name:"Clinch (아사쿠사)", note:"일본 수제 엔지니어 부츠 명가"},
-    {name:"Wesco Japan", note:"미국 부츠 브랜드 일본 공식 매장"},
-  ]},
-  {area:"온라인 활용", color:"#888", shops:[
-    {name:"Mercari (메루카리)", note:"일본 중고거래 앱. 숙박 중 저렴한 빈티지"},
-    {name:"Yahoo! Auctions Japan", note:"데님·워크웨어 경매"},
-  ]},
-];
-
-// ── Japanese Phrases ──
 const JP_COMMON = [
-  {jp:"すみません", read:"스미마셍", meaning:"저기요 / 실례합니다", tip:"가게 들어갈 때, 직원 부를 때 만능으로 사용"},
-  {jp:"ありがとうございます", read:"아리가토 고자이마스", meaning:"감사합니다", tip:"계산 후 항상 써주면 좋아함"},
-  {jp:"はい / いいえ", read:"하이 / 이이에", meaning:"네 / 아니오", tip:"이이에는 조금 강한 표현, 부드럽게는 ちょっと(촛토)"},
-  {jp:"わかりました", read:"와카리마시타", meaning:"알겠습니다", tip:"점원 설명 들은 후 사용"},
-  {jp:"わかりません", read:"와카리마셍", meaning:"모르겠습니다", tip:"모를 때 솔직하게"},
-  {jp:"もう一度お願いします", read:"모이치도 오네가이시마스", meaning:"한 번 더 말해주세요", tip:"못 알아들었을 때"},
-  {jp:"ゆっくり話してください", read:"윳쿠리 하나시테 쿠다사이", meaning:"천천히 말해주세요", tip:"빠르게 말할 때"},
-  {jp:"日本語が少しわかります", read:"니홍고가 스코시 와카리마스", meaning:"일본어를 조금 알아요", tip:"겸손하게 시작할 때"},
-  {jp:"영어는 話せますか？", read:"에이고와 하나세마스카", meaning:"영어 할 수 있나요?", tip:"어려울 때 물어보기"},
-  {jp:"〜はどこですか？", read:"〜와 도코데스카", meaning:"〜은/는 어디인가요?", tip:"トイレ(토이레=화장실), 出口(데구치=출구)"},
-  {jp:"〜に行きたいです", read:"〜니 이키타이데스", meaning:"〜에 가고 싶습니다", tip:"목적지 앞에 장소명 붙이기"},
-  {jp:"写真を撮ってもいいですか？", read:"샤신오 톳테모 이이데스카", meaning:"사진 찍어도 되나요?", tip:"가게 내부 촬영 전 꼭 확인"},
-  {jp:"おすすめは何ですか？", read:"오스스메와 난데스카", meaning:"추천은 무엇인가요?", tip:"식당·카페에서 유용"},
-  {jp:"これをください", read:"코레오 쿠다사이", meaning:"이것 주세요", tip:"손가락으로 가리키면서 사용"},
-  {jp:"大丈夫です", read:"다이죠부데스", meaning:"괜찮습니다", tip:"필요 없을 때, 거절할 때 부드럽게"},
+  {jp:"すみません",read:"스미마셍",meaning:"저기요 / 실례합니다",tip:"가게 들어갈 때, 직원 부를 때 만능 표현"},
+  {jp:"ありがとうございます",read:"아리가토 고자이마스",meaning:"감사합니다",tip:"계산 후 항상 써주면 좋아함"},
+  {jp:"はい / いいえ",read:"하이 / 이이에",meaning:"네 / 아니오",tip:"부드러운 거절은 ちょっと(촛토)"},
+  {jp:"わかりました",read:"와카리마시타",meaning:"알겠습니다",tip:"점원 설명 들은 후 사용"},
+  {jp:"わかりません",read:"와카리마셍",meaning:"모르겠습니다",tip:"모를 때 솔직하게"},
+  {jp:"もう一度お願いします",read:"모이치도 오네가이시마스",meaning:"한 번 더 말해주세요",tip:"못 알아들었을 때"},
+  {jp:"ゆっくり話してください",read:"윳쿠리 하나시테 쿠다사이",meaning:"천천히 말해주세요",tip:"너무 빠르게 말할 때"},
+  {jp:"日本語が少しわかります",read:"니홍고가 스코시 와카리마스",meaning:"일본어를 조금 알아요",tip:"겸손하게 시작할 때"},
+  {jp:"英語は話せますか？",read:"에이고와 하나세마스카",meaning:"영어 할 수 있나요?",tip:"어려울 때 물어보기"},
+  {jp:"〜はどこですか？",read:"〜와 도코데스카",meaning:"〜은/는 어디인가요?",tip:"トイレ(화장실), 出口(출구) 앞에 붙이기"},
+  {jp:"写真を撮ってもいいですか？",read:"샤신오 톳테모 이이데스카",meaning:"사진 찍어도 되나요?",tip:"가게 내부 촬영 전 꼭 확인"},
+  {jp:"おすすめは何ですか？",read:"오스스메와 난데스카",meaning:"추천은 무엇인가요?",tip:"식당·카페에서 유용"},
+  {jp:"これをください",read:"코레오 쿠다사이",meaning:"이것 주세요",tip:"손가락으로 가리키면서 사용"},
+  {jp:"大丈夫です",read:"다이죠부데스",meaning:"괜찮습니다 / 됐어요",tip:"필요 없을 때 부드러운 거절"},
+  {jp:"〜に行きたいです",read:"〜니 이키타이데스",meaning:"〜에 가고 싶습니다",tip:"택시·길 물어볼 때"},
+];
+const JP_SHOP = [
+  {jp:"いくらですか？",read:"이쿠라데스카",meaning:"얼마인가요?",tip:"가장 기본 쇼핑 표현"},
+  {jp:"これはいくらですか？",read:"코레와 이쿠라데스카",meaning:"이것은 얼마인가요?",tip:"상품 가리키면서 사용"},
+  {jp:"試着できますか？",read:"시챠쿠 데키마스카",meaning:"입어봐도 되나요?",tip:"옷 구매 전 필수"},
+  {jp:"Mサイズはありますか？",read:"에무 사이즈와 아리마스카",meaning:"M사이즈 있나요?",tip:"S/M/L/XL 모두 응용 가능"},
+  {jp:"もう少し大きいサイズはありますか？",read:"모우 스코시 오키이 사이즈와 아리마스카",meaning:"조금 더 큰 사이즈 있나요?",tip:"작으면 小さい(치이사이)로"},
+  {jp:"サイズが合いません",read:"사이즈가 아이마셍",meaning:"사이즈가 안 맞아요",tip:"피팅 후 안 맞을 때"},
+  {jp:"他の色はありますか？",read:"호카노 이로와 아리마스카",meaning:"다른 색상은 있나요?",tip:"색상 변경 원할 때"},
+  {jp:"古着はありますか？",read:"후루기와 아리마스카",meaning:"빈티지 / 중고 의류 있나요?",tip:"일반 편집샵에서 물어볼 때"},
+  {jp:"見ているだけです",read:"미테이루다케데스",meaning:"그냥 구경 중입니다",tip:"직원이 도움 제안할 때 거절"},
+  {jp:"クレジットカードは使えますか？",read:"쿠레짓토 카도와 쓰카에마스카",meaning:"카드 결제 되나요?",tip:"현금만 받는 가게도 많음"},
+  {jp:"現金のみですか？",read:"겐킨노미데스카",meaning:"현금만 받나요?",tip:"카드 안 될 때 확인"},
+  {jp:"免税できますか？",read:"멘제이 데키마스카",meaning:"면세 가능한가요?",tip:"여권 지참 필수. 5,000엔 이상"},
+  {jp:"パスポートを見せます",read:"파스포토오 미세마스",meaning:"여권 보여드릴게요",tip:"면세 수속 시"},
+  {jp:"袋に入れてください",read:"후쿠로니 이레테 쿠다사이",meaning:"봉투에 넣어주세요",tip:"포장 원할 때"},
+  {jp:"領収書をください",read:"료슈쇼오 쿠다사이",meaning:"영수증 주세요",tip:"경비처리·환불 필요 시"},
+  {jp:"返品できますか？",read:"헨핀 데키마스카",meaning:"반품 가능한가요?",tip:"빈티지는 불가인 경우 많음"},
+  {jp:"交換できますか？",read:"코캉 데키마스카",meaning:"교환 가능한가요?",tip:"사이즈 교환 시"},
+  {jp:"状態はどうですか？",read:"죠타이와 도우데스카",meaning:"상태는 어떤가요?",tip:"빈티지 컨디션 확인"},
+  {jp:"これ、本物ですか？",read:"코레, 혼모노데스카",meaning:"이거 진품인가요?",tip:"빈티지 구매 시 확인"},
+  {jp:"まとめていくらですか？",read:"마토메테 이쿠라데스카",meaning:"전부 합해서 얼마인가요?",tip:"여러 개 살 때"},
+  {jp:"少し安くなりますか？",read:"스코시 야스쿠 나리마스카",meaning:"조금 싸게 해줄 수 있나요?",tip:"빈티지샵에서 조심스럽게"},
+  {jp:"メルカリで見ました",read:"메루카리데 미마시타",meaning:"메루카리에서 봤어요",tip:"가격 비교할 때"},
+  {jp:"ギフトラッピングできますか？",read:"기후토 랍핑 데키마스카",meaning:"선물 포장 되나요?",tip:"선물용 구매 시"},
+  {jp:"高いですね",read:"타카이데스네",meaning:"비싸네요",tip:"감탄사처럼 사용"},
 ];
 
-const JP_SHOPPING = [
-  {jp:"いくらですか？", read:"이쿠라데스카", meaning:"얼마인가요?", tip:"가장 기본 쇼핑 표현"},
-  {jp:"これはいくらですか？", read:"코레와 이쿠라데스카", meaning:"이것은 얼마인가요?", tip:"상품 가리키면서"},
-  {jp:"試着できますか？", read:"시챠쿠 데키마스카", meaning:"입어봐도 되나요?", tip:"옷 구매 전 필수"},
-  {jp:"Mサイズはありますか？", read:"에무 사이즈와 아리마스카", meaning:"M 사이즈 있나요?", tip:"S/M/L/XL로 응용 가능"},
-  {jp:"もう少し大きいサイズはありますか？", read:"모우 스코시 오키이 사이즈와 아리마스카", meaning:"조금 더 큰 사이즈 있나요?", tip:"작으면 小さい(치이사이)로"},
-  {jp:"サイズが合いません", read:"사이즈가 아이마셍", meaning:"사이즈가 안 맞아요", tip:"피팅 후 안 맞을 때"},
-  {jp:"他の色はありますか？", read:"호카노 이로와 아리마스카", meaning:"다른 색상은 있나요?", tip:"색상 변경 원할 때"},
-  {jp:"古着はありますか？", read:"후루기와 아리마스카", meaning:"빈티지 / 중고 의류 있나요?", tip:"일반 편집샵에서 물어볼 때"},
-  {jp:"ヴィンテージコーナーはどこですか？", read:"빈테지 코나와 도코데스카", meaning:"빈티지 코너 어디인가요?", tip:"대형 매장에서"},
-  {jp:"見ているだけです", read:"미테이루다케데스", meaning:"그냥 구경 중입니다", tip:"직원이 도움 제안할 때"},
-  {jp:"クレジットカードは使えますか？", read:"쿠레짓토 카도와 쓰카에마스카", meaning:"카드 결제 되나요?", tip:"현금만 되는 가게도 있음"},
-  {jp:"現金のみですか？", read:"겐킨노미데스카", meaning:"현금만 받나요?", tip:"카드 안 될 때 확인"},
-  {jp:"免税できますか？", read:"멘제이 데키마스카", meaning:"면세 가능한가요?", tip:"여권 지참 필수. 5000엔 이상"},
-  {jp:"パスポートを見せます", read:"파스포토오 미세마스", meaning:"여권 보여드릴게요", tip:"면세 수속 시"},
-  {jp:"袋に入れてください", read:"후쿠로니 이레테 쿠다사이", meaning:"봉투에 넣어주세요", tip:"포장 원할 때"},
-  {jp:"ギフトラッピングできますか？", read:"기후토 랍핑 데키마스카", meaning:"선물 포장 되나요?", tip:"선물용 구매 시"},
-  {jp:"領収書をください", read:"료슈쇼오 쿠다사이", meaning:"영수증 주세요", tip:"경비처리·환불 필요 시"},
-  {jp:"返品できますか？", read:"헨핀 데키마스카", meaning:"반품 가능한가요?", tip:"구매 전 확인 추천. 빈티지는 불가 경우 많음"},
-  {jp:"交換できますか？", read:"코캉 데키마스카", meaning:"교환 가능한가요?", tip:"사이즈 교환 시"},
-  {jp:"高いですね", read:"타카이데스네", meaning:"비싸네요", tip:"감탄사처럼 사용. 흥정은 잘 안 됨"},
-  {jp:"メルカリで見ました", read:"메루카리데 미마시타", meaning:"메루카리에서 봤어요", tip:"같은 상품 가격 비교 시"},
-  {jp:"これ、本物ですか？", read:"코레, 혼모노데스카", meaning:"이거 진품인가요?", tip:"빈티지 구매 시 확인"},
-  {jp:"状態はどうですか？", read:"죠타이와 도우데스카", meaning:"상태는 어떤가요?", tip:"빈티지 컨디션 확인"},
-  {jp:"これください、まとめて", read:"코레 쿠다사이, 마토메테", meaning:"이것들 같이 계산해주세요", tip:"여러 개 묶어서 계산할 때"},
-];
-
-// ════════════════════════════════
-// STATE
-// ════════════════════════════════
-const S = {
-  statuses:   loadJSON('amekaji_statuses',   {}),
-  priorities: loadJSON('amekaji_priorities', {}),
-  budgets:    loadJSON('amekaji_budgets',    {}),
-  sizes:      loadJSON('amekaji_sizes',      {}),
-  colors:     loadJSON('amekaji_colors',     {}),
-  stores:     loadJSON('amekaji_stores',     {}),
-  memos:      loadJSON('amekaji_memos',      {}),
-  openCats:   loadJSON('amekaji_opencats',   {tops:true,outer:true,bottoms:true,footwear:true,acc:true}),
-  memoOpen:   {},
-  filter:     'all',
-  query:      '',
-  view:       'list',
-  rate:       Number(localStorage.getItem('amekaji_rate') || 920),
-  guideOpen:  false,
-  jpTab:      'common',
-  jpQuery:    '',
-};
-
-function loadJSON(k, def){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
-function saveJSON(k,v){ localStorage.setItem(k,JSON.stringify(v)); }
-
-const STATUS_CFG = {
-  own:    {label:"✓ 보유",     color:"#4a7c59", bg:"rgba(74,124,89,.10)",   dot:"#4a7c59"},
-  want:   {label:"♥ 살예정",   color:"#6b8fb5", bg:"rgba(107,143,181,.10)", dot:"#6b8fb5"},
-  bought: {label:"🛍 구매완료", color:"#c8622a", bg:"rgba(200,98,42,.10)",  dot:"#c8622a"},
-  skip:   {label:"✕ 패스",     color:"#b05a4a", bg:"rgba(176,90,74,.07)",   dot:"#b05a4a"},
-};
-const PRI_CFG = {
-  "1":{label:"★ 1순위", color:"#c8622a", bg:"rgba(200,98,42,.10)"},
-  "2":{label:"☆ 2순위", color:"#8f6bb5", bg:"rgba(143,107,181,.10)"},
-};
-
-// ════════════════════════════════
-// PAGE SWITCH
-// ════════════════════════════════
-function switchPage(p){
-  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.global-nav button').forEach((b,i)=>{
-    b.classList.toggle('active', (p==='checklist'&&i===0)||(p==='japanese'&&i===1));
+// ════════════ IndexedDB (이미지 전용) ════════════
+let DB=null;
+function openDB(){
+  return new Promise((res,rej)=>{
+    const r=indexedDB.open('amekaji_v1',1);
+    r.onupgradeneeded=e=>e.target.result.createObjectStore('imgs',{keyPath:'id'});
+    r.onsuccess=e=>{DB=e.target.result;res();};
+    r.onerror=()=>rej();
   });
-  document.getElementById('page-'+p).classList.add('active');
+}
+function dbSaveImg(id,data){
+  if(!DB)return;
+  DB.transaction('imgs','readwrite').objectStore('imgs').put({id,data});
+}
+function dbDelImg(id){
+  if(!DB)return;
+  DB.transaction('imgs','readwrite').objectStore('imgs').delete(id);
+}
+function dbLoadImgs(){
+  return new Promise(res=>{
+    if(!DB){res({});return;}
+    const r=DB.transaction('imgs','readonly').objectStore('imgs').getAll();
+    r.onsuccess=e=>{const m={};e.target.result.forEach(x=>m[x.id]=x.data);res(m);};
+    r.onerror=()=>res({});
+  });
 }
 
-// ════════════════════════════════
-// SAVE
-// ════════════════════════════════
-let saveTimer=null;
-function scheduleSave(){
+// ════════════ localStorage ════════════
+function lg(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+// ════════════ 상태 ════════════
+const S={
+  st:  lg('ak_st',{}),   // statuses
+  pri: lg('ak_pri',{}),  // priorities
+  bgt: lg('ak_bgt',{}),  // budgets
+  sz:  lg('ak_sz',{}),   // sizes
+  col: lg('ak_col',{}),  // colors
+  str: lg('ak_str',{}),  // stores
+  mem: lg('ak_mem',{}),  // memos
+  oc:  lg('ak_oc',{tops:true,outer:true,bottoms:true,footwear:true,acc:true}),
+  mo:  {},               // memoOpen (세션만)
+  filter:'all', query:'', view:'list',
+  rate:Number(localStorage.getItem('ak_rate')||920),
+  guideOpen:false, jpTab:'common',
+  imgs:{},
+};
+
+const SC={
+  own:  {label:"✓ 보유",    color:"#4a7c59",bg:"rgba(74,124,89,.10)",  dot:"#4a7c59"},
+  want: {label:"♥ 살예정",  color:"#6b8fb5",bg:"rgba(107,143,181,.10)",dot:"#6b8fb5"},
+  bought:{label:"🛍 구매완료",color:"#c8622a",bg:"rgba(200,98,42,.10)", dot:"#c8622a"},
+  skip: {label:"✕ 패스",   color:"#b05a4a",bg:"rgba(176,90,74,.07)",  dot:"#b05a4a"},
+};
+const PC={
+  "1":{label:"★ 1순위",color:"#c8622a",bg:"rgba(200,98,42,.10)"},
+  "2":{label:"☆ 2순위",color:"#8f6bb5",bg:"rgba(143,107,181,.10)"},
+};
+
+// ════════════ 저장 ════════════
+let svT=null;
+function save(){
   const b=document.getElementById('save-badge');
   b.textContent='저장 중...';b.style.color='#c8a96e';b.style.borderColor='#c8a96e';
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{
-    saveJSON('amekaji_statuses',  S.statuses);
-    saveJSON('amekaji_priorities',S.priorities);
-    saveJSON('amekaji_budgets',   S.budgets);
-    saveJSON('amekaji_sizes',     S.sizes);
-    saveJSON('amekaji_colors',    S.colors);
-    saveJSON('amekaji_stores',    S.stores);
-    saveJSON('amekaji_memos',     S.memos);
-    saveJSON('amekaji_opencats',  S.openCats);
+  clearTimeout(svT);
+  svT=setTimeout(()=>{
+    ls('ak_st',S.st);ls('ak_pri',S.pri);ls('ak_bgt',S.bgt);
+    ls('ak_sz',S.sz);ls('ak_col',S.col);ls('ak_str',S.str);
+    ls('ak_mem',S.mem);ls('ak_oc',S.oc);
     const now=new Date().toLocaleString('ko-KR');
-    localStorage.setItem('amekaji_savedAt',now);
+    localStorage.setItem('ak_savedAt',now);
     document.getElementById('save-time').innerHTML='🕐 <strong>'+now+'</strong>';
     b.textContent='✓ 저장완료';b.style.color='#4a7c59';b.style.borderColor='#4a7c59';
     setTimeout(()=>{b.textContent='자동저장 ON';b.style.color='#9a7a5a';b.style.borderColor='#c5b49a';},2000);
-  },600);
+  },500);
 }
 
-// ════════════════════════════════
-// IMAGE UPLOAD
-// ════════════════════════════════
-function handleImageUpload(itemId, file){
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    // resize to 200x200 max
+// ════════════ 이미지 ════════════
+function handleImg(id,file){
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
     const img=new Image();
     img.onload=()=>{
-      const canvas=document.createElement('canvas');
-      const max=200; let w=img.width, h=img.height;
-      if(w>max||h>max){ const r=Math.min(max/w,max/h); w*=r; h*=r; }
-      canvas.width=w; canvas.height=h;
-      canvas.getContext('2d').drawImage(img,0,0,w,h);
-      const data=canvas.toDataURL('image/jpeg',.82);
-      localStorage.setItem('amekaji_img_'+itemId, data);
-      updateItemImage(itemId, data);
+      const c=document.createElement('canvas');
+      const mx=250;let w=img.width,h=img.height;
+      if(w>mx||h>mx){const rt=Math.min(mx/w,mx/h);w*=rt;h*=rt;}
+      c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      const d=c.toDataURL('image/jpeg',.82);
+      S.imgs[id]=d;dbSaveImg(id,d);
+      refreshImg(id);
     };
     img.src=e.target.result;
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(file);
 }
-function removeImage(itemId){
-  localStorage.removeItem('amekaji_img_'+itemId);
-  updateItemImage(itemId, null);
+function removeImg(id){
+  delete S.imgs[id];dbDelImg(id);refreshImg(id);
 }
-function updateItemImage(itemId, data){
-  const wrap=document.getElementById('img-'+itemId);
-  if(!wrap) return;
-  if(data){
-    wrap.innerHTML=`<img src="${data}" alt=""/>
-      <button class="img-remove" onclick="event.stopPropagation();removeImage('${itemId}')">✕</button>
-      <input type="file" accept="image/*" onchange="handleImageUpload('${itemId}',this.files[0])" onclick="event.stopPropagation()"/>`;
-  } else {
-    wrap.innerHTML=`<div class="img-placeholder"><span>📷</span>사진 추가</div>
-      <input type="file" accept="image/*" onchange="handleImageUpload('${itemId}',this.files[0])" onclick="event.stopPropagation()"/>`;
-  }
+function refreshImg(id){
+  const b=document.getElementById('ib-'+id);
+  if(b)b.innerHTML=imgHTML(id);
+}
+function imgHTML(id){
+  const d=S.imgs[id];
+  if(d)return `<img src="${d}" alt=""/><button class="img-remove" onclick="event.stopPropagation();removeImg('${id}')">✕</button><input type="file" accept="image/*" onchange="handleImg('${id}',this.files[0])" onclick="event.stopPropagation()"/>`;
+  return `<div class="img-placeholder"><span>📷</span>사진 추가</div><input type="file" accept="image/*" onchange="handleImg('${id}',this.files[0])" onclick="event.stopPropagation()"/>`;
 }
 
-// ════════════════════════════════
-// STATUS / PRIORITY
-// ════════════════════════════════
-function toggleStatus(itemId, val){
-  if(S.statuses[itemId]===val) delete S.statuses[itemId];
-  else S.statuses[itemId]=val;
-  scheduleSave(); renderAll();
+// ════════════ 토글 ════════════
+function toggleSt(id,v){
+  if(S.st[id]===v)delete S.st[id];else S.st[id]=v;
+  save();renderAll();
 }
-function togglePriority(itemId, val){
-  if(S.priorities[itemId]===val) delete S.priorities[itemId];
-  else S.priorities[itemId]=val;
-  scheduleSave(); renderAll();
+function togglePri(id,v){
+  if(S.pri[id]===v)delete S.pri[id];else S.pri[id]=v;
+  save();renderAll();
 }
+function uf(obj,k,v){if(v)obj[k]=v;else delete obj[k];save();updateStats();}
 
-// ════════════════════════════════
-// FIELD UPDATE
-// ════════════════════════════════
-function updateField(obj, key, val){
-  if(val) obj[key]=val; else delete obj[key];
-  scheduleSave(); updateStats();
-}
+// ════════════ 환율 ════════════
+function onRateChange(v){S.rate=Number(v)||920;localStorage.setItem('ak_rate',S.rate);renderAll();}
+function yen(n){return n?'¥'+Number(n).toLocaleString():'';}
+function krw(n){return n?Math.round(n/100*S.rate).toLocaleString()+'원':'';}
 
-// ════════════════════════════════
-// RATE
-// ════════════════════════════════
-function onRateChange(v){
-  S.rate=Number(v)||920;
-  localStorage.setItem('amekaji_rate',S.rate);
-  renderAll();
+// ════════════ 검색/필터 ════════════
+function onSearch(v){S.query=v.toLowerCase();renderCats();}
+function clearSearch(){document.getElementById('search-input').value='';S.query='';renderCats();}
+function show(id){
+  const item=ALL.find(i=>i.id===id);
+  if(S.query&&!item.name.toLowerCase().includes(S.query)&&!item.en.toLowerCase().includes(S.query)&&!item.model.toLowerCase().includes(S.query))return false;
+  if(S.filter==='all')return true;
+  if(S.filter==='none')return!S.st[id];
+  if(S.filter==='pri1')return S.pri[id]==='1';
+  if(S.filter==='pri2')return S.pri[id]==='2';
+  return S.st[id]===S.filter;
 }
-function yen(n){ return n?'¥'+Number(n).toLocaleString():''; }
-function krw(n){ return n?Math.round(n/100*S.rate).toLocaleString()+'원':''; }
-
-// ════════════════════════════════
-// SEARCH / FILTER
-// ════════════════════════════════
-function onSearch(v){ S.query=v.toLowerCase(); renderCatList(); }
-function clearSearch(){ document.getElementById('search-input').value=''; S.query=''; renderCatList(); }
-function setFilter(f){ S.filter=f; renderAll(); }
-function switchView(v, btn){
-  S.view=v;
-  document.querySelectorAll('.view-tabs button').forEach(b=>b.classList.remove('active'));
+function setFilter(f,btn){
+  S.filter=f;
+  document.querySelectorAll('.filter-bar button').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  renderCats();
+}
+
+// ════════════ 뷰 전환 ════════════
+function switchPage(p){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelectorAll('.global-nav button').forEach((b,i)=>{
+    b.classList.toggle('active',(p==='checklist'&&i===0)||(p==='japanese'&&i===1));
+  });
+}
+function switchView(v){
+  S.view=v;
   document.getElementById('list-view').style.display=v==='list'?'block':'none';
   document.getElementById('summary-view').style.display=v==='summary'?'block':'none';
-  if(v==='summary') renderSummary();
-}
-function shouldShow(id){
-  const item=ALL_ITEMS.find(i=>i.id===id);
-  if(S.query && !item.name.toLowerCase().includes(S.query) && !item.en.toLowerCase().includes(S.query) && !item.model.toLowerCase().includes(S.query)) return false;
-  if(S.filter==='all')  return true;
-  if(S.filter==='none') return !S.statuses[id];
-  if(S.filter==='pri1') return S.priorities[id]==='1';
-  if(S.filter==='pri2') return S.priorities[id]==='2';
-  return S.statuses[id]===S.filter;
+  document.getElementById('btn-list').classList.toggle('active',v==='list');
+  document.getElementById('btn-summary').classList.toggle('active',v==='summary');
+  if(v==='summary')renderSummary();
 }
 
-// ════════════════════════════════
-// STATS
-// ════════════════════════════════
+// ════════════ 통계 ════════════
 function updateStats(){
-  const cnt={own:0,want:0,bought:0,skip:0};
-  ALL_ITEMS.forEach(i=>{ if(S.statuses[i.id]) cnt[S.statuses[i.id]]++; });
-  const none=ALL_ITEMS.length-cnt.own-cnt.want-cnt.bought-cnt.skip;
-  const done=cnt.own+cnt.bought;
-  const pct=Math.round(done/ALL_ITEMS.length*100);
-  document.getElementById('stats-done').innerHTML=done+'<small>/'+ALL_ITEMS.length+'</small>';
+  const c={own:0,want:0,bought:0,skip:0};
+  ALL.forEach(i=>{if(S.st[i.id])c[S.st[i.id]]++;});
+  const none=ALL.length-c.own-c.want-c.bought-c.skip;
+  const done=c.own+c.bought;
+  const pct=Math.round(done/ALL.length*100);
+  document.getElementById('stats-done').innerHTML=done+'<small>/'+ALL.length+'</small>';
   document.getElementById('stats-pct').textContent=pct+'%';
-  const bar=document.getElementById('stats-bar');
-  const segs=[{v:cnt.own,c:'#4a7c59'},{v:cnt.bought,c:'#c8622a'},{v:cnt.want,c:'#6b8fb5'},{v:cnt.skip,c:'#b05a4a'},{v:none,c:'rgba(255,255,255,.12)'}];
-  bar.innerHTML=segs.filter(s=>s.v>0).map(s=>`<div style="flex:${s.v};background:${s.c};"></div>`).join('');
+  const segs=[{v:c.own,c:'#4a7c59'},{v:c.bought,c:'#c8622a'},{v:c.want,c:'#6b8fb5'},{v:c.skip,c:'#b05a4a'},{v:none,c:'rgba(255,255,255,.12)'}];
+  document.getElementById('stats-bar').innerHTML=segs.filter(s=>s.v>0).map(s=>`<div style="flex:${s.v};background:${s.c}"></div>`).join('');
   document.getElementById('stats-legend').innerHTML=
-    `<span style="color:#6db88a">■ 보유 ${cnt.own}</span>
-     <span style="color:#e07a4a">■ 완료 ${cnt.bought}</span>
-     <span style="color:#8fb5d4">■ 살예정 ${cnt.want}</span>
-     <span style="color:#d4826e">■ 패스 ${cnt.skip}</span>
+    `<span style="color:#6db88a">■ 보유 ${c.own}</span>
+     <span style="color:#e07a4a">■ 완료 ${c.bought}</span>
+     <span style="color:#8fb5d4">■ 살예정 ${c.want}</span>
+     <span style="color:#d4826e">■ 패스 ${c.skip}</span>
      <span>□ 미정 ${none}</span>`;
-  document.getElementById('hdr-count').textContent=`🗾 도쿄 쇼핑 에디션 · 총 ${ALL_ITEMS.length}개 아이템`;
   document.getElementById('footer-text').textContent=
-    pct>=100 ? '◆ WARDROBE COMPLETE ◆' :
-    `◆ 살예정 ${cnt.want}개 · 구매완료 ${cnt.bought}개 · 미정 ${none}개 ◆`;
+    pct>=100?'◆ WARDROBE COMPLETE ◆':`◆ 살예정 ${c.want}개 · 구매완료 ${c.bought}개 · 미정 ${none}개 ◆`;
 }
 
-// ════════════════════════════════
-// RENDER ITEM CARD
-// ════════════════════════════════
-function renderItemCard(item){
-  const st=S.statuses[item.id];
-  const pri=S.priorities[item.id];
-  const sc=st?STATUS_CFG[st]:null;
-  const pc=pri?PRI_CFG[pri]:null;
-  const imgData=localStorage.getItem('amekaji_img_'+item.id);
-  const hasMemo=!!(S.memos[item.id]&&S.memos[item.id].trim());
-  const memoOpen=S.memoOpen[item.id];
+// ════════════ 아이템 카드 ════════════
+function card(item){
+  const st=S.st[item.id],pri=S.pri[item.id];
+  const sc=st?SC[st]:null,pc=pri?PC[pri]:null;
+  const bv=S.bgt[item.id]||'';
+  const hasMemo=!!(S.mem[item.id]&&S.mem[item.id].trim());
+  const mo=S.mo[item.id];
 
-  const imgHtml=imgData
-    ?`<img src="${imgData}" alt=""/>
-       <button class="img-remove" onclick="event.stopPropagation();removeImage('${item.id}')">✕</button>
-       <input type="file" accept="image/*" onchange="handleImageUpload('${item.id}',this.files[0])" onclick="event.stopPropagation()"/>`
-    :`<div class="img-placeholder"><span>📷</span>사진 추가</div>
-      <input type="file" accept="image/*" onchange="handleImageUpload('${item.id}',this.files[0])" onclick="event.stopPropagation()"/>`;
-
-  const dotHtml=sc?`<div class="status-dot" style="background:${sc.dot}"></div>`:'';
-  const priHtml=pc?`<span class="pri-badge" style="color:${pc.color};background:${pc.bg};border-color:${pc.color}">${pc.label}</span>`:'';
-
-  const statusBtns=Object.entries(STATUS_CFG).map(([k,v])=>{
-    const a=st===k;
-    return `<button class="tag-btn${a?' active':''}" style="${a?`color:${v.color};border-color:${v.color};background:${v.bg};font-weight:800;`:'color:#b89f7a;border-color:#d4c5a9;'}" onclick="toggleStatus('${item.id}','${k}')">${v.label}</button>`;
+  const sBtns=Object.entries(SC).map(([k,v])=>{
+    const on=st===k;
+    return `<button class="tbtn${on?' on':''}" style="${on?`color:${v.color};border-color:${v.color};background:${v.bg};font-weight:800`:'color:#b89f7a;border-color:#d4c5a9'}" onclick="toggleSt('${item.id}','${k}')">${v.label}</button>`;
   }).join('');
-  const priBtns=Object.entries(PRI_CFG).map(([k,v])=>{
-    const a=pri===k;
-    return `<button class="tag-btn${a?' active':''}" style="${a?`color:${v.color};background:${v.bg};border-color:${v.color};font-weight:800;`:'color:#b89f7a;border-color:#d4c5a9;'}" onclick="togglePriority('${item.id}','${k}')">${v.label}</button>`;
+  const pBtns=Object.entries(PC).map(([k,v])=>{
+    const on=pri===k;
+    return `<button class="tbtn${on?' on':''}" style="${on?`color:${v.color};background:${v.bg};border-color:${v.color};font-weight:800`:'color:#b89f7a;border-color:#d4c5a9'}" onclick="togglePri('${item.id}','${k}')">${v.label}</button>`;
   }).join('');
 
-  const budgetVal=S.budgets[item.id]||'';
-  const budgetKrw=budgetVal?`<span class="budget-krw">≈ ${krw(budgetVal)}</span>`:'';
-
-  const memoBtn=`<button class="memo-btn${hasMemo?' has':''}" onclick="toggleMemo('${item.id}')">${hasMemo?'✏ 메모 ▾':memoOpen?'메모 ▴':'메모 +'}</button>`;
-  const memoArea=memoOpen?`<textarea class="memo-textarea" rows="2" placeholder="추가 메모..." oninput="updateField(S.memos,'${item.id}',this.value);scheduleSave();">${S.memos[item.id]||''}</textarea>`
-    :(hasMemo?`<div class="memo-preview" onclick="toggleMemo('${item.id}')">${S.memos[item.id]}</div>`:'');
+  const memoSec=mo
+    ?`<textarea class="mta" rows="2" placeholder="추가 메모..." onchange="S.mem['${item.id}']=this.value;save()">${S.mem[item.id]||''}</textarea>`
+    :(hasMemo?`<div class="mprev" onclick="toggleMemo('${item.id}')">${S.mem[item.id]}</div>`:'');
 
   return `
 <div class="item-card" id="card-${item.id}" style="background:${sc?sc.bg:'transparent'}">
   <div class="item-inner">
-    <div class="item-img" id="img-${item.id}">${imgHtml}</div>
+    <div class="item-img" id="ib-${item.id}">${imgHTML(item.id)}</div>
     <div class="item-info">
       <div class="item-name-row">
-        ${dotHtml}
-        <span class="item-name${st==='skip'?' skip':''}">${item.name} <small style="color:#9a7a5a;font-size:10px;">(${item.en})</small></span>
-        ${priHtml}
+        ${sc?`<div class="sdot" style="background:${sc.dot}"></div>`:''}
+        <span class="iname${st==='skip'?' skip':''}">${item.name} <small style="color:#9a7a5a;font-size:10px">(${item.en})</small></span>
+        ${pc?`<span class="pribadge" style="color:${pc.color};background:${pc.bg};border-color:${pc.color}">${pc.label}</span>`:''}
       </div>
-      <div class="item-model">▸ ${item.model}</div>
-      <div class="budget-row">
+      <div class="imodel">▸ ${item.model}</div>
+      <div class="brow">
         <span class="yen">¥</span>
-        <input type="number" placeholder="예산" value="${budgetVal}" oninput="S.budgets['${item.id}']=this.value?Number(this.value):null;scheduleSave();this.nextElementSibling.textContent=this.value?'≈ '+krw(Number(this.value)):'';" style="width:70px;border:none;border-bottom:1px solid #c5b49a;background:transparent;color:#3d2b1a;font-size:11px;outline:none;padding:1px 2px;"/>
-        <span class="budget-krw">${budgetVal?'≈ '+krw(budgetVal):''}</span>
+        <input type="number" placeholder="예산" value="${bv}"
+          onchange="S.bgt['${item.id}']=this.value?Number(this.value):null;save();document.getElementById('kw-${item.id}').textContent=this.value?'≈ '+krw(Number(this.value)):''"/>
+        <span class="bkrw" id="kw-${item.id}">${bv?'≈ '+krw(bv):''}</span>
       </div>
-      <div class="btn-row">
-        ${statusBtns}
-        <div class="btn-divider"></div>
-        ${priBtns}
+      <div class="brow2">
+        ${sBtns}
+        <div class="bdiv"></div>
+        ${pBtns}
       </div>
-      <div class="input-line">
-        <span class="ico">📐</span>
-        <input type="text" placeholder="사이즈 (M, W32L32, JP38)" value="${S.sizes[item.id]||''}" oninput="updateField(S.sizes,'${item.id}',this.value)"/>
-      </div>
-      <div class="input-line">
-        <span class="ico">🎨</span>
-        <input type="text" placeholder="색상 (인디고, 카키, 네이비)" value="${S.colors[item.id]||''}" oninput="updateField(S.colors,'${item.id}',this.value)"/>
-      </div>
-      <div class="input-line">
-        <span class="ico">🏪</span>
-        <input type="text" placeholder="구매처 / 매장" value="${S.stores[item.id]||''}" oninput="updateField(S.stores,'${item.id}',this.value)"/>
-      </div>
-      ${memoBtn}
-      ${memoArea}
+      <div class="iline"><span class="ico">📐</span><input type="text" placeholder="사이즈 (M, W32L32, JP38)" value="${S.sz[item.id]||''}" onchange="uf(S.sz,'${item.id}',this.value)"/></div>
+      <div class="iline"><span class="ico">🎨</span><input type="text" placeholder="색상 (인디고, 카키, 네이비)" value="${S.col[item.id]||''}" onchange="uf(S.col,'${item.id}',this.value)"/></div>
+      <div class="iline"><span class="ico">🏪</span><input type="text" placeholder="구매처 / 매장" value="${S.str[item.id]||''}" onchange="uf(S.str,'${item.id}',this.value)"/></div>
+      <button class="mbtn${hasMemo?' has':''}" onclick="toggleMemo('${item.id}')">${hasMemo?'✏ 메모 ▾':mo?'메모 ▴':'메모 +'}</button>
+      ${memoSec}
     </div>
   </div>
 </div>`;
 }
 
 function toggleMemo(id){
-  S.memoOpen[id]=!S.memoOpen[id];
-  const card=document.getElementById('card-'+id);
-  if(card) card.outerHTML=renderItemCard(ALL_ITEMS.find(i=>i.id===id));
+  S.mo[id]=!S.mo[id];
+  const el=document.getElementById('card-'+id);
+  if(el)el.outerHTML=card(ALL.find(i=>i.id===id));
 }
 
-// ════════════════════════════════
-// RENDER CATEGORIES
-// ════════════════════════════════
-function renderCatList(){
-  const el=document.getElementById('cat-list');
+// ════════════ 카테고리 렌더 ════════════
+function renderCats(){
   let html='';
-  CATEGORIES.forEach(cat=>{
-    const vis=cat.items.filter(i=>shouldShow(i.id));
-    if(!vis.length) return;
-    const done=cat.items.filter(i=>S.statuses[i.id]==='own'||S.statuses[i.id]==='bought').length;
-    const isOpen=S.openCats[cat.id];
-    const badgeStyle=done===cat.items.length?'background:#c8a96e;color:#3d2b1a':'background:rgba(255,255,255,.1);color:#c8a96e';
-    html+=`<div style="margin-bottom:10px;">
-      <button class="cat-header" onclick="toggleCat('${cat.id}')">
-        <div class="left"><span class="icon">${cat.icon}</span><span class="name">${cat.label}</span></div>
-        <div class="right">
-          <span class="cat-badge" style="${badgeStyle}">${done}/${cat.items.length}</span>
-          <span class="cat-arrow">${isOpen?'▲':'▼'}</span>
-        </div>
+  CATS.forEach(cat=>{
+    const vis=cat.items.filter(i=>show(i.id));
+    if(!vis.length)return;
+    const done=cat.items.filter(i=>S.st[i.id]==='own'||S.st[i.id]==='bought').length;
+    const open=S.oc[cat.id];
+    const bst=done===cat.items.length?'background:#c8a96e;color:#3d2b1a':'background:rgba(255,255,255,.1);color:#c8a96e';
+    html+=`<div style="margin-bottom:10px">
+      <button class="cat-hdr" onclick="toggleCat('${cat.id}')">
+        <div class="left"><span style="font-size:13px">${cat.icon}</span><span class="name">${cat.label}</span></div>
+        <div class="right"><span class="cat-badge" style="${bst}">${done}/${cat.items.length}</span><span style="font-size:10px;opacity:.5">${open?'▲':'▼'}</span></div>
       </button>
-      ${isOpen?`<div class="cat-body">${vis.map(item=>renderItemCard(item)).join('')}</div>`:''}
+      ${open?`<div class="cat-body">${vis.map(card).join('')}</div>`:''}
     </div>`;
   });
-  el.innerHTML=html;
+  document.getElementById('cat-list').innerHTML=html;
 }
-function toggleCat(id){
-  S.openCats[id]=!S.openCats[id];
-  saveJSON('amekaji_opencats',S.openCats);
-  renderCatList();
+function toggleCat(id){S.oc[id]=!S.oc[id];ls('ak_oc',S.oc);renderCats();}
+
+// ════════════ 필터바 ════════════
+function renderFilter(){
+  const fs=[{k:'all',l:'전체'},{k:'want',l:'♥ 살예정'},{k:'bought',l:'🛍 완료'},{k:'pri1',l:'★ 1순위'},{k:'pri2',l:'☆ 2순위'},{k:'own',l:'✓ 보유'},{k:'skip',l:'✕ 패스'},{k:'none',l:'□ 미정'}];
+  document.getElementById('filter-bar').innerHTML=fs.map(f=>`<button class="${S.filter===f.k?'active':''}" onclick="setFilter('${f.k}',this)">${f.l}</button>`).join('');
 }
 
-// ════════════════════════════════
-// FILTER BAR
-// ════════════════════════════════
-function renderFilterBar(){
-  const filters=[
-    {k:'all',l:'전체'},{k:'want',l:'♥ 살예정'},{k:'bought',l:'🛍 완료'},
-    {k:'pri1',l:'★ 1순위'},{k:'pri2',l:'☆ 2순위'},
-    {k:'own',l:'✓ 보유'},{k:'skip',l:'✕ 패스'},{k:'none',l:'□ 미정'},
-  ];
-  document.getElementById('filter-bar').innerHTML=filters.map(f=>
-    `<button class="${S.filter===f.k?'active':''}" onclick="setFilter('${f.k}');document.querySelectorAll('.filter-bar button').forEach(b=>b.classList.remove('active'));this.classList.add('active')">${f.l}</button>`
-  ).join('');
-}
-
-// ════════════════════════════════
-// SUMMARY VIEW
-// ════════════════════════════════
+// ════════════ 쇼핑 요약 ════════════
 function renderSummary(){
-  const items=ALL_ITEMS.filter(i=>S.statuses[i.id]==='want'||S.statuses[i.id]==='bought'||S.priorities[i.id]);
-  const wantBudget=ALL_ITEMS.filter(i=>S.statuses[i.id]==='want').reduce((s,i)=>s+(Number(S.budgets[i.id])||0),0);
-  const boughtBudget=ALL_ITEMS.filter(i=>S.statuses[i.id]==='bought').reduce((s,i)=>s+(Number(S.budgets[i.id])||0),0);
-  const pri1Budget=ALL_ITEMS.filter(i=>S.priorities[i.id]==='1').reduce((s,i)=>s+(Number(S.budgets[i.id])||0),0);
-
-  const cards=[
-    {label:'살예정 예산',val:wantBudget,color:'#6b8fb5'},
-    {label:'★ 1순위 예산',val:pri1Budget,color:'#c8622a'},
-    {label:'구매완료 합계',val:boughtBudget,color:'#4a7c59'},
-  ].filter(c=>c.val>0);
-
-  document.getElementById('budget-cards').innerHTML=cards.map(c=>`
-    <div class="budget-card" style="border:1.5px solid ${c.color}40">
-      <div class="bc-label">${c.label}</div>
-      <div class="bc-yen" style="color:${c.color}">${yen(c.val)}</div>
-      <div class="bc-krw">≈ ${krw(c.val)}</div>
-    </div>`).join('');
-
-  if(!items.length){
-    document.getElementById('summary-list').innerHTML='<div style="text-align:center;padding:40px;color:#9a7a5a;font-size:12px;">♥ 살예정 또는 ★순위 아이템이 없습니다</div>';
-    return;
-  }
+  const wb=ALL.filter(i=>S.st[i.id]==='want').reduce((s,i)=>s+(Number(S.bgt[i.id])||0),0);
+  const bb=ALL.filter(i=>S.st[i.id]==='bought').reduce((s,i)=>s+(Number(S.bgt[i.id])||0),0);
+  const p1b=ALL.filter(i=>S.pri[i.id]==='1').reduce((s,i)=>s+(Number(S.bgt[i.id])||0),0);
+  const cs=[{label:'살예정 예산',val:wb,color:'#6b8fb5'},{label:'★ 1순위 예산',val:p1b,color:'#c8622a'},{label:'구매완료 합계',val:bb,color:'#4a7c59'}].filter(c=>c.val>0);
+  document.getElementById('budget-cards').innerHTML=cs.map(c=>`<div class="bcard" style="border:1.5px solid ${c.color}40"><div class="bl">${c.label}</div><div class="by" style="color:${c.color}">${yen(c.val)}</div><div class="bk">≈ ${krw(c.val)}</div></div>`).join('');
+  const items=ALL.filter(i=>S.st[i.id]==='want'||S.st[i.id]==='bought'||S.pri[i.id]);
+  if(!items.length){document.getElementById('summary-list').innerHTML='<div style="text-align:center;padding:40px;color:#9a7a5a;font-size:12px">♥ 살예정 또는 ★순위 아이템이 없습니다</div>';return;}
   const grouped={};
-  items.forEach(i=>{ const c=ITEM_CAT[i.id]; if(!grouped[c.id]) grouped[c.id]={...c,items:[]}; grouped[c.id].items.push(i); });
+  items.forEach(i=>{const c=ICAT[i.id];if(!grouped[c.id])grouped[c.id]={...c,items:[]};grouped[c.id].items.push(i);});
   let html='';
   Object.values(grouped).forEach(cat=>{
-    html+=`<div style="margin-bottom:12px;">
-      <div style="display:flex;align-items:center;gap:8px;padding:7px 13px;background:#3d2b1a;color:#f5f0e8;">
-        <span>${cat.icon}</span><span style="font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;">${cat.label}</span>
-      </div>
-      <div style="border:1px solid #3d2b1a;border-top:none;">`;
+    html+=`<div style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:8px;padding:7px 13px;background:#3d2b1a;color:#f5f0e8"><span>${cat.icon}</span><span style="font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase">${cat.label}</span></div><div style="border:1px solid #3d2b1a;border-top:none">`;
     cat.items.forEach((item,idx)=>{
-      const st=S.statuses[item.id]; const pri=S.priorities[item.id];
-      const sc=st?STATUS_CFG[st]:null; const pc=pri?PRI_CFG[pri]:null;
-      const bgt=S.budgets[item.id];
-      const imgData=localStorage.getItem('amekaji_img_'+item.id);
-      html+=`<div style="display:flex;gap:10px;padding:10px 13px;background:${sc?sc.bg:'transparent'};${idx>0?'border-top:1px dashed #d4c5a9':''};align-items:flex-start;">
-        ${imgData?`<img src="${imgData}" style="width:56px;height:56px;object-fit:cover;border:1px solid #d4c5a9;flex-shrink:0;" alt=""/>`
-                 :`<div style="width:56px;height:56px;background:#f0ebe0;border:1px solid #d4c5a9;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#b89f7a;">사진없음</div>`}
-        <div style="flex:1;">
-          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:3px;">
-            ${sc?`<span style="font-size:9px;color:${sc.color};border:1px solid ${sc.color};padding:1px 5px;font-weight:700;">${sc.label}</span>`:''}
-            ${pc?`<span style="font-size:9px;color:${pc.color};background:${pc.bg};border:1px solid ${pc.color};padding:1px 5px;font-weight:800;">${pc.label}</span>`:''}
-          </div>
-          <div style="font-size:12px;font-weight:700;color:#3d2b1a;margin-bottom:2px;">${item.name}</div>
-          <div style="font-size:10px;color:#9a7a5a;margin-bottom:2px;">▸ ${item.model}</div>
-          ${S.sizes[item.id]?`<div style="font-size:10px;color:#7a5c3a;">📐 ${S.sizes[item.id]}</div>`:''}
-          ${S.colors[item.id]?`<div style="font-size:10px;color:#7a5c3a;">🎨 ${S.colors[item.id]}</div>`:''}
-          ${S.stores[item.id]?`<div style="font-size:10px;color:#7a5c3a;">🏪 ${S.stores[item.id]}</div>`:''}
-          ${S.memos[item.id]?`<div style="font-size:10px;color:#6a4c2e;border-left:2px solid #c8a96e;padding-left:6px;margin-top:4px;">${S.memos[item.id]}</div>`:''}
+      const st=S.st[item.id],pri=S.pri[item.id];
+      const sc=st?SC[st]:null,pc=pri?PC[pri]:null,bgt=S.bgt[item.id],img=S.imgs[item.id];
+      html+=`<div style="display:flex;gap:10px;padding:10px 13px;background:${sc?sc.bg:'transparent'};${idx>0?'border-top:1px dashed #d4c5a9':''};align-items:flex-start">
+        ${img?`<img src="${img}" style="width:56px;height:56px;object-fit:cover;border:1px solid #d4c5a9;flex-shrink:0"/>`:`<div style="width:56px;height:56px;background:#f0ebe0;border:1px solid #d4c5a9;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px">📷</div>`}
+        <div style="flex:1">
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:3px">${sc?`<span style="font-size:9px;color:${sc.color};border:1px solid ${sc.color};padding:1px 5px;font-weight:700">${sc.label}</span>`:''} ${pc?`<span style="font-size:9px;color:${pc.color};background:${pc.bg};border:1px solid ${pc.color};padding:1px 5px;font-weight:800">${pc.label}</span>`:''}</div>
+          <div style="font-size:12px;font-weight:700;color:#3d2b1a;margin-bottom:2px">${item.name}</div>
+          <div style="font-size:10px;color:#9a7a5a">▸ ${item.model}</div>
+          ${S.sz[item.id]?`<div style="font-size:10px;color:#7a5c3a">📐 ${S.sz[item.id]}</div>`:''}
+          ${S.col[item.id]?`<div style="font-size:10px;color:#7a5c3a">🎨 ${S.col[item.id]}</div>`:''}
+          ${S.str[item.id]?`<div style="font-size:10px;color:#7a5c3a">🏪 ${S.str[item.id]}</div>`:''}
+          ${S.mem[item.id]?`<div style="font-size:10px;color:#6a4c2e;border-left:2px solid #c8a96e;padding-left:6px;margin-top:4px">${S.mem[item.id]}</div>`:''}
         </div>
-        ${bgt?`<div style="text-align:right;flex-shrink:0;"><div style="font-size:14px;font-weight:900;color:${st==='bought'?'#c8622a':'#6b8fb5'}">${yen(bgt)}</div><div style="font-size:10px;color:#9a7a5a;">${krw(bgt)}</div></div>`:''}
+        ${bgt?`<div style="text-align:right;flex-shrink:0"><div style="font-size:14px;font-weight:900;color:${st==='bought'?'#c8622a':'#6b8fb5'}">${yen(bgt)}</div><div style="font-size:10px;color:#9a7a5a">${krw(bgt)}</div></div>`:''}
       </div>`;
     });
     html+='</div></div>';
@@ -854,111 +699,162 @@ function renderSummary(){
   document.getElementById('summary-list').innerHTML=html;
 }
 
-// ════════════════════════════════
-// GUIDE
-// ════════════════════════════════
+// ════════════ 도쿄 가이드 ════════════
 function toggleGuide(){
   S.guideOpen=!S.guideOpen;
-  document.getElementById('guide-body').style.display=S.guideOpen?'block':'none';
-  document.getElementById('guide-arrow').textContent=S.guideOpen?'▲':'▼';
+  document.getElementById('gbody').style.display=S.guideOpen?'block':'none';
+  document.getElementById('garrow').textContent=S.guideOpen?'▲':'▼';
 }
 function renderGuide(){
-  let html='';
-  TOKYO_GUIDE.forEach(area=>{
-    html+=`<div class="guide-area">
-      <div class="guide-area-name" style="border-color:${area.color}">📍 ${area.area}</div>
-      ${area.shops.map(s=>`
-        <div class="guide-shop">
-          <span style="font-size:10px;color:${area.color};margin-top:1px;flex-shrink:0">▸</span>
-          <div><div class="guide-shop-name">${s.name}</div><div class="guide-shop-note">${s.note}</div></div>
-        </div>`).join('')}
-    </div>`;
-  });
-  document.getElementById('guide-body').innerHTML=html;
+  document.getElementById('gbody').innerHTML=GUIDE.map(a=>`
+    <div class="garea">
+      <div class="ganame" style="border-color:${a.color}">📍 ${a.area}</div>
+      ${a.shops.map(s=>`<div class="gshop"><span style="font-size:10px;color:${a.color};margin-top:1px;flex-shrink:0">▸</span><div><div class="gsname">${s.name}</div><div class="gsnote">${s.note}</div></div></div>`).join('')}
+    </div>`).join('');
 }
 
-// ════════════════════════════════
-// JAPANESE PAGE
-// ════════════════════════════════
-function switchJPTab(tab, btn){
+// ════════════ 일본어 ════════════
+function switchJPTab(tab){
   S.jpTab=tab;
-  document.querySelectorAll('.jp-tabs button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  document.getElementById('jp-tab-common').classList.toggle('active',tab==='common');
+  document.getElementById('jp-tab-shopping').classList.toggle('active',tab==='shopping');
   document.getElementById('jp-common').style.display=tab==='common'?'block':'none';
   document.getElementById('jp-shopping').style.display=tab==='shopping'?'block':'none';
 }
-function searchJP(v){
-  S.jpQuery=v.toLowerCase();
-  renderJPPhrases();
+
+function copyTxt(txt,btn){
+  if(navigator.clipboard){navigator.clipboard.writeText(txt);}
+  else{const e=document.createElement('textarea');e.value=txt;document.body.appendChild(e);e.select();document.execCommand('copy');document.body.removeChild(e);}
+  const orig=btn.textContent;btn.textContent='✓ 복사됨';setTimeout(()=>btn.textContent=orig,1500);
 }
-function clearJPSearch(){
-  document.getElementById('jp-search').value='';
-  S.jpQuery='';
-  renderJPPhrases();
-}
-function copyText(text){
-  navigator.clipboard?.writeText(text).catch(()=>{});
-  // fallback
-  const el=document.createElement('textarea');
-  el.value=text; document.body.appendChild(el); el.select();
-  document.execCommand('copy'); document.body.removeChild(el);
-}
-function renderJPCard(p){
-  return `<div class="jp-card">
-    <button class="jp-copy" onclick="copyText('${p.jp.replace(/'/g,"\\'")}')">📋 복사</button>
-    <div class="jp-japanese">${p.jp}</div>
-    <div class="jp-reading">🔊 ${p.read}</div>
-    <div class="jp-meaning">💬 ${p.meaning}</div>
-    ${p.tip?`<div class="jp-tip">💡 ${p.tip}</div>`:''}
+
+function jpCard(p){
+  const safe=p.jp.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  return `<div class="jpcard">
+    <div class="jpjp">${p.jp}</div>
+    <div class="jpread">🔊 ${p.read}</div>
+    <div class="jpmean">💬 ${p.meaning}</div>
+    ${p.tip?`<div class="jptip">💡 ${p.tip}</div>`:''}
+    <div class="jpbtns">
+      <button class="jpbtn jbcopy" onclick="copyTxt('${safe}',this)">📋 복사</button>
+    </div>
   </div>`;
 }
-function filterPhrases(list){
-  if(!S.jpQuery) return list;
-  return list.filter(p=>
-    p.jp.includes(S.jpQuery)||
-    p.read.toLowerCase().includes(S.jpQuery)||
-    p.meaning.toLowerCase().includes(S.jpQuery)||
-    (p.tip&&p.tip.toLowerCase().includes(S.jpQuery))
+
+// ── AI 번역 (Claude API) ──
+let jpDebounce=null;
+function jpSearch(q){
+  q=q.trim();
+  const tabWrap=document.getElementById('jp-tab-wrap');
+  const resDiv=document.getElementById('jp-results');
+  const aiDiv=document.getElementById('jp-ai-result');
+  const commonDiv=document.getElementById('jp-common');
+  const shopDiv=document.getElementById('jp-shopping');
+
+  if(!q){
+    tabWrap.style.display='flex';
+    resDiv.innerHTML='';
+    aiDiv.innerHTML='';
+    commonDiv.style.display=S.jpTab==='common'?'block':'none';
+    shopDiv.style.display=S.jpTab==='shopping'?'block':'none';
+    clearTimeout(jpDebounce);
+    return;
+  }
+
+  // 탭 숨기기
+  tabWrap.style.display='none';
+  commonDiv.style.display='none';
+  shopDiv.style.display='none';
+
+  // 1. 먼저 로컬 단어장 검색
+  const all=[...JP_COMMON,...JP_SHOP];
+  const ql=q.toLowerCase();
+  const matched=all.filter(p=>
+    p.meaning.toLowerCase().includes(ql)||
+    p.jp.includes(q)||
+    p.read.toLowerCase().includes(ql)||
+    (p.tip&&p.tip.toLowerCase().includes(ql))
   );
-}
-function renderJPPhrases(){
-  const common=filterPhrases(JP_COMMON);
-  const shopping=filterPhrases(JP_SHOPPING);
 
+  if(matched.length){
+    resDiv.innerHTML=
+      `<div class="jpstitle">📚 단어장 결과 "${q}" — ${matched.length}개</div>
+       <div class="jpcards">${matched.map(jpCard).join('')}</div>`;
+    aiDiv.innerHTML='';
+    clearTimeout(jpDebounce);
+    return;
+  }
+
+  // 2. 단어장에 없으면 → AI 번역 (500ms 디바운스)
+  resDiv.innerHTML='';
+  aiDiv.innerHTML=`<div class="jpcard" style="text-align:center;color:#9a7a5a;font-size:12px">🔄 번역 중...</div>`;
+  clearTimeout(jpDebounce);
+  jpDebounce=setTimeout(()=>callAI(q, aiDiv), 500);
+}
+
+async function callAI(q, div){
+  div.innerHTML=`<div class="jpcard" style="text-align:center;color:#9a7a5a;font-size:13px;padding:20px">🔄 번역 중...</div>`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:600,
+        system:`당신은 일본어 번역 전문가입니다. 사용자가 한국어 단어/문장을 입력하면 반드시 JSON만 반환하세요. 다른 텍스트 없이 JSON만. 
+형식: {"results":[{"jp":"일본어","read":"한글발음","meaning":"한국어 뜻","tip":"현지 사용 팁(짧게)"}]}
+- 한 단어/표현에 여러 표현이 있으면 results 배열에 여러 개 넣으세요 (최대 3개)
+- 일본어를 입력해도 동일하게 처리하세요
+- tip은 실용적인 현지 상황 팁, 없으면 빈 문자열`,
+        messages:[{role:'user',content:q}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content.map(c=>c.text||'').join('');
+    const clean=text.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(clean);
+    if(parsed.results&&parsed.results.length){
+      div.innerHTML=
+        `<div class="jpstitle">🤖 AI 번역 결과 "${q}"</div>
+         <div class="jpcards">${parsed.results.map(jpCard).join('')}</div>`;
+    } else {
+      div.innerHTML=`<div class="jpcard" style="text-align:center;color:#b05a4a;font-size:12px;padding:16px">번역 결과를 가져오지 못했어요</div>`;
+    }
+  } catch(e){
+    div.innerHTML=`<div class="jpcard" style="text-align:center;color:#b05a4a;font-size:12px;padding:16px">오류가 발생했어요. 다시 시도해주세요.</div>`;
+  }
+}
+
+function jpClear(){
+  document.getElementById('jp-input').value='';
+  jpSearch('');
+}
+
+function switchJPTab(tab){
+  S.jpTab=tab;
+  document.getElementById('jp-tab-common').classList.toggle('active',tab==='common');
+  document.getElementById('jp-tab-shopping').classList.toggle('active',tab==='shopping');
+  document.getElementById('jp-common').style.display=tab==='common'?'block':'none';
+  document.getElementById('jp-shopping').style.display=tab==='shopping'?'block':'none';
+}
+
+function renderJP(){
   document.getElementById('jp-common').innerHTML=
-    common.length
-    ?`<div class="jp-section-title">💬 자주 쓰는 일본어 (${common.length}개)</div><div class="jp-cards">${common.map(renderJPCard).join('')}</div>`
-    :'<div style="text-align:center;padding:30px;color:#9a7a5a;font-size:12px;">검색 결과가 없습니다</div>';
-
+    `<div class="jpstitle">💬 자주 쓰는 일본어 (${JP_COMMON.length}개)</div><div class="jpcards">${JP_COMMON.map(jpCard).join('')}</div>`;
   document.getElementById('jp-shopping').innerHTML=
-    shopping.length
-    ?`<div class="jp-section-title">🛍 쇼핑 관련 일본어 (${shopping.length}개)</div><div class="jp-cards">${shopping.map(renderJPCard).join('')}</div>`
-    :'<div style="text-align:center;padding:30px;color:#9a7a5a;font-size:12px;">검색 결과가 없습니다</div>';
+    `<div class="jpstitle">🛍 쇼핑 관련 일본어 (${JP_SHOP.length}개)</div><div class="jpcards">${JP_SHOP.map(jpCard).join('')}</div>`;
 }
 
-// ════════════════════════════════
-// FULL RENDER
-// ════════════════════════════════
-function renderAll(){
-  updateStats();
-  renderFilterBar();
-  renderCatList();
-  if(S.view==='summary') renderSummary();
-}
+// ════════════ 전체 렌더 ════════════
+function renderAll(){updateStats();renderFilter();renderCats();if(S.view==='summary')renderSummary();}
 
-// ════════════════════════════════
-// INIT
-// ════════════════════════════════
-document.addEventListener('DOMContentLoaded',()=>{
-  // restore rate
+// ════════════ 초기화 ════════════
+document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('rate-input').value=S.rate;
-  // restore last saved
-  const saved=localStorage.getItem('amekaji_savedAt');
-  if(saved) document.getElementById('save-time').innerHTML='🕐 <strong>'+saved+'</strong>';
-  // render
-  renderGuide();
-  renderAll();
-  renderJPPhrases();
+  const sv=localStorage.getItem('ak_savedAt');
+  if(sv)document.getElementById('save-time').innerHTML='🕐 <strong>'+sv+'</strong>';
+  try{await openDB();S.imgs=await dbLoadImgs();}catch(e){console.warn('IndexedDB 불가');}
+  renderGuide();renderAll();renderJP();
 });
 </script>
 </body>
