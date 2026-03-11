@@ -741,7 +741,15 @@ function jpCard(p){
   </div>`;
 }
 
-// ── AI 번역 (Claude API) ──
+// ── 히라가나/카타카나 → 한글 발음 ──
+const KANA={'ぁ':'아','あ':'아','ぃ':'이','い':'이','ぅ':'우','う':'우','ぇ':'에','え':'에','ぉ':'오','お':'오','か':'카','が':'가','き':'키','ぎ':'기','く':'쿠','ぐ':'구','け':'케','げ':'게','こ':'코','ご':'고','さ':'사','ざ':'자','し':'시','じ':'지','す':'스','ず':'즈','せ':'세','ぜ':'제','そ':'소','ぞ':'조','た':'타','だ':'다','ち':'치','ぢ':'지','っ':'','つ':'츠','づ':'즈','て':'테','で':'데','と':'토','ど':'도','な':'나','に':'니','ぬ':'누','ね':'네','の':'노','は':'하','ば':'바','ぱ':'파','ひ':'히','び':'비','ぴ':'피','ふ':'후','ぶ':'부','ぷ':'푸','へ':'헤','べ':'베','ぺ':'페','ほ':'호','ぼ':'보','ぽ':'포','ま':'마','み':'미','む':'무','め':'메','も':'모','ゃ':'야','や':'야','ゅ':'유','ゆ':'유','ょ':'요','よ':'요','ら':'라','り':'리','る':'루','れ':'레','ろ':'로','わ':'와','ゐ':'이','ゑ':'에','を':'오','ん':'은','ア':'아','イ':'이','ウ':'우','エ':'에','オ':'오','カ':'카','ガ':'가','キ':'키','ギ':'기','ク':'쿠','グ':'구','ケ':'케','ゲ':'게','コ':'코','ゴ':'고','サ':'사','ザ':'자','シ':'시','ジ':'지','ス':'스','ズ':'즈','セ':'세','ゼ':'제','ソ':'소','ゾ':'조','タ':'타','ダ':'다','チ':'치','ッ':'','ツ':'츠','テ':'테','デ':'데','ト':'토','ド':'도','ナ':'나','ニ':'니','ヌ':'누','ネ':'네','ノ':'노','ハ':'하','バ':'바','パ':'파','ヒ':'히','ビ':'비','ピ':'피','フ':'후','ブ':'부','プ':'푸','ヘ':'헤','ベ':'베','ペ':'페','ホ':'호','ボ':'보','ポ':'포','マ':'마','ミ':'미','ム':'무','メ':'메','モ':'모','ヤ':'야','ユ':'유','ヨ':'요','ラ':'라','リ':'리','ル':'루','レ':'레','ロ':'로','ワ':'와','ヲ':'오','ン':'은','ー':'—','。':'。','、':'、'};
+function kanaToKr(str){
+  let r='';
+  for(let i=0;i<str.length;i++) r+=KANA[str[i]]||str[i];
+  return r;
+}
+
+// ── 검색 ──
 let jpDebounce=null;
 function jpSearch(q){
   q=q.trim();
@@ -753,74 +761,46 @@ function jpSearch(q){
 
   if(!q){
     tabWrap.style.display='flex';
-    resDiv.innerHTML='';
-    aiDiv.innerHTML='';
+    resDiv.innerHTML='';aiDiv.innerHTML='';
     commonDiv.style.display=S.jpTab==='common'?'block':'none';
     shopDiv.style.display=S.jpTab==='shopping'?'block':'none';
-    clearTimeout(jpDebounce);
-    return;
+    clearTimeout(jpDebounce);return;
   }
-
-  // 탭 숨기기
   tabWrap.style.display='none';
   commonDiv.style.display='none';
   shopDiv.style.display='none';
 
-  // 1. 먼저 로컬 단어장 검색
+  // 1. 로컬 단어장
   const all=[...JP_COMMON,...JP_SHOP];
   const ql=q.toLowerCase();
   const matched=all.filter(p=>
-    p.meaning.toLowerCase().includes(ql)||
-    p.jp.includes(q)||
-    p.read.toLowerCase().includes(ql)||
-    (p.tip&&p.tip.toLowerCase().includes(ql))
+    p.meaning.toLowerCase().includes(ql)||p.jp.includes(q)||
+    p.read.toLowerCase().includes(ql)||(p.tip&&p.tip.toLowerCase().includes(ql))
   );
-
   if(matched.length){
-    resDiv.innerHTML=
-      `<div class="jpstitle">📚 단어장 결과 "${q}" — ${matched.length}개</div>
-       <div class="jpcards">${matched.map(jpCard).join('')}</div>`;
-    aiDiv.innerHTML='';
-    clearTimeout(jpDebounce);
-    return;
+    resDiv.innerHTML=`<div class="jpstitle">📚 단어장 결과 "${q}" — ${matched.length}개</div><div class="jpcards">${matched.map(jpCard).join('')}</div>`;
+    aiDiv.innerHTML='';clearTimeout(jpDebounce);return;
   }
 
-  // 2. 단어장에 없으면 → AI 번역 (500ms 디바운스)
+  // 2. 없으면 번역 API
   resDiv.innerHTML='';
-  aiDiv.innerHTML=`<div class="jpcard" style="text-align:center;color:#9a7a5a;font-size:12px">🔄 번역 중...</div>`;
+  aiDiv.innerHTML=`<div class="jpcard" style="text-align:center;color:#9a7a5a;font-size:13px;padding:20px">🔄 번역 중...</div>`;
   clearTimeout(jpDebounce);
-  jpDebounce=setTimeout(()=>callAI(q, aiDiv), 500);
+  jpDebounce=setTimeout(()=>translateWord(q,aiDiv),600);
 }
 
-async function callAI(q, div){
-  div.innerHTML=`<div class="jpcard" style="text-align:center;color:#9a7a5a;font-size:13px;padding:20px">🔄 번역 중...</div>`;
+async function translateWord(q,div){
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:600,
-        system:`당신은 일본어 번역 전문가입니다. 사용자가 한국어 단어/문장을 입력하면 반드시 JSON만 반환하세요. 다른 텍스트 없이 JSON만. 
-형식: {"results":[{"jp":"일본어","read":"한글발음","meaning":"한국어 뜻","tip":"현지 사용 팁(짧게)"}]}
-- 한 단어/표현에 여러 표현이 있으면 results 배열에 여러 개 넣으세요 (최대 3개)
-- 일본어를 입력해도 동일하게 처리하세요
-- tip은 실용적인 현지 상황 팁, 없으면 빈 문자열`,
-        messages:[{role:'user',content:q}]
-      })
-    });
-    const data=await res.json();
-    const text=data.content.map(c=>c.text||'').join('');
-    const clean=text.replace(/```json|```/g,'').trim();
-    const parsed=JSON.parse(clean);
-    if(parsed.results&&parsed.results.length){
-      div.innerHTML=
-        `<div class="jpstitle">🤖 AI 번역 결과 "${q}"</div>
-         <div class="jpcards">${parsed.results.map(jpCard).join('')}</div>`;
-    } else {
-      div.innerHTML=`<div class="jpcard" style="text-align:center;color:#b05a4a;font-size:12px;padding:16px">번역 결과를 가져오지 못했어요</div>`;
+    const r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=ko|ja`);
+    const d=await r.json();
+    const jpText=(d.responseData?.translatedText||'').trim();
+    if(!jpText||jpText===q||d.responseStatus!==200){
+      div.innerHTML=`<div class="jpcard" style="text-align:center;color:#b05a4a;font-size:12px;padding:16px">번역 결과를 찾지 못했어요</div>`;
+      return;
     }
-  } catch(e){
+    const reading=kanaToKr(jpText);
+    div.innerHTML=`<div class="jpstitle">🔍 번역 결과 "${q}"</div><div class="jpcards">${jpCard({jp:jpText,read:reading,meaning:q,tip:''})}</div>`;
+  }catch(e){
     div.innerHTML=`<div class="jpcard" style="text-align:center;color:#b05a4a;font-size:12px;padding:16px">오류가 발생했어요. 다시 시도해주세요.</div>`;
   }
 }
