@@ -237,13 +237,17 @@ textarea{resize:vertical;}
 
   <!-- 탭 (검색 없을 때) -->
   <div class="jptabs" id="jp-tab-wrap">
-    <button class="active" id="jp-tab-common" onclick="switchJPTab('common')">💬 자주 쓰는 일본어</button>
-    <button id="jp-tab-shopping" onclick="switchJPTab('shopping')">🛍 쇼핑 관련</button>
+    <button class="active" id="jp-tab-common" onclick="switchJPTab('common')">💬 기본회화</button>
+    <button id="jp-tab-shopping" onclick="switchJPTab('shopping')">🛍 쇼핑</button>
+    <button id="jp-tab-food" onclick="switchJPTab('food')">🍜 식당</button>
+    <button id="jp-tab-hotel" onclick="switchJPTab('hotel')">🏨 호텔</button>
   </div>
 
   <div id="jp-results"></div>
   <div id="jp-common"></div>
   <div id="jp-shopping" style="display:none"></div>
+  <div id="jp-food" style="display:none"></div>
+  <div id="jp-hotel" style="display:none"></div>
 </div>
 </div>
 
@@ -351,48 +355,96 @@ const GUIDE = [
 ];
 
 const JP_COMMON = [
-  {jp:"すみません",read:"스미마셍",meaning:"저기요 / 실례합니다",tip:"가게 들어갈 때, 직원 부를 때 만능 표현"},
-  {jp:"ありがとうございます",read:"아리가토 고자이마스",meaning:"감사합니다",tip:"계산 후 항상 써주면 좋아함"},
+  // 기본 인사·소통
+  {jp:"すみません",read:"스미마셍",meaning:"저기요 / 실례합니다",tip:"가게·식당 어디서든 직원 부를 때 만능"},
+  {jp:"ありがとうございます",read:"아리가토 고자이마스",meaning:"감사합니다",tip:"계산 후, 도움 받은 후 꼭 쓰기"},
+  {jp:"よろしくお願いします",read:"요로시쿠 오네가이시마스",meaning:"잘 부탁드립니다",tip:"체크인·주문·거래 시작할 때"},
   {jp:"はい / いいえ",read:"하이 / 이이에",meaning:"네 / 아니오",tip:"부드러운 거절은 ちょっと(촛토)"},
-  {jp:"わかりました",read:"와카리마시타",meaning:"알겠습니다",tip:"점원 설명 들은 후 사용"},
-  {jp:"わかりません",read:"와카리마셍",meaning:"모르겠습니다",tip:"모를 때 솔직하게"},
+  {jp:"わかりました",read:"와카리마시타",meaning:"알겠습니다",tip:"설명 들은 후 이해했을 때"},
+  {jp:"わかりません",read:"와카리마셍",meaning:"모르겠습니다",tip:"모를 때 솔직하게 말하면 도와줌"},
   {jp:"もう一度お願いします",read:"모이치도 오네가이시마스",meaning:"한 번 더 말해주세요",tip:"못 알아들었을 때"},
-  {jp:"ゆっくり話してください",read:"윳쿠리 하나시테 쿠다사이",meaning:"천천히 말해주세요",tip:"너무 빠르게 말할 때"},
-  {jp:"日本語が少しわかります",read:"니홍고가 스코시 와카리마스",meaning:"일본어를 조금 알아요",tip:"겸손하게 시작할 때"},
-  {jp:"英語は話せますか？",read:"에이고와 하나세마스카",meaning:"영어 할 수 있나요?",tip:"어려울 때 물어보기"},
-  {jp:"〜はどこですか？",read:"〜와 도코데스카",meaning:"〜은/는 어디인가요?",tip:"トイレ(화장실), 出口(출구) 앞에 붙이기"},
-  {jp:"写真を撮ってもいいですか？",read:"샤신오 톳테모 이이데스카",meaning:"사진 찍어도 되나요?",tip:"가게 내부 촬영 전 꼭 확인"},
-  {jp:"おすすめは何ですか？",read:"오스스메와 난데스카",meaning:"추천은 무엇인가요?",tip:"식당·카페에서 유용"},
-  {jp:"これをください",read:"코레오 쿠다사이",meaning:"이것 주세요",tip:"손가락으로 가리키면서 사용"},
+  {jp:"ゆっくり話してください",read:"윳쿠리 하나시테 쿠다사이",meaning:"천천히 말해주세요",tip:"빠르게 말할 때"},
+  {jp:"日本語が少しわかります",read:"니홍고가 스코시 와카리마스",meaning:"일본어 조금 알아요",tip:"겸손하게 시작하면 더 친절하게 대해줌"},
+  {jp:"英語は話せますか？",read:"에이고와 하나세마스카",meaning:"영어 할 수 있나요?",tip:"어려울 때"},
   {jp:"大丈夫です",read:"다이죠부데스",meaning:"괜찮습니다 / 됐어요",tip:"필요 없을 때 부드러운 거절"},
-  {jp:"〜に行きたいです",read:"〜니 이키타이데스",meaning:"〜에 가고 싶습니다",tip:"택시·길 물어볼 때"},
+  {jp:"すごいですね",read:"스고이데스네",meaning:"대단하네요 / 굉장해요",tip:"감탄 표현. 음식·물건 보고 쓰면 좋아함"},
+  // 장소·이동
+  {jp:"〜はどこですか？",read:"〜와 도코데스카",meaning:"〜은/는 어디인가요?",tip:"トイレ(토이레=화장실), 出口(데구치=출구)"},
+  {jp:"トイレはどこですか？",read:"토이레와 도코데스카",meaning:"화장실 어디인가요?",tip:"가장 자주 쓰는 표현"},
+  {jp:"〜駅はどこですか？",read:"〜에키와 도코데스카",meaning:"〜역은 어디인가요?",tip:"駅(에키)=역"},
+  {jp:"〜まで行ってください",read:"〜마데 잇테 쿠다사이",meaning:"〜까지 가주세요",tip:"택시 탈 때"},
+  {jp:"写真を撮ってもいいですか？",read:"샤신오 톳테모 이이데스카",meaning:"사진 찍어도 되나요?",tip:"가게 내부 촬영 전 꼭 확인"},
+  {jp:"一緒に写真を撮ってもいいですか？",read:"잇쇼니 샤신오 톳테모 이이데스카",meaning:"같이 사진 찍어도 될까요?",tip:""},
+  {jp:"おすすめは何ですか？",read:"오스스메와 난데스카",meaning:"추천 뭔가요?",tip:"식당·카페·가게 어디서든 유용"},
+  {jp:"これをください",read:"코레오 쿠다사이",meaning:"이것 주세요",tip:"손가락으로 가리키면서"},
 ];
+
 const JP_SHOP = [
   {jp:"いくらですか？",read:"이쿠라데스카",meaning:"얼마인가요?",tip:"가장 기본 쇼핑 표현"},
-  {jp:"これはいくらですか？",read:"코레와 이쿠라데스카",meaning:"이것은 얼마인가요?",tip:"상품 가리키면서 사용"},
+  {jp:"これはいくらですか？",read:"코레와 이쿠라데스카",meaning:"이것은 얼마인가요?",tip:"상품 가리키면서"},
   {jp:"試着できますか？",read:"시챠쿠 데키마스카",meaning:"입어봐도 되나요?",tip:"옷 구매 전 필수"},
   {jp:"Mサイズはありますか？",read:"에무 사이즈와 아리마스카",meaning:"M사이즈 있나요?",tip:"S/M/L/XL 모두 응용 가능"},
   {jp:"もう少し大きいサイズはありますか？",read:"모우 스코시 오키이 사이즈와 아리마스카",meaning:"조금 더 큰 사이즈 있나요?",tip:"작으면 小さい(치이사이)로"},
-  {jp:"サイズが合いません",read:"사이즈가 아이마셍",meaning:"사이즈가 안 맞아요",tip:"피팅 후 안 맞을 때"},
-  {jp:"他の色はありますか？",read:"호카노 이로와 아리마스카",meaning:"다른 색상은 있나요?",tip:"색상 변경 원할 때"},
-  {jp:"古着はありますか？",read:"후루기와 아리마스카",meaning:"빈티지 / 중고 의류 있나요?",tip:"일반 편집샵에서 물어볼 때"},
-  {jp:"見ているだけです",read:"미테이루다케데스",meaning:"그냥 구경 중입니다",tip:"직원이 도움 제안할 때 거절"},
+  {jp:"サイズが合いません",read:"사이즈가 아이마셍",meaning:"사이즈가 안 맞아요",tip:"피팅 후"},
+  {jp:"他の色はありますか？",read:"호카노 이로와 아리마스카",meaning:"다른 색상 있나요?",tip:""},
+  {jp:"古着はありますか？",read:"후루기와 아리마스카",meaning:"빈티지·중고 의류 있나요?",tip:"일반 편집샵에서 물어볼 때"},
+  {jp:"見ているだけです",read:"미테이루다케데스",meaning:"그냥 구경 중이에요",tip:"직원이 도움 제안할 때 거절"},
   {jp:"クレジットカードは使えますか？",read:"쿠레짓토 카도와 쓰카에마스카",meaning:"카드 결제 되나요?",tip:"현금만 받는 가게도 많음"},
-  {jp:"現金のみですか？",read:"겐킨노미데스카",meaning:"현금만 받나요?",tip:"카드 안 될 때 확인"},
-  {jp:"免税できますか？",read:"멘제이 데키마스카",meaning:"면세 가능한가요?",tip:"여권 지참 필수. 5,000엔 이상"},
+  {jp:"PayPayは使えますか？",read:"페이페이와 쓰카에마스카",meaning:"페이페이 되나요?",tip:"일본 QR 결제. 한국 카드보다 편한 경우 있음"},
+  {jp:"免税できますか？",read:"멘제이 데키마스카",meaning:"면세 되나요?",tip:"여권 지참 필수. 세전 5,000엔 이상"},
   {jp:"パスポートを見せます",read:"파스포토오 미세마스",meaning:"여권 보여드릴게요",tip:"면세 수속 시"},
-  {jp:"袋に入れてください",read:"후쿠로니 이레테 쿠다사이",meaning:"봉투에 넣어주세요",tip:"포장 원할 때"},
-  {jp:"領収書をください",read:"료슈쇼오 쿠다사이",meaning:"영수증 주세요",tip:"경비처리·환불 필요 시"},
-  {jp:"返品できますか？",read:"헨핀 데키마스카",meaning:"반품 가능한가요?",tip:"빈티지는 불가인 경우 많음"},
-  {jp:"交換できますか？",read:"코캉 데키마스카",meaning:"교환 가능한가요?",tip:"사이즈 교환 시"},
+  {jp:"袋に入れてください",read:"후쿠로니 이레테 쿠다사이",meaning:"봉투에 넣어주세요",tip:""},
+  {jp:"領収書をください",read:"료슈쇼오 쿠다사이",meaning:"영수증 주세요",tip:""},
+  {jp:"返品できますか？",read:"헨핀 데키마스카",meaning:"반품 되나요?",tip:"빈티지는 불가인 경우 많음"},
+  {jp:"交換できますか？",read:"코캉 데키마스카",meaning:"교환 되나요?",tip:"사이즈 교환 시"},
   {jp:"状態はどうですか？",read:"죠타이와 도우데스카",meaning:"상태는 어떤가요?",tip:"빈티지 컨디션 확인"},
-  {jp:"これ、本物ですか？",read:"코레, 혼모노데스카",meaning:"이거 진품인가요?",tip:"빈티지 구매 시 확인"},
-  {jp:"まとめていくらですか？",read:"마토메테 이쿠라데스카",meaning:"전부 합해서 얼마인가요?",tip:"여러 개 살 때"},
+  {jp:"まとめていくらですか？",read:"마토메테 이쿠라데스카",meaning:"전부 합해서 얼마예요?",tip:"여러 개 살 때"},
   {jp:"少し安くなりますか？",read:"스코시 야스쿠 나리마스카",meaning:"조금 싸게 해줄 수 있나요?",tip:"빈티지샵에서 조심스럽게"},
-  {jp:"メルカリで見ました",read:"메루카리데 미마시타",meaning:"메루카리에서 봤어요",tip:"가격 비교할 때"},
-  {jp:"ギフトラッピングできますか？",read:"기후토 랍핑 데키마스카",meaning:"선물 포장 되나요?",tip:"선물용 구매 시"},
-  {jp:"高いですね",read:"타카이데스네",meaning:"비싸네요",tip:"감탄사처럼 사용"},
+  {jp:"ギフトラッピングできますか？",read:"기후토 랍핑 데키마스카",meaning:"선물 포장 되나요?",tip:""},
+  {jp:"高いですね",read:"타카이데스네",meaning:"비싸네요",tip:"감탄사처럼 가볍게"},
 ];
+
+const JP_FOOD = [
+  {jp:"〜を一つください",read:"〜오 히토츠 쿠다사이",meaning:"〜 하나 주세요",tip:"二つ(후타츠=2개), 三つ(밋츠=3개)"},
+  {jp:"〜人です",read:"〜닌데스",meaning:"〜명이에요",tip:"입장·예약할 때. 二人(후타리=2명), 三人(산닌=3명)"},
+  {jp:"席はありますか？",read:"세키와 아리마스카",meaning:"자리 있나요?",tip:"식당 들어갈 때 먼저"},
+  {jp:"予約していません",read:"요야쿠 시테이마셍",meaning:"예약 안 했어요",tip:"예약 없이 방문할 때"},
+  {jp:"禁煙席をお願いします",read:"킨엔세키오 오네가이시마스",meaning:"금연석으로 주세요",tip:"喫煙席(키츠엔세키)는 흡연석"},
+  {jp:"メニューをください",read:"메뉴—오 쿠다사이",meaning:"메뉴판 주세요",tip:""},
+  {jp:"これは何ですか？",read:"코레와 난데스카",meaning:"이건 뭔가요?",tip:"메뉴 모를 때 손가락으로 가리키며"},
+  {jp:"おすすめは何ですか？",read:"오스스메와 난데스카",meaning:"추천 메뉴 뭔가요?",tip:""},
+  {jp:"〜をください",read:"〜오 쿠다사이",meaning:"〜 주세요",tip:"메뉴명 앞에 붙이기"},
+  {jp:"同じものをください",read:"오나지 모노오 쿠다사이",meaning:"같은 거로 주세요",tip:"옆 테이블 음식 보고 주문할 때"},
+  {jp:"辛いですか？",read:"카라이데스카",meaning:"매운가요?",tip:""},
+  {jp:"アレルギーがあります",read:"아레루기—가 아리마스",meaning:"알레르기가 있어요",tip:"해산물: 魚介類(교카이루이), 땅콩: ピーナッツ"},
+  {jp:"おいしいです",read:"오이시이데스",meaning:"맛있어요",tip:"점원한테 말해주면 엄청 좋아함"},
+  {jp:"お会計をお願いします",read:"오카이케이오 오네가이시마스",meaning:"계산해 주세요",tip:"가장 정중한 표현"},
+  {jp:"別々に払えますか？",read:"베츠베츠니 하라에마스카",meaning:"따로 계산 되나요?",tip:"더치페이할 때"},
+  {jp:"ビールをください",read:"비—루오 쿠다사이",meaning:"맥주 주세요",tip:"生ビール(나마비—루)는 생맥주"},
+  {jp:"水をください",read:"미즈오 쿠다사이",meaning:"물 주세요",tip:"보통 무료로 줌"},
+  {jp:"おかわりをください",read:"오카와리오 쿠다사이",meaning:"리필 주세요",tip:"밥·물·음료 리필 요청"},
+  {jp:"持ち帰りできますか？",read:"모치카에리 데키마스카",meaning:"포장 되나요?",tip:"テイクアウト(테이쿠아우토)라고도 함"},
+  {jp:"辛くしないでください",read:"카라쿠 시나이데 쿠다사이",meaning:"안 맵게 해주세요",tip:""},
+];
+
+const JP_HOTEL = [
+  {jp:"チェックインをお願いします",read:"체크인오 오네가이시마스",meaning:"체크인 부탁드려요",tip:""},
+  {jp:"チェックアウトをお願いします",read:"체크아우토오 오네가이시마스",meaning:"체크아웃 부탁드려요",tip:""},
+  {jp:"予約した〜です",read:"요야쿠 시타 〜데스",meaning:"예약한 〜입니다",tip:"본인 이름 앞에 붙이기"},
+  {jp:"部屋はまだ準備できていますか？",read:"헤야와 마다 쥰비 데키테 이마스카",meaning:"방 아직 준비됐나요?",tip:"얼리체크인 원할 때"},
+  {jp:"荷物を預かってもらえますか？",read:"니모츠오 아즈캇테 모라에마스카",meaning:"짐 맡아줄 수 있나요?",tip:"체크인 전·체크아웃 후 짐 보관"},
+  {jp:"〜階の部屋をお願いします",read:"〜카이노 헤야오 오네가이시마스",meaning:"〜층 방으로 주세요",tip:"高い階(타카이카이)=높은 층"},
+  {jp:"タオルをもらえますか？",read:"타오루오 모라에마스카",meaning:"수건 받을 수 있나요?",tip:"追加(츠이카)=추가"},
+  {jp:"Wi-Fiのパスワードは何ですか？",read:"와이파이노 파스와—도와 난데스카",meaning:"와이파이 비밀번호 뭔가요?",tip:"거의 모든 숙소에 있음"},
+  {jp:"エアコンの使い方を教えてください",read:"에아콘노 쓰카이카타오 오시에테 쿠다사이",meaning:"에어컨 사용법 알려주세요",tip:""},
+  {jp:"近くにコンビニはありますか？",read:"치카쿠니 콘비니와 아리마스카",meaning:"근처에 편의점 있나요?",tip:"セブン(세분), ファミマ(화미마), ローソン(로—손)"},
+  {jp:"朝食は何時からですか？",read:"쵸쇼쿠와 난지카라데스카",meaning:"조식은 몇 시부터예요?",tip:""},
+  {jp:"近くのおすすめの店はありますか？",read:"치카쿠노 오스스메노 미세와 아리마스카",meaning:"근처 추천 가게 있나요?",tip:"호텔 프런트가 가장 잘 앎"},
+  {jp:"タクシーを呼んでもらえますか？",read:"타쿠시—오 욘데 모라에마스카",meaning:"택시 불러줄 수 있나요?",tip:""},
+  {jp:"両替できますか？",read:"료—가에 데키마스카",meaning:"환전 되나요?",tip:"공항·호텔·우체국에서 가능"},
+  {jp:"鍵をなくしました",read:"카기오 나쿠시마시타",meaning:"열쇠를 잃어버렸어요",tip:""},
+];
+
 
 // ════════════ IndexedDB (이미지 전용) ════════════
 let DB=null;
@@ -749,36 +801,35 @@ function kanaToKr(str){
   return r;
 }
 
-// ── 검색 ──
 let jpDebounce=null;
 function jpSearch(q){
   q=q.trim();
   const tabWrap=document.getElementById('jp-tab-wrap');
   const resDiv=document.getElementById('jp-results');
   const aiDiv=document.getElementById('jp-ai-result');
-  const commonDiv=document.getElementById('jp-common');
-  const shopDiv=document.getElementById('jp-shopping');
 
   if(!q){
     tabWrap.style.display='flex';
     resDiv.innerHTML='';aiDiv.innerHTML='';
-    commonDiv.style.display=S.jpTab==='common'?'block':'none';
-    shopDiv.style.display=S.jpTab==='shopping'?'block':'none';
+    ['common','shopping','food','hotel'].forEach(t=>{
+      document.getElementById('jp-'+t).style.display=t===S.jpTab?'block':'none';
+    });
     clearTimeout(jpDebounce);return;
   }
   tabWrap.style.display='none';
-  commonDiv.style.display='none';
-  shopDiv.style.display='none';
+  ['common','shopping','food','hotel'].forEach(t=>{
+    document.getElementById('jp-'+t).style.display='none';
+  });
 
-  // 1. 로컬 단어장
-  const all=[...JP_COMMON,...JP_SHOP];
+  // 1. 전체 단어장 검색
+  const all=[...JP_COMMON,...JP_SHOP,...JP_FOOD,...JP_HOTEL];
   const ql=q.toLowerCase();
   const matched=all.filter(p=>
     p.meaning.toLowerCase().includes(ql)||p.jp.includes(q)||
     p.read.toLowerCase().includes(ql)||(p.tip&&p.tip.toLowerCase().includes(ql))
   );
   if(matched.length){
-    resDiv.innerHTML=`<div class="jpstitle">📚 단어장 결과 "${q}" — ${matched.length}개</div><div class="jpcards">${matched.map(jpCard).join('')}</div>`;
+    resDiv.innerHTML=`<div class="jpstitle">📚 검색결과 "${q}" — ${matched.length}개</div><div class="jpcards">${matched.map(jpCard).join('')}</div>`;
     aiDiv.innerHTML='';clearTimeout(jpDebounce);return;
   }
 
@@ -814,17 +865,21 @@ function jpClear(){
 
 function switchJPTab(tab){
   S.jpTab=tab;
-  document.getElementById('jp-tab-common').classList.toggle('active',tab==='common');
-  document.getElementById('jp-tab-shopping').classList.toggle('active',tab==='shopping');
-  document.getElementById('jp-common').style.display=tab==='common'?'block':'none';
-  document.getElementById('jp-shopping').style.display=tab==='shopping'?'block':'none';
+  ['common','shopping','food','hotel'].forEach(t=>{
+    document.getElementById('jp-tab-'+t).classList.toggle('active',t===tab);
+    document.getElementById('jp-'+t).style.display=t===tab?'block':'none';
+  });
 }
 
 function renderJP(){
   document.getElementById('jp-common').innerHTML=
-    `<div class="jpstitle">💬 자주 쓰는 일본어 (${JP_COMMON.length}개)</div><div class="jpcards">${JP_COMMON.map(jpCard).join('')}</div>`;
+    `<div class="jpstitle">💬 기본회화 (${JP_COMMON.length}개)</div><div class="jpcards">${JP_COMMON.map(jpCard).join('')}</div>`;
   document.getElementById('jp-shopping').innerHTML=
-    `<div class="jpstitle">🛍 쇼핑 관련 일본어 (${JP_SHOP.length}개)</div><div class="jpcards">${JP_SHOP.map(jpCard).join('')}</div>`;
+    `<div class="jpstitle">🛍 쇼핑 (${JP_SHOP.length}개)</div><div class="jpcards">${JP_SHOP.map(jpCard).join('')}</div>`;
+  document.getElementById('jp-food').innerHTML=
+    `<div class="jpstitle">🍜 식당 (${JP_FOOD.length}개)</div><div class="jpcards">${JP_FOOD.map(jpCard).join('')}</div>`;
+  document.getElementById('jp-hotel').innerHTML=
+    `<div class="jpstitle">🏨 호텔 (${JP_HOTEL.length}개)</div><div class="jpcards">${JP_HOTEL.map(jpCard).join('')}</div>`;
 }
 
 // ════════════ 전체 렌더 ════════════
