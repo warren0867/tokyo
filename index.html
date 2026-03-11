@@ -732,8 +732,8 @@ function jpCard(p){
   const safe=p.jp.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   return `<div class="jpcard">
     <div class="jpjp">${p.jp}</div>
-    <div class="jpread">🔊 ${p.read}</div>
-    <div class="jpmean">💬 ${p.meaning}</div>
+    ${p.read?`<div class="jpread">🔊 ${p.read}</div>`:''}
+    ${p.meaning?`<div class="jpmean">💬 ${p.meaning}</div>`:''}
     ${p.tip?`<div class="jptip">💡 ${p.tip}</div>`:''}
     <div class="jpbtns">
       <button class="jpbtn jbcopy" onclick="copyTxt('${safe}',this)">📋 복사</button>
@@ -799,7 +799,8 @@ async function translateWord(q,div){
       return;
     }
     const reading=kanaToKr(jpText);
-    div.innerHTML=`<div class="jpstitle">🔍 번역 결과 "${q}"</div><div class="jpcards">${jpCard({jp:jpText,read:reading,meaning:q,tip:''})}</div>`;
+    const hasKanji=/[\u4e00-\u9faf]/.test(jpText);
+    div.innerHTML=`<div class="jpstitle">🔍 번역 결과 "${q}"</div><div class="jpcards">${jpCard({jp:jpText,read:hasKanji?'':reading,meaning:'',tip:''})}</div>`;
   }catch(e){
     div.innerHTML=`<div class="jpcard" style="text-align:center;color:#b05a4a;font-size:12px;padding:16px">오류가 발생했어요. 다시 시도해주세요.</div>`;
   }
