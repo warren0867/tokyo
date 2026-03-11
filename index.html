@@ -102,11 +102,20 @@ textarea{resize:vertical;}
 .mta{margin-top:6px;width:100%;border:1px solid #c5b49a;background:#faf7f0;color:#3d2b1a;font-size:11px;padding:7px 9px;outline:none;line-height:1.6;}
 .mprev{margin-top:5px;font-size:11px;color:#6a4c2e;background:rgba(122,92,58,.06);border-left:2px solid #c8a96e;padding:4px 8px;line-height:1.5;white-space:pre-wrap;word-break:break-all;cursor:pointer;}
 
-.bcards{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.bcard{flex:1;min-width:100px;background:#fdfaf4;padding:10px 12px;}
-.bcard .bl{font-size:8px;color:#9a7a5a;margin-bottom:4px;}
-.bcard .by{font-size:16px;font-weight:900;}
-.bcard .bk{font-size:10px;color:#9a7a5a;}
+.budget-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.bsum-card{padding:11px 14px;border:2px solid;}
+.bsum-card .bsc-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;opacity:.7;}
+.bsum-card .bsc-yen{font-size:20px;font-weight:900;line-height:1;}
+.bsum-card .bsc-krw{font-size:10px;margin-top:3px;opacity:.7;}
+.bsum-card .bsc-count{font-size:9px;opacity:.5;margin-top:2px;}
+.price-row{display:flex;align-items:center;gap:5px;margin-bottom:3px;background:rgba(200,169,110,.07);padding:4px 6px;}
+.price-row .plabel{font-size:9px;color:#9a7a5a;flex-shrink:0;}
+.price-row input{width:80px;border:none;border-bottom:1px solid #c8a96e;background:transparent;color:#3d2b1a;font-size:12px;font-weight:700;outline:none;padding:1px 2px;}
+.price-row .pkrw{font-size:10px;color:#9a7a5a;}
+.paid-row{display:flex;align-items:center;gap:5px;margin-bottom:3px;background:rgba(200,98,42,.07);padding:4px 6px;}
+.paid-row .plabel{font-size:9px;color:#c8622a;flex-shrink:0;font-weight:700;}
+.paid-row input{width:80px;border:none;border-bottom:1px solid #c8622a;background:transparent;color:#c8622a;font-size:12px;font-weight:700;outline:none;padding:1px 2px;}
+.paid-row .pkrw{font-size:10px;color:#c8622a;}
 
 .ghdr{width:100%;display:flex;align-items:center;justify-content:space-between;background:#1e3a2e;padding:11px 15px;color:#f5f0e8;text-align:left;}
 .ghdr .left{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;}
@@ -187,6 +196,21 @@ textarea{resize:vertical;}
     </div>
     <div class="stats-pct" id="stats-pct">0%</div>
   </div>
+  <!-- 예산 요약 -->
+  <div class="budget-summary">
+    <div class="bsum-card" style="border-color:#6b8fb5;background:rgba(107,143,181,.05)">
+      <div class="bsc-label" style="color:#6b8fb5">♥ 살예정 예상총액</div>
+      <div class="bsc-yen" style="color:#6b8fb5" id="bsum-want-yen">¥0</div>
+      <div class="bsc-krw" id="bsum-want-krw">≈ 0원</div>
+      <div class="bsc-count" id="bsum-want-count">0개 아이템</div>
+    </div>
+    <div class="bsum-card" style="border-color:#c8622a;background:rgba(200,98,42,.05)">
+      <div class="bsc-label" style="color:#c8622a">🛍 구매완료 실제총액</div>
+      <div class="bsc-yen" style="color:#c8622a" id="bsum-bought-yen">¥0</div>
+      <div class="bsc-krw" id="bsum-bought-krw">≈ 0원</div>
+      <div class="bsc-count" id="bsum-bought-count">0개 구매</div>
+    </div>
+  </div>
   <div class="view-tabs">
     <button class="active" id="btn-list" onclick="switchView('list')">📋 리스트</button>
     <button id="btn-summary" onclick="switchView('summary')">🛍 쇼핑 요약</button>
@@ -255,69 +279,69 @@ textarea{resize:vertical;}
 // ════════════ 데이터 ════════════
 const CATS = [
   {id:"tops",label:"01. 상의 TOPS",icon:"👕",items:[
-    {id:"t1", name:"포켓 티셔츠",        en:"Pocket T-Shirt",        model:"Hanes Beefy-T / Velva Sheen / Warehouse"},
-    {id:"t2", name:"헨리넥 티셔츠",       en:"Henley Neck T",         model:"Merz B. Schwanen / Warehouse / Nigel Cabourn"},
-    {id:"t3", name:"링거 티셔츠",         en:"Ringer T-Shirt",        model:"Velva Sheen / Warehouse / Fruit of the Loom"},
-    {id:"t4", name:"보더 티셔츠",         en:"Border Stripe T",       model:"Saint James / Orcival / Warehouse"},
-    {id:"t5", name:"롱슬리브 티셔츠",     en:"L/S T-Shirt",           model:"Merz B. Schwanen 215 / Warehouse / Loopwheeled"},
-    {id:"t6", name:"럭비 셔츠",           en:"Rugby Shirt",           model:"Polo Ralph Lauren / Beams Plus / Gymphlex"},
-    {id:"t7", name:"샴브레이 셔츠",       en:"Chambray Shirt",        model:"Orslow / Warehouse / Kapital"},
-    {id:"t8", name:"플라넬 셔츠",         en:"Flannel Shirt",         model:"Pendleton / Warehouse / Jelado"},
-    {id:"t9", name:"옥스포드 버튼다운",   en:"OCBD",                  model:"Brooks Brothers / Individualized Shirts / Kamakura"},
-    {id:"t10",name:"워크 셔츠",           en:"Work Shirt",            model:"Carhartt / Jelado / Warehouse"},
-    {id:"t11",name:"헤비웨이트 스웨트셔츠",en:"Sweatshirt",           model:"Champion Reverse Weave / Warehouse / Loopwheeled"},
-    {id:"t12",name:"헤비웨이트 후디",     en:"Hoodie",                model:"Champion Reverse Weave / Loopwheeled / Warehouse"},
-    {id:"t13",name:"서멀 티셔츠",         en:"Thermal / Waffle",      model:"Duofold / Warehouse / Merz B. Schwanen"},
-    {id:"t14",name:"코튼 니트 스웨터",    en:"Knit / Sweater",        model:"Inverallan / Jamieson's / Beams Plus"},
+    {id:"t1", name:"포켓 티셔츠",        en:"Pocket T-Shirt",        price:5000,  model:"Hanes Beefy-T / Velva Sheen / Warehouse"},
+    {id:"t2", name:"헨리넥 티셔츠",       en:"Henley Neck T",         price:12000, model:"Merz B. Schwanen / Warehouse / Nigel Cabourn"},
+    {id:"t3", name:"링거 티셔츠",         en:"Ringer T-Shirt",        price:8000,  model:"Velva Sheen / Warehouse / Fruit of the Loom"},
+    {id:"t4", name:"보더 티셔츠",         en:"Border Stripe T",       price:12000, model:"Saint James / Orcival / Warehouse"},
+    {id:"t5", name:"롱슬리브 티셔츠",     en:"L/S T-Shirt",           price:12000, model:"Merz B. Schwanen 215 / Warehouse / Loopwheeled"},
+    {id:"t6", name:"럭비 셔츠",           en:"Rugby Shirt",           price:20000, model:"Polo Ralph Lauren / Beams Plus / Gymphlex"},
+    {id:"t7", name:"샴브레이 셔츠",       en:"Chambray Shirt",        price:20000, model:"Orslow / Warehouse / Kapital"},
+    {id:"t8", name:"플라넬 셔츠",         en:"Flannel Shirt",         price:25000, model:"Pendleton / Warehouse / Jelado"},
+    {id:"t9", name:"옥스포드 버튼다운",   en:"OCBD",                  price:22000, model:"Brooks Brothers / Individualized Shirts / Kamakura"},
+    {id:"t10",name:"워크 셔츠",           en:"Work Shirt",            price:18000, model:"Carhartt / Jelado / Warehouse"},
+    {id:"t11",name:"헤비웨이트 스웨트셔츠",en:"Sweatshirt",           price:28000, model:"Champion Reverse Weave / Warehouse / Loopwheeled"},
+    {id:"t12",name:"헤비웨이트 후디",     en:"Hoodie",                price:32000, model:"Champion Reverse Weave / Loopwheeled / Warehouse"},
+    {id:"t13",name:"서멀 티셔츠",         en:"Thermal / Waffle",      price:12000, model:"Duofold / Warehouse / Merz B. Schwanen"},
+    {id:"t14",name:"코튼 니트 스웨터",    en:"Knit / Sweater",        price:45000, model:"Inverallan / Jamieson's / Beams Plus"},
   ]},
   {id:"outer",label:"02. 아우터 OUTERWEAR",icon:"🧥",items:[
-    {id:"o1", name:"데님 자켓 1st",       en:"One Pocket Denim Jacket",  model:"Warehouse 1st / The Strike Gold / Iron Heart"},
-    {id:"o2", name:"데님 자켓 2nd",       en:"Two Pocket Denim Jacket",  model:"Warehouse 2nd / Oni Denim / Samurai"},
-    {id:"o3", name:"데님 자켓 3rd 트러커",en:"Trucker Jacket",           model:"Oni Denim / The Strike Gold / Samurai"},
-    {id:"o4", name:"CPO 자켓",            en:"CPO Shirt Jacket",         model:"Pendleton / Beams Plus / Orslow"},
-    {id:"o5", name:"코치 자켓",           en:"Coach / Nylon Jacket",     model:"Taion / Beams Plus / Needles"},
-    {id:"o6", name:"커버올",              en:"Coverall",                 model:"Orslow / Freewheelers / Jelado"},
-    {id:"o7", name:"쇼어 코트",           en:"Chore Coat",               model:"Orslow / Kapital / Engineered Garments"},
-    {id:"o8", name:"헌팅 자켓",           en:"Hunting Jacket",           model:"Filson / Barbour / Freewheelers"},
-    {id:"o9", name:"MA-1 플라이트 자켓",  en:"MA-1 Flight Jacket",       model:"Alpha Industries / Buzz Rickson's / Toyo Enterprise"},
-    {id:"o10",name:"M-65 필드 자켓 야상", en:"M-65 Field Jacket",        model:"Alpha Industries / Buzz Rickson's / Real McCoy's"},
-    {id:"o11",name:"정글 퍼티그 자켓",    en:"Jungle Fatigue Jacket",    model:"Buzz Rickson's / Freewheelers / Real McCoy's"},
-    {id:"o12",name:"N-1 덱 자켓",        en:"N-1 Deck Jacket",          model:"Buzz Rickson's / Warehouse / Toyo Enterprise"},
-    {id:"o13",name:"바시티 자켓",         en:"Varsity / Stadium Jacket", model:"Taion / Beams Plus / Toyo Enterprise"},
-    {id:"o14",name:"피코트",              en:"Pea Coat",                 model:"Gloverall / Schott / Beams Plus"},
-    {id:"o15",name:"레더 자켓",           en:"Leather Jacket",           model:"Schott / Real McCoy's / Freewheelers"},
+    {id:"o1", name:"데님 자켓 1st",       en:"One Pocket Denim Jacket",  price:55000,  model:"Warehouse 1st / The Strike Gold / Iron Heart"},
+    {id:"o2", name:"데님 자켓 2nd",       en:"Two Pocket Denim Jacket",  price:55000,  model:"Warehouse 2nd / Oni Denim / Samurai"},
+    {id:"o3", name:"데님 자켓 3rd 트러커",en:"Trucker Jacket",           price:55000,  model:"Oni Denim / The Strike Gold / Samurai"},
+    {id:"o4", name:"CPO 자켓",            en:"CPO Shirt Jacket",         price:45000,  model:"Pendleton / Beams Plus / Orslow"},
+    {id:"o5", name:"코치 자켓",           en:"Coach / Nylon Jacket",     price:32000,  model:"Taion / Beams Plus / Needles"},
+    {id:"o6", name:"커버올",              en:"Coverall",                 price:50000,  model:"Orslow / Freewheelers / Jelado"},
+    {id:"o7", name:"쇼어 코트",           en:"Chore Coat",               price:45000,  model:"Orslow / Kapital / Engineered Garments"},
+    {id:"o8", name:"헌팅 자켓",           en:"Hunting Jacket",           price:65000,  model:"Filson / Barbour / Freewheelers"},
+    {id:"o9", name:"MA-1 플라이트 자켓",  en:"MA-1 Flight Jacket",       price:45000,  model:"Alpha Industries / Buzz Rickson's / Toyo Enterprise"},
+    {id:"o10",name:"M-65 필드 자켓 야상", en:"M-65 Field Jacket",        price:45000,  model:"Alpha Industries / Buzz Rickson's / Real McCoy's"},
+    {id:"o11",name:"정글 퍼티그 자켓",    en:"Jungle Fatigue Jacket",    price:55000,  model:"Buzz Rickson's / Freewheelers / Real McCoy's"},
+    {id:"o12",name:"N-1 덱 자켓",        en:"N-1 Deck Jacket",          price:65000,  model:"Buzz Rickson's / Warehouse / Toyo Enterprise"},
+    {id:"o13",name:"바시티 자켓",         en:"Varsity / Stadium Jacket", price:50000,  model:"Taion / Beams Plus / Toyo Enterprise"},
+    {id:"o14",name:"피코트",              en:"Pea Coat",                 price:65000,  model:"Gloverall / Schott / Beams Plus"},
+    {id:"o15",name:"레더 자켓",           en:"Leather Jacket",           price:120000, model:"Schott / Real McCoy's / Freewheelers"},
   ]},
   {id:"bottoms",label:"03. 하의 BOTTOMS",icon:"👖",items:[
-    {id:"b1",name:"셀비지 데님",    en:"Selvedge Denim",  model:"Samurai Jeans / Iron Heart / The Strike Gold"},
-    {id:"b2",name:"치노 팬츠",      en:"Chino Pants",     model:"Orslow / Beams Plus / Engineered Garments"},
-    {id:"b3",name:"퍼티그 팬츠",    en:"Fatigue / Baker", model:"Orslow / Buzz Rickson's / Freewheelers"},
-    {id:"b4",name:"덕 캔버스 팬츠", en:"Duck Canvas",     model:"Carhartt / Orslow / Jelado"},
-    {id:"b5",name:"오버올",         en:"Bib Overall",     model:"Orslow / Kapital / Warehouse"},
-    {id:"b6",name:"스웨트 팬츠",    en:"Sweat Pants",     model:"Loopwheeled / Warehouse / Velva Sheen"},
-    {id:"b7",name:"카고 팬츠",      en:"Cargo Pants",     model:"Engineered Garments / Gramicci / Orslow"},
+    {id:"b1",name:"셀비지 데님",    en:"Selvedge Denim",  price:45000, model:"Samurai Jeans / Iron Heart / The Strike Gold"},
+    {id:"b2",name:"치노 팬츠",      en:"Chino Pants",     price:22000, model:"Orslow / Beams Plus / Engineered Garments"},
+    {id:"b3",name:"퍼티그 팬츠",    en:"Fatigue / Baker", price:25000, model:"Orslow / Buzz Rickson's / Freewheelers"},
+    {id:"b4",name:"덕 캔버스 팬츠", en:"Duck Canvas",     price:22000, model:"Carhartt / Orslow / Jelado"},
+    {id:"b5",name:"오버올",         en:"Bib Overall",     price:35000, model:"Orslow / Kapital / Warehouse"},
+    {id:"b6",name:"스웨트 팬츠",    en:"Sweat Pants",     price:22000, model:"Loopwheeled / Warehouse / Velva Sheen"},
+    {id:"b7",name:"카고 팬츠",      en:"Cargo Pants",     price:28000, model:"Engineered Garments / Gramicci / Orslow"},
   ]},
   {id:"footwear",label:"04. 신발 FOOTWEAR",icon:"👢",items:[
-    {id:"f1",name:"워크 부츠 아이언레인저",en:"Iron Ranger",   model:"Red Wing 8111 / Wesco / White's"},
-    {id:"f2",name:"워크 부츠 모크토",      en:"Moc Toe",       model:"Red Wing 875 / Thorogood / Wesco"},
-    {id:"f3",name:"엔지니어 부츠",         en:"Engineer Boots",model:"Wesco / Chippewa / Clinch"},
-    {id:"f4",name:"챠카 부츠",             en:"Chukka Boots",  model:"Clarks Desert Boot / Tricker's / Beams Plus"},
-    {id:"f5",name:"서비스 슈즈",           en:"Service Shoes", model:"Alden / Corcoran"},
-    {id:"f6",name:"모카신",                en:"Camp Moc",      model:"Russell Moccasin / Quoddy / Yuketen"},
-    {id:"f7",name:"로우컷 스니커즈",       en:"Low Sneakers",  model:"Converse CT / Vans Authentic / Moonstar"},
-    {id:"f8",name:"하이컷 스니커즈",       en:"High Sneakers", model:"Converse All Star / Vans Old Skool Hi"},
-    {id:"f9",name:"데크 슈즈",             en:"Deck Shoes",    model:"Sperry Top-Sider / Sebago / Beams Plus"},
+    {id:"f1",name:"워크 부츠 아이언레인저",en:"Iron Ranger",   price:60000,  model:"Red Wing 8111 / Wesco / White's"},
+    {id:"f2",name:"워크 부츠 모크토",      en:"Moc Toe",       price:55000,  model:"Red Wing 875 / Thorogood / Wesco"},
+    {id:"f3",name:"엔지니어 부츠",         en:"Engineer Boots",price:120000, model:"Wesco / Chippewa / Clinch"},
+    {id:"f4",name:"챠카 부츠",             en:"Chukka Boots",  price:38000,  model:"Clarks Desert Boot / Tricker's / Beams Plus"},
+    {id:"f5",name:"서비스 슈즈",           en:"Service Shoes", price:60000,  model:"Alden / Corcoran"},
+    {id:"f6",name:"모카신",                en:"Camp Moc",      price:50000,  model:"Russell Moccasin / Quoddy / Yuketen"},
+    {id:"f7",name:"로우컷 스니커즈",       en:"Low Sneakers",  price:12000,  model:"Converse CT / Vans Authentic / Moonstar"},
+    {id:"f8",name:"하이컷 스니커즈",       en:"High Sneakers", price:14000,  model:"Converse All Star / Vans Old Skool Hi"},
+    {id:"f9",name:"데크 슈즈",             en:"Deck Shoes",    price:22000,  model:"Sperry Top-Sider / Sebago / Beams Plus"},
   ]},
   {id:"acc",label:"05. 액세서리 ACCESSORIES",icon:"🎩",items:[
-    {id:"a1", name:"반다나",        en:"Bandana",         model:"Kapital / Engineered Garments / RRL"},
-    {id:"a2", name:"울 스카프",     en:"Wool Scarf",      model:"Beams Plus / Inverallan / Drake's"},
-    {id:"a3", name:"선글라스",      en:"Sunglasses",      model:"Ray-Ban Wayfarer / Persol / Oliver Peoples"},
-    {id:"a4", name:"레더 벨트",     en:"Leather Belt",    model:"Filson / Beams Plus / Ganzo"},
-    {id:"a5", name:"웨빙 벨트",     en:"GI / Web Belt",   model:"Rothco GI Belt / Engineered Garments / Gramicci"},
-    {id:"a6", name:"서스펜더",      en:"Suspender",       model:"Albert Thurston / Trafalgar / Beams Plus"},
-    {id:"a7", name:"필드워치",      en:"Field Watch",     model:"Seiko SNK809 / Hamilton Khaki / Timex MK1"},
-    {id:"a8", name:"캔버스 토트백", en:"Canvas Tote Bag", model:"Filson / L.L.Bean / Tembea"},
-    {id:"a9", name:"가죽 지갑",     en:"Leather Wallet",  model:"Ganzo / Saddleback / Billykirk"},
-    {id:"a10",name:"울 립 양말",    en:"Wool / Rib Socks",model:"Darn Tough / Wigwam / Tabio"},
+    {id:"a1", name:"반다나",        en:"Bandana",         price:4000,  model:"Kapital / Engineered Garments / RRL"},
+    {id:"a2", name:"울 스카프",     en:"Wool Scarf",      price:15000, model:"Beams Plus / Inverallan / Drake's"},
+    {id:"a3", name:"선글라스",      en:"Sunglasses",      price:25000, model:"Ray-Ban Wayfarer / Persol / Oliver Peoples"},
+    {id:"a4", name:"레더 벨트",     en:"Leather Belt",    price:15000, model:"Filson / Beams Plus / Ganzo"},
+    {id:"a5", name:"웨빙 벨트",     en:"GI / Web Belt",   price:4000,  model:"Rothco GI Belt / Engineered Garments / Gramicci"},
+    {id:"a6", name:"서스펜더",      en:"Suspender",       price:15000, model:"Albert Thurston / Trafalgar / Beams Plus"},
+    {id:"a7", name:"필드워치",      en:"Field Watch",     price:18000, model:"Seiko SNK809 / Hamilton Khaki / Timex MK1"},
+    {id:"a8", name:"캔버스 토트백", en:"Canvas Tote Bag", price:20000, model:"Filson / L.L.Bean / Tembea"},
+    {id:"a9", name:"가죽 지갑",     en:"Leather Wallet",  price:28000, model:"Ganzo / Saddleback / Billykirk"},
+    {id:"a10",name:"울 립 양말",    en:"Wool / Rib Socks",price:2500,  model:"Darn Tough / Wigwam / Tabio"},
   ]},
 ];
 const ALL = CATS.flatMap(c=>c.items);
@@ -479,15 +503,16 @@ function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 
 // ════════════ 상태 ════════════
 const S={
-  st:  lg('ak_st',{}),   // statuses
-  pri: lg('ak_pri',{}),  // priorities
-  bgt: lg('ak_bgt',{}),  // budgets
-  sz:  lg('ak_sz',{}),   // sizes
-  col: lg('ak_col',{}),  // colors
-  str: lg('ak_str',{}),  // stores
-  mem: lg('ak_mem',{}),  // memos
-  oc:  lg('ak_oc',{tops:true,outer:true,bottoms:true,footwear:true,acc:true}),
-  mo:  {},               // memoOpen (세션만)
+  st:     lg('ak_st',{}),
+  pri:    lg('ak_pri',{}),
+  prices: lg('ak_prices',{}),  // 사용자가 수정한 예상가
+  paid:   lg('ak_paid',{}),    // 실제 지불금액
+  sz:     lg('ak_sz',{}),
+  col:    lg('ak_col',{}),
+  str:    lg('ak_str',{}),
+  mem:    lg('ak_mem',{}),
+  oc:     lg('ak_oc',{tops:true,outer:true,bottoms:true,footwear:true,acc:true}),
+  mo:     {},
   filter:'all', query:'', view:'list',
   rate:Number(localStorage.getItem('ak_rate')||920),
   guideOpen:false, jpTab:'common',
@@ -512,9 +537,9 @@ function save(){
   b.textContent='저장 중...';b.style.color='#c8a96e';b.style.borderColor='#c8a96e';
   clearTimeout(svT);
   svT=setTimeout(()=>{
-    ls('ak_st',S.st);ls('ak_pri',S.pri);ls('ak_bgt',S.bgt);
-    ls('ak_sz',S.sz);ls('ak_col',S.col);ls('ak_str',S.str);
-    ls('ak_mem',S.mem);ls('ak_oc',S.oc);
+    ls('ak_st',S.st);ls('ak_pri',S.pri);ls('ak_prices',S.prices);
+    ls('ak_paid',S.paid);ls('ak_sz',S.sz);ls('ak_col',S.col);
+    ls('ak_str',S.str);ls('ak_mem',S.mem);ls('ak_oc',S.oc);
     const now=new Date().toLocaleString('ko-KR');
     localStorage.setItem('ak_savedAt',now);
     document.getElementById('save-time').innerHTML='🕐 <strong>'+now+'</strong>';
@@ -627,13 +652,33 @@ function updateStats(){
      <span>□ 미정 ${none}</span>`;
   document.getElementById('footer-text').textContent=
     pct>=100?'◆ WARDROBE COMPLETE ◆':`◆ 살예정 ${c.want}개 · 구매완료 ${c.bought}개 · 미정 ${none}개 ◆`;
+
+  // ── 예산 요약 카드 ──
+  let wantTotal=0, wantCnt=0, boughtTotal=0, boughtCnt=0;
+  ALL.forEach(i=>{
+    const ep = S.prices[i.id]??i.price;
+    if(S.st[i.id]==='want'){ wantTotal+=ep; wantCnt++; }
+    if(S.st[i.id]==='bought'){
+      const paid = S.paid[i.id];
+      boughtTotal += paid!=null ? paid : ep;
+      boughtCnt++;
+    }
+  });
+  const fmt=n=>'¥'+n.toLocaleString();
+  document.getElementById('bsum-want-yen').textContent=fmt(wantTotal);
+  document.getElementById('bsum-want-krw').textContent='≈ '+Math.round(wantTotal/100*S.rate).toLocaleString()+'원';
+  document.getElementById('bsum-want-count').textContent=wantCnt+'개 아이템';
+  document.getElementById('bsum-bought-yen').textContent=fmt(boughtTotal);
+  document.getElementById('bsum-bought-krw').textContent='≈ '+Math.round(boughtTotal/100*S.rate).toLocaleString()+'원';
+  document.getElementById('bsum-bought-count').textContent=boughtCnt+'개 구매'+(boughtCnt>0&&ALL.filter(i=>S.st[i.id]==='bought'&&S.paid[i.id]==null).length>0?' (일부 예상가)':'');
 }
 
 // ════════════ 아이템 카드 ════════════
 function card(item){
   const st=S.st[item.id],pri=S.pri[item.id];
   const sc=st?SC[st]:null,pc=pri?PC[pri]:null;
-  const bv=S.bgt[item.id]||'';
+  const ep=S.prices[item.id]??item.price; // 예상가 (수정 가능)
+  const pv=S.paid[item.id]||'';           // 실제 지불
   const hasMemo=!!(S.mem[item.id]&&S.mem[item.id].trim());
   const mo=S.mo[item.id];
 
@@ -661,12 +706,19 @@ function card(item){
         ${pc?`<span class="pribadge" style="color:${pc.color};background:${pc.bg};border-color:${pc.color}">${pc.label}</span>`:''}
       </div>
       <div class="imodel">▸ ${item.model}</div>
-      <div class="brow">
-        <span class="yen">¥</span>
-        <input type="number" placeholder="예산" value="${bv}"
-          onchange="S.bgt['${item.id}']=this.value?Number(this.value):null;save();document.getElementById('kw-${item.id}').textContent=this.value?'≈ '+krw(Number(this.value)):''"/>
-        <span class="bkrw" id="kw-${item.id}">${bv?'≈ '+krw(bv):''}</span>
+      <div class="price-row">
+        <span class="plabel">예상가 ¥</span>
+        <input type="number" value="${ep}"
+          onchange="S.prices['${item.id}']=Number(this.value);save();updateStats();document.getElementById('epkrw-${item.id}').textContent='≈ '+krw(Number(this.value))"/>
+        <span class="pkrw" id="epkrw-${item.id}">≈ ${krw(ep)}</span>
       </div>
+      ${st==='bought'?`
+      <div class="paid-row">
+        <span class="plabel">실제 지불 ¥</span>
+        <input type="number" placeholder="실제 금액" value="${pv}"
+          onchange="S.paid['${item.id}']=this.value?Number(this.value):null;save();updateStats();document.getElementById('paidkrw-${item.id}').textContent=this.value?'≈ '+krw(Number(this.value)):''"/>
+        <span class="pkrw" id="paidkrw-${item.id}">${pv?'≈ '+krw(pv):''}</span>
+      </div>`:''}
       <div class="brow2">
         ${sBtns}
         <div class="bdiv"></div>
