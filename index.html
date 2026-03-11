@@ -791,10 +791,11 @@ function jpSearch(q){
 
 async function translateWord(q,div){
   try{
-    const r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=ko|ja`);
+    const url=`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ko&tl=ja&dt=t&q=${encodeURIComponent(q)}`;
+    const r=await fetch(url);
     const d=await r.json();
-    const jpText=(d.responseData?.translatedText||'').trim();
-    if(!jpText||jpText===q||d.responseStatus!==200){
+    const jpText=d[0]?.map(x=>x[0]).join('')?.trim()||'';
+    if(!jpText||jpText===q){
       div.innerHTML=`<div class="jpcard" style="text-align:center;color:#b05a4a;font-size:12px;padding:16px">번역 결과를 찾지 못했어요</div>`;
       return;
     }
