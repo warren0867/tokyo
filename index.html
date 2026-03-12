@@ -1008,14 +1008,14 @@ const GIFTS = [
     {name:"피죤 베이비 보습크림", price:1500, where:"💊 드럭스토어·아카챤혼포",      note:"순한 성분. 한국보다 저렴. 아기 피부에 안전"},
   ]},
   {cat:"🍶 술 (공항 면세점 필수)", color:"#1e3a2e", items:[
-    {name:"닷사이23 (獺祭23)",        price:5600, where:"✈️ 공항 면세점 — 하네다 ¥5,400 / 나리타 ¥5,600",  note:"한국 시중가 15~20만원. 공항에서 5만원대. 3배 차이. 1순위 구매"},
-    {name:"닷사이39 (獺祭39)",        price:3000, where:"✈️ 공항 면세점 · 돈키호테",                       note:"닷사이23 절반 가격. 여러 병 살 때 가성비 최고. 선물용 무난"},
-    {name:"닷사이45 (獺祭45)",        price:1800, where:"✈️ 공항 면세점 · 돈키호테",                       note:"가장 저렴한 닷사이 라인. 입문용으로 추천. 여러 명 선물할 때"},
-    {name:"닷사이 오타메시세트",      price:2500, where:"✈️ 공항 면세점 · 긴자 닷사이 스토어",            note:"23·39·45 세 종류 소용량 세트. 처음 접하는 분께 최고 선물"},
-    {name:"핫카이산 (八海山)",        price:2500, where:"✈️ 공항 면세점 · 주류샵",                         note:"닷사이 품절 시 대안. 니가타 대표 사케. 밸런스 좋고 부드러움"},
-    {name:"산토리 야마자키 12년",     price:8000, where:"✈️ 공항 면세점",                                  note:"일본 위스키. 한국 면세 대비 훨씬 저렴. 술 좋아하는 분 임팩트 선물"},
-    {name:"닛카 프롬 더 배럴",        price:4000, where:"✈️ 공항 면세점 · 돈키호테",                       note:"블렌디드 위스키 가성비 최고. 위스키 입문자에게도 추천"},
-    {name:"하이볼 캔 박스 (산토리)", price:3000, where:"✈️ 공항 면세점 · 돈키호테",                       note:"박스로 사면 개당 ¥200. 자기 소비용. 각종 맛이 있음"},
+    {name:"닷사이23 (獺祭23)",        price:5600, ml:720,  where:"✈️ 공항 면세점 — 하네다 ¥5,400 / 나리타 ¥5,600",  note:"한국 시중가 15~20만원. 공항에서 5만원대. 3배 차이. 1순위 구매"},
+    {name:"닷사이39 (獺祭39)",        price:3000, ml:720,  where:"✈️ 공항 면세점 · 돈키호테",                       note:"닷사이23 절반 가격. 여러 병 살 때 가성비 최고. 선물용 무난"},
+    {name:"닷사이45 (獺祭45)",        price:1800, ml:720,  where:"✈️ 공항 면세점 · 돈키호테",                       note:"가장 저렴한 닷사이 라인. 입문용으로 추천. 여러 명 선물할 때"},
+    {name:"닷사이 오타메시세트",      price:2500, ml:300,  where:"✈️ 공항 면세점 · 긴자 닷사이 스토어",            note:"23·39·45 세 종류 소용량 세트 (100ml×3). 처음 접하는 분께 최고 선물"},
+    {name:"핫카이산 (八海山)",        price:2500, ml:720,  where:"✈️ 공항 면세점 · 주류샵",                         note:"닷사이 품절 시 대안. 니가타 대표 사케. 밸런스 좋고 부드러움"},
+    {name:"산토리 야마자키 12년",     price:8000, ml:700,  where:"✈️ 공항 면세점",                                  note:"일본 위스키. 한국 면세 대비 훨씬 저렴. 술 좋아하는 분 임팩트 선물"},
+    {name:"닛카 프롬 더 배럴",        price:4000, ml:500,  where:"✈️ 공항 면세점 · 돈키호테",                       note:"블렌디드 위스키 가성비 최고. 위스키 입문자에게도 추천"},
+    {name:"하이볼 캔 박스 (산토리)", price:3000, ml:350,  where:"✈️ 공항 면세점 · 돈키호테",                       note:"350ml캔 기준. 박스로 사면 개당 ¥200. 자기 소비용"},
   ]},
 ];
 
@@ -1038,7 +1038,8 @@ function renderGifts(){
       html+=`<div style="padding:10px 13px;border-bottom:${idx<cat.items.length-1?'1px dashed #e8dcc8':'none'};background:${done?'rgba(74,124,89,.07)':skip?'rgba(176,90,74,.04)':'transparent'}">
         <div style="display:flex;align-items:flex-start;gap:10px">
           <div style="flex:1">
-            <div style="font-size:13px;font-weight:700;color:${skip?'#ccc':'#3d2b1a'};text-decoration:${skip?'line-through':'none'}">${item.name}</div>
+            <div style="font-size:13px;font-weight:700;color:${skip?'#ccc':'#3d2b1a'};text-decoration:${skip?'line-through':'none'}">${item.name}${item.ml?` <span style="font-size:10px;color:#888;font-weight:400">${item.ml}ml</span>`:''}
+            </div>
             <div style="font-size:10px;font-weight:700;color:${cat.color};margin-top:3px">${item.where||''}</div>
             <div style="font-size:10px;color:#9a7a5a;margin-top:2px">${item.note}</div>
             <div style="font-size:11px;font-weight:700;color:#3d2b1a;margin-top:3px">¥${item.price.toLocaleString()} <span style="color:#aaa;font-weight:400">≈ ${Math.round(item.price/100*S.rate).toLocaleString()}원~</span></div>
@@ -1056,6 +1057,44 @@ function renderGifts(){
         </div>
       </div>`;
     });
+
+    // 술 카테고리 리터 바
+    const hasAlcohol = cat.items.some(i=>i.ml);
+    if(hasAlcohol){
+      const LIMIT=2000;
+      let totalMl=0;
+      cat.items.forEach(item=>{
+        if(item.ml && GS[giftId(cat.cat,item.name)]==='done') totalMl+=item.ml;
+      });
+      const pct=Math.min(totalMl/LIMIT*100,100);
+      const over=totalMl>LIMIT;
+      const barColor=over?'#b05a4a':totalMl>1500?'#c8a96e':'#4a7c59';
+      const remaining=Math.max(0,LIMIT-totalMl);
+
+      // 남은 용량 추천
+      let suggest='';
+      if(remaining>0&&remaining<=600&&!over){
+        if(remaining>=500) suggest='💡 남은 용량 딱 맞는 추천: 닛카 프롬 더 배럴 500ml';
+        else if(remaining>=350) suggest='💡 남은 용량 딱 맞는 추천: 하이볼 캔 330ml 1캔';
+        else if(remaining>=180) suggest='💡 남은 용량 딱 맞는 추천: 닷사이 소용량 180ml';
+      }
+
+      html+=`<div style="padding:12px 13px;background:${over?'rgba(176,90,74,.06)':'rgba(30,58,46,.04)'}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:10px;font-weight:700;color:${barColor}">🇰🇷 입국 주류 면세 한도</span>
+          <span style="font-size:12px;font-weight:900;color:${barColor}">${(totalMl/1000).toFixed(2)}L / 2L${over?' ⚠️ 초과!':''}</span>
+        </div>
+        <div style="height:8px;background:#e8dcc8;border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:${barColor};transition:width .3s"></div>
+        </div>
+        <div style="font-size:9px;color:#9a7a5a;margin-top:4px">
+          ${over?'⚠️ 초과분은 세관 자진신고 필요 (위스키 세율 156%)':'남은 용량 '+((remaining)/1000).toFixed(2)+'L · 병 수 제한 없음 (2025.3월~ 개정)'}
+        </div>
+        ${suggest?`<div style="margin-top:6px;font-size:10px;color:#4a7c59;font-weight:700;padding:4px 8px;background:rgba(74,124,89,.08)">${suggest}</div>`:''}
+        <div style="font-size:9px;color:#b89f7a;margin-top:5px">💵 금액 한도 $400 (약 ¥60,000) 도 함께 확인</div>
+      </div>`;
+    }
+
     html+='</div></div>';
   });
 
