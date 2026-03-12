@@ -1007,15 +1007,28 @@ const GIFTS = [
     {name:"일본 이유식 퓨레",     price:200,  where:"🏪 이온마트·아카챤혼포",        note:"¥150~200/개. 다양한 맛. 여러 개 구매 추천"},
     {name:"피죤 베이비 보습크림", price:1500, where:"💊 드럭스토어·아카챤혼포",      note:"순한 성분. 한국보다 저렴. 아기 피부에 안전"},
   ]},
-  {cat:"🍶 술 (공항 면세점 필수)", color:"#1e3a2e", items:[
-    {name:"닷사이23 (獺祭23)",        price:5600, ml:720,  where:"✈️ 공항 면세점 — 하네다 ¥5,400 / 나리타 ¥5,600",  note:"한국 시중가 15~20만원. 공항에서 5만원대. 3배 차이. 1순위 구매"},
-    {name:"닷사이39 (獺祭39)",        price:3000, ml:720,  where:"✈️ 공항 면세점 · 돈키호테",                       note:"닷사이23 절반 가격. 여러 병 살 때 가성비 최고. 선물용 무난"},
-    {name:"닷사이45 (獺祭45)",        price:1800, ml:720,  where:"✈️ 공항 면세점 · 돈키호테",                       note:"가장 저렴한 닷사이 라인. 입문용으로 추천. 여러 명 선물할 때"},
-    {name:"닷사이 오타메시세트",      price:2500, ml:300,  where:"✈️ 공항 면세점 · 긴자 닷사이 스토어",            note:"23·39·45 세 종류 소용량 세트 (100ml×3). 처음 접하는 분께 최고 선물"},
-    {name:"핫카이산 (八海山)",        price:2500, ml:720,  where:"✈️ 공항 면세점 · 주류샵",                         note:"닷사이 품절 시 대안. 니가타 대표 사케. 밸런스 좋고 부드러움"},
-    {name:"산토리 야마자키 12년",     price:8000, ml:700,  where:"✈️ 공항 면세점",                                  note:"일본 위스키. 한국 면세 대비 훨씬 저렴. 술 좋아하는 분 임팩트 선물"},
-    {name:"닛카 프롬 더 배럴",        price:4000, ml:500,  where:"✈️ 공항 면세점 · 돈키호테",                       note:"블렌디드 위스키 가성비 최고. 위스키 입문자에게도 추천"},
-    {name:"하이볼 캔 박스 (산토리)", price:3000, ml:350,  where:"✈️ 공항 면세점 · 돈키호테",                       note:"350ml캔 기준. 박스로 사면 개당 ¥200. 자기 소비용"},
+  {cat:"🍶 술 (공항 면세점 필수)", color:"#1e3a2e",
+   fixed:{name:"닷사이23 (獺祭23) × 1병", ml:720, price:5600, note:"¥5,600 · 하네다/나리타 면세점 · 한국 시중가 15~20만원/병 → 3배 차이"},
+   items:[
+    // ── 스카치 싱글몰트 ──
+    {name:"글렌파클라스 105",          price:6780,  ml:700, rare:false, where:"✈️ 공항 면세점", note:"60도 캐스크 스트렝스 셰리몰트. 한국 13~15만원 → 면세 62,000원. 싱글몰트 가성비 1위"},
+    {name:"라가불린 16년",             price:10600, ml:700, rare:false, where:"✈️ 공항 면세점", note:"아이라 피트·스모키 싱글몰트. 한국 20만원대 → 면세 97,000원. 피트 좋아하면 필수"},
+    {name:"글렌리벳 18년",             price:9000,  ml:700, rare:false, where:"✈️ 공항 면세점", note:"부드러운 스페이사이드. 한국 대비 30~40% 저렴. 무난하게 맛있음"},
+    // ── 스카치 블렌디드 ──
+    {name:"발렌타인 30년",             price:37000, ml:700, rare:false, where:"✈️ 공항 면세점", note:"면세 34만원 vs 한국 85~90만원. 50만원 차이. 블렌디드 가성비 압도적 1위"},
+    {name:"발렌타인 21년",             price:12650, ml:700, rare:false, where:"✈️ 공항 면세점", note:"면세 115,000원 vs 한국 24만원. 50% 차이. 무난한 선택"},
+    {name:"조니워커 블루",             price:22000, ml:700, rare:false, where:"✈️ 공항 면세점", note:"면세 20만원 vs 한국 35~40만원. 15~20만원 차이"},
+    // ── 재패니즈 (희귀·재고 불확실) ──
+    {name:"시바스 리갈 미즈나라 18년", price:9000,  ml:700, rare:false, where:"✈️ 공항 면세점 (일본 한정)", note:"일본 내수 미즈나라 오크 피니시. 한국 구매 불가 버전. 희소성 최고"},
+    {name:"야마자키 디스틸러스 리저브",price:9000,  ml:700, rare:true,  where:"✈️ 공항 면세점 (재고 드묾)",  note:"재패니즈 싱글몰트 입문. 눈에 띄면 즉시 구매. 못 볼 확률이 높음"},
+    {name:"야마자키 12년",             price:20000, ml:700, rare:true,  where:"✈️ 공항 면세점 (거의 없음)", note:"한국 리셀가 100만원 이상. 있으면 대박이지만 기대 금물"},
+    {name:"히비키 하모니",             price:12000, ml:700, rare:true,  where:"✈️ 공항 면세점 (거의 없음)", note:"재패니즈 블렌디드 최고급. 한국 25~30만원. 면세점 재고 없는 경우가 대부분"},
+    {name:"닛카 미야기쿄 싱글몰트",   price:8000,  ml:700, rare:true,  where:"✈️ 공항 면세점 (재고 드묾)",  note:"구하기 어려운 재패니즈 중 발견 확률 그나마 있는 편. 보이면 구매"},
+    {name:"후지 (FUJI) 싱글 그레인",  price:7000,  ml:700, rare:true,  where:"✈️ 공항 면세점·리쿼샵",      note:"후지산 물 사용. 한국 유통 드물어 희소성 있음. 면세 64,000원"},
+    // ── 소용량 채우기 ──
+    {name:"닷사이 오타메시세트 300ml", price:2500,  ml:300, rare:false, where:"✈️ 공항 면세점 · 긴자 닷사이샵", note:"23·39·45 소용량 세트(100ml×3). 남은 용량 채우기 + 선물용"},
+    {name:"하이볼 캔 330ml",           price:400,   ml:330, rare:false, where:"✈️ 공항 편의점",                 note:"산토리 토리스·카쿠. 남은 용량 마저 채울 때"},
+    {name:"고구마 소주 이모쇼추 500ml",price:1800,  ml:500, rare:false, where:"✈️ 공항 면세점",                 note:"한국 40,000원 → 일본 16,000원. 소주 좋아하는 지인 선물용"},
   ]},
 ];
 
@@ -1030,6 +1043,23 @@ function renderGifts(){
     html+=`<div style="margin-bottom:18px">
       <div class="jpstitle" style="background:${cat.color}">${cat.cat}</div>
       <div style="border:1px solid ${cat.color};border-top:none">`;
+
+    // 고정 아이템 (닷사이23 × 2병)
+    if(cat.fixed){
+      const f=cat.fixed;
+      html+=`<div style="padding:10px 13px;background:rgba(30,58,46,.09);border-bottom:1px solid rgba(30,58,46,.2);display:flex;align-items:center;gap:10px">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <span style="font-size:9px;background:#1e3a2e;color:#fff;padding:2px 7px;font-weight:700;letter-spacing:1px">확정</span>
+            <span style="font-size:13px;font-weight:700;color:#1e3a2e">${f.name}</span>
+            <span style="font-size:10px;color:#888">${f.ml}ml</span>
+          </div>
+          <div style="font-size:10px;color:#9a7a5a;margin-top:3px">${f.note}</div>
+          <div style="font-size:11px;font-weight:700;color:#1e3a2e;margin-top:3px">¥${f.price.toLocaleString()} <span style="color:#aaa;font-weight:400">≈ ${Math.round(f.price/100*S.rate).toLocaleString()}원</span></div>
+        </div>
+        <div style="font-size:22px">✅</div>
+      </div>`;
+    }
     cat.items.forEach((item,idx)=>{
       const id=giftId(cat.cat,item.name);
       const st=GS[id];
@@ -1038,7 +1068,8 @@ function renderGifts(){
       html+=`<div style="padding:10px 13px;border-bottom:${idx<cat.items.length-1?'1px dashed #e8dcc8':'none'};background:${done?'rgba(74,124,89,.07)':skip?'rgba(176,90,74,.04)':'transparent'}">
         <div style="display:flex;align-items:flex-start;gap:10px">
           <div style="flex:1">
-            <div style="font-size:13px;font-weight:700;color:${skip?'#ccc':'#3d2b1a'};text-decoration:${skip?'line-through':'none'}">${item.name}${item.ml?` <span style="font-size:10px;color:#888;font-weight:400">${item.ml}ml</span>`:''}
+            <div style="font-size:13px;font-weight:700;color:${item.rare?'#b05a4a':skip?'#ccc':'#3d2b1a'};text-decoration:${skip?'line-through':'none'}">${item.name}${item.ml?` <span style="font-size:10px;color:#888;font-weight:400">${item.ml}ml</span>`:''}
+              ${item.rare?'<span style="font-size:9px;background:#b05a4a;color:#fff;padding:1px 5px;margin-left:4px;font-weight:700">재고 드묾</span>':''}
             </div>
             <div style="font-size:10px;font-weight:700;color:${cat.color};margin-top:3px">${item.where||''}</div>
             <div style="font-size:10px;color:#9a7a5a;margin-top:2px">${item.note}</div>
@@ -1062,13 +1093,15 @@ function renderGifts(){
     const hasAlcohol = cat.items.some(i=>i.ml);
     if(hasAlcohol){
       const LIMIT=2000;
-      let totalMl=0;
+      const baseMl = cat.fixed ? cat.fixed.ml : 0;
+      let addMl=0;
       cat.items.forEach(item=>{
-        if(item.ml && GS[giftId(cat.cat,item.name)]==='done') totalMl+=item.ml;
+        if(item.ml && GS[giftId(cat.cat,item.name)]==='done') addMl+=item.ml;
       });
+      const totalMl=baseMl+addMl;
       const pct=Math.min(totalMl/LIMIT*100,100);
       const over=totalMl>LIMIT;
-      const barColor=over?'#b05a4a':totalMl>1500?'#c8a96e':'#4a7c59';
+      const barColor=over?'#b05a4a':totalMl>1800?'#c8a96e':'#4a7c59';
       const remaining=Math.max(0,LIMIT-totalMl);
 
       // 남은 용량 추천
