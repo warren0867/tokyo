@@ -162,7 +162,9 @@ textarea{resize:vertical;}
 
 <nav class="global-nav">
   <button class="active" onclick="switchPage('checklist')">🛍 체크리스트</button>
-  <button onclick="switchPage('japanese')">🗾 일본어 회화</button>
+  <button onclick="switchPage('gifts')">🎁 선물</button>
+  <button onclick="switchPage('tips')">💡 쇼핑팁</button>
+  <button onclick="switchPage('japanese')">🗾 일본어</button>
 </nav>
 
 <!-- ══ 체크리스트 ══ -->
@@ -236,6 +238,37 @@ textarea{resize:vertical;}
     <div id="summary-list"></div>
   </div>
   <div class="footer" id="footer-text">◆ AMEKAJI WARDROBE ◆</div>
+</div>
+</div>
+
+<!-- ══ 선물 ══ -->
+<div id="page-gifts" class="page">
+<div class="inner">
+  <div class="jphdr">
+    <div class="sub">Tokyo Gift List</div>
+    <div class="title">🎁 선물 리스트</div>
+    <div class="desc">와이프 · 아기 · 가족 선물 체크리스트</div>
+  </div>
+  <div id="gift-list"></div>
+  <div style="margin:8px 0 16px;padding:10px 13px;background:rgba(30,58,46,.06);border-left:3px solid #1e3a2e;font-size:11px;color:#3d2b1a;line-height:1.7">
+    ✈️ <strong>공항 면세점 술은 출국 수속 완료 후</strong> 구매 → 면세 봉투 그대로 기내 반입<br>
+    🏪 <strong>드럭스토어</strong>는 마츠모토키요시·웰시아가 가장 저렴<br>
+    🏬 <strong>도쿄역·하네다</strong>는 여행 마지막날 한 번에 정리
+  </div>
+  <div class="footer">◆ TOKYO GIFT GUIDE ◆</div>
+</div>
+</div>
+
+<!-- ══ 쇼핑팁 ══ -->
+<div id="page-tips" class="page">
+<div class="inner">
+  <div class="jphdr">
+    <div class="sub">Tokyo Amekaji — Budget Guide</div>
+    <div class="title">💡 가성비 팁</div>
+    <div class="desc">아메카지 도쿄 쇼핑 절약 노하우</div>
+  </div>
+  <div id="tips-body"></div>
+  <div class="footer">◆ SMART SHOPPING ◆</div>
 </div>
 </div>
 
@@ -937,13 +970,189 @@ function renderJP(){
 // ════════════ 전체 렌더 ════════════
 function renderAll(){updateStats();renderFilter();renderCats();if(S.view==='summary')renderSummary();}
 
-// ════════════ 초기화 ════════════
+// ════════════ 선물 리스트 ════════════
+const GIFTS = [
+  {cat:"🍫 과자 · 식품", color:"#c8622a", items:[
+    {name:"도쿄 바나나",          price:1080, where:"🏬 도쿄역·하네다 공항",        note:"도쿄 대표 기념품. 8개입. 여행 막바지에 구매"},
+    {name:"히요코 만쥬",          price:1080, where:"🏬 도쿄역 한정",               note:"병아리 모양 만쥬. 도쿄역 1층 기념품샵"},
+    {name:"로이스 생초콜릿",      price:1500, where:"✈️ 공항 면세점 추천",          note:"냉장 필요. 공항에서 사야 상하지 않게 가져오기 편함"},
+    {name:"시로이 고이비토",      price:2500, where:"🏬 긴자 홋카이도 안테나샵",    note:"홋카이도 대표 과자. 18매입. 긴자에서 구매 추천"},
+    {name:"킷캣 일본 한정맛",     price:500,  where:"🏪 편의점·드럭스토어",         note:"말차·딸기·사케맛 등. 어디서든 구매 가능"},
+    {name:"칸로 퓨레구미 젤리",   price:300,  where:"🏪 편의점 (세븐일레븐 등)",    note:"한국에서 못 구하는 맛 위주로 고르기"},
+    {name:"자가리코 한정맛",      price:300,  where:"🏪 편의점·돈키호테",           note:"지역한정맛이 인기. 돈키호테에서 대량 구매 가능"},
+    {name:"기타카타 쿠키",        price:800,  where:"🏬 백화점 지하·기념품샵",      note:"개별 포장이라 나눠주기 좋음. 버터 진한 쿠키"},
+  ]},
+  {cat:"💊 드럭스토어", color:"#4a7c59", items:[
+    {name:"동전 파스 (사론파스)", price:1000, where:"💊 마츠모토키요시·웰시아",     note:"큰 박스 추천. 한국보다 훨씬 저렴. 지인 선물 최고"},
+    {name:"이브 (EVE) 두통약",   price:1500, where:"💊 드럭스토어 어디서든",        note:"이부프로펜 계열. 한국보다 강하다고 소문난 두통약"},
+    {name:"용각산 목 캔디",       price:800,  where:"💊 드럭스토어·편의점",          note:"복숭아·꿀맛 인기. 목 건강 관심 있는 분께"},
+    {name:"휴족시간 발 시트",     price:1200, where:"💊 마츠모토키요시",             note:"발바닥 냉각 시트. 여행 중 발 피로에도 효과"},
+    {name:"비오레 UV 선크림",     price:1500, where:"💊 드럭스토어·이온마트",        note:"일본 선크림 퀄리티 다름. SPF50+ PA++++"},
+    {name:"루루룬 마스크팩",      price:1500, where:"💊 마츠모토키요시·돈키호테",   note:"1박스 32매입. 피부 좋은 일본 여성들이 쓰는 팩"},
+    {name:"시세이도 퍼펙트 휩",  price:1200, where:"💊 드럭스토어·이온마트",        note:"세안폼. 국내보다 확실히 저렴. 대용량 추천"},
+    {name:"목욕 입욕제 (バブ)",   price:1000, where:"💊 드럭스토어·돈키호테",        note:"버블 입욕제. 다양한 향. 선물세트로도 있음"},
+  ]},
+  {cat:"🏠 생활잡화 · 굿즈", color:"#6b8fb5", items:[
+    {name:"가챠폰 (캡슐토이)",    price:500,  where:"🎮 아키하바라·이케부쿠로",     note:"¥300~500/회. 아이 선물로 최고. 종류 엄청남"},
+    {name:"포켓몬 센터 굿즈",     price:1500, where:"🎮 포켓몬센터 도쿄DX",         note:"시부야 파르코 6F. 한정 인형·카드팩"},
+    {name:"닌텐도 스토어 굿즈",   price:1500, where:"🎮 닌텐도 도쿄 (시부야 파르코)",note:"마리오·젤다·동숲 한정 상품"},
+    {name:"산리오 캐릭터 굿즈",   price:1000, where:"🏪 돈키호테·산리오샵",         note:"헬로키티·마이멜로디. 돈키호테가 가성비 좋음"},
+    {name:"다이소 일본판 잡화",   price:300,  where:"🏪 다이소 (전국)",             note:"한국 다이소와 퀄리티 다름. ¥100~300 균일가"},
+    {name:"스타벅스 도쿄 한정 머그",price:2500,where:"☕ 스타벅스 직영점",          note:"도쿄·도쿄타워 한정 텀블러. 일찍 품절됨"},
+    {name:"이마바리 타월",        price:2000, where:"🏬 백화점·이온마트",            note:"일본 최고급 수건 산지. 국내보다 훨씬 저렴"},
+  ]},
+  {cat:"👶 아이 · 베이비", color:"#8f6bb5", items:[
+    {name:"메리즈·무니 기저귀",   price:3000, where:"🏪 돈키호테·아카챤혼포",       note:"일본 기저귀 질 다름. 대형팩으로 구매 추천"},
+    {name:"하이하인 쌀과자",      price:500,  where:"🏪 돈키호테·드럭스토어",        note:"방부제 없는 아기 쌀과자. 한국에서도 인기"},
+    {name:"일본 이유식 퓨레",     price:200,  where:"🏪 이온마트·아카챤혼포",        note:"¥150~200/개. 다양한 맛. 여러 개 구매 추천"},
+    {name:"피죤 베이비 보습크림", price:1500, where:"💊 드럭스토어·아카챤혼포",      note:"순한 성분. 한국보다 저렴. 아기 피부에 안전"},
+  ]},
+  {cat:"🍶 술 (공항 면세점 필수)", color:"#1e3a2e", items:[
+    {name:"닷사이23 (獺祭23)",        price:5600, where:"✈️ 공항 면세점 — 하네다 ¥5,400 / 나리타 ¥5,600",  note:"한국 시중가 15~20만원. 공항에서 5만원대. 3배 차이. 1순위 구매"},
+    {name:"닷사이39 (獺祭39)",        price:3000, where:"✈️ 공항 면세점 · 돈키호테",                       note:"닷사이23 절반 가격. 여러 병 살 때 가성비 최고. 선물용 무난"},
+    {name:"닷사이45 (獺祭45)",        price:1800, where:"✈️ 공항 면세점 · 돈키호테",                       note:"가장 저렴한 닷사이 라인. 입문용으로 추천. 여러 명 선물할 때"},
+    {name:"닷사이 오타메시세트",      price:2500, where:"✈️ 공항 면세점 · 긴자 닷사이 스토어",            note:"23·39·45 세 종류 소용량 세트. 처음 접하는 분께 최고 선물"},
+    {name:"핫카이산 (八海山)",        price:2500, where:"✈️ 공항 면세점 · 주류샵",                         note:"닷사이 품절 시 대안. 니가타 대표 사케. 밸런스 좋고 부드러움"},
+    {name:"산토리 야마자키 12년",     price:8000, where:"✈️ 공항 면세점",                                  note:"일본 위스키. 한국 면세 대비 훨씬 저렴. 술 좋아하는 분 임팩트 선물"},
+    {name:"닛카 프롬 더 배럴",        price:4000, where:"✈️ 공항 면세점 · 돈키호테",                       note:"블렌디드 위스키 가성비 최고. 위스키 입문자에게도 추천"},
+    {name:"하이볼 캔 박스 (산토리)", price:3000, where:"✈️ 공항 면세점 · 돈키호테",                       note:"박스로 사면 개당 ¥200. 자기 소비용. 각종 맛이 있음"},
+  ]},
+];
+
+const GS = JSON.parse(localStorage.getItem('ak_gifts')||'{}');
+const GP = JSON.parse(localStorage.getItem('ak_giftpaid')||'{}');
+
+function giftId(cat,name){return (cat+name).replace(/\s/g,'_').replace(/[^\w가-힣]/g,'');}
+
+function renderGifts(){
+  let html='';
+  GIFTS.forEach(cat=>{
+    html+=`<div style="margin-bottom:18px">
+      <div class="jpstitle" style="background:${cat.color}">${cat.cat}</div>
+      <div style="border:1px solid ${cat.color};border-top:none">`;
+    cat.items.forEach((item,idx)=>{
+      const id=giftId(cat.cat,item.name);
+      const st=GS[id];
+      const done=st==='done', skip=st==='skip';
+      const paidVal=GP[id]||'';
+      html+=`<div style="padding:10px 13px;border-bottom:${idx<cat.items.length-1?'1px dashed #e8dcc8':'none'};background:${done?'rgba(74,124,89,.07)':skip?'rgba(176,90,74,.04)':'transparent'}">
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700;color:${skip?'#ccc':'#3d2b1a'};text-decoration:${skip?'line-through':'none'}">${item.name}</div>
+            <div style="font-size:10px;font-weight:700;color:${cat.color};margin-top:3px">${item.where||''}</div>
+            <div style="font-size:10px;color:#9a7a5a;margin-top:2px">${item.note}</div>
+            <div style="font-size:11px;font-weight:700;color:#3d2b1a;margin-top:3px">¥${item.price.toLocaleString()} <span style="color:#aaa;font-weight:400">≈ ${Math.round(item.price/100*S.rate).toLocaleString()}원~</span></div>
+            ${done?`<div style="display:flex;align-items:center;gap:5px;margin-top:6px;background:rgba(200,98,42,.07);padding:4px 6px">
+              <span style="font-size:9px;color:#c8622a;font-weight:700;flex-shrink:0">실제 ¥</span>
+              <input type="number" placeholder="지불금액" value="${paidVal}" style="width:80px;border:none;border-bottom:1px solid #c8622a;background:transparent;color:#c8622a;font-size:12px;font-weight:700;outline:none;padding:1px 2px"
+                onchange="GP['${id}']=this.value?Number(this.value):null;localStorage.setItem('ak_giftpaid',JSON.stringify(GP));renderGifts()"/>
+              <span style="font-size:10px;color:#c8622a">${paidVal?'≈ '+Math.round(paidVal/100*S.rate).toLocaleString()+'원':''}</span>
+            </div>`:''}
+          </div>
+          <div style="display:flex;gap:5px;flex-shrink:0;margin-top:2px">
+            <button onclick="toggleGift('${id}','done')" style="font-size:11px;font-weight:700;padding:5px 10px;border:1.5px solid ${done?'#4a7c59':'#d4c5a9'};background:${done?'rgba(74,124,89,.12)':'transparent'};color:${done?'#4a7c59':'#b89f7a'}">✓ 구매</button>
+            <button onclick="toggleGift('${id}','skip')" style="font-size:11px;padding:5px 8px;border:1.5px solid ${skip?'#b05a4a':'#d4c5a9'};background:${skip?'rgba(176,90,74,.08)':'transparent'};color:${skip?'#b05a4a':'#b89f7a'}">✕</button>
+          </div>
+        </div>
+      </div>`;
+    });
+    html+='</div></div>';
+  });
+
+  let estTotal=0,paidTotal=0,cnt=0;
+  GIFTS.forEach(cat=>cat.items.forEach(item=>{
+    const id=giftId(cat.cat,item.name);
+    if(GS[id]==='done'){
+      cnt++;
+      estTotal+=item.price;
+      paidTotal+=GP[id]!=null?GP[id]:item.price;
+    }
+  }));
+  const hasPaid=Object.keys(GP).length>0;
+  html+=`<div style="border:2px solid #c8622a;padding:12px 15px;margin-top:4px;background:rgba(200,98,42,.05)">
+    <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:#c8622a;margin-bottom:6px">🎁 선물 구매 합계</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div>
+        <div style="font-size:9px;color:#9a7a5a;margin-bottom:2px">예상 (현지가 기준)</div>
+        <div style="font-size:17px;font-weight:900;color:#6b8fb5">¥${estTotal.toLocaleString()}</div>
+        <div style="font-size:10px;color:#9a7a5a">≈ ${Math.round(estTotal/100*S.rate).toLocaleString()}원</div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#9a7a5a;margin-bottom:2px">실제 지불${hasPaid?'':' (미입력)'}</div>
+        <div style="font-size:17px;font-weight:900;color:#c8622a">¥${paidTotal.toLocaleString()}</div>
+        <div style="font-size:10px;color:#9a7a5a">≈ ${Math.round(paidTotal/100*S.rate).toLocaleString()}원 · ${cnt}개</div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('gift-list').innerHTML=html;
+}
+
+function toggleGift(id,v){
+  if(GS[id]===v)delete GS[id];else GS[id]=v;
+  localStorage.setItem('ak_gifts',JSON.stringify(GS));
+  renderGifts();
+}
+
+// ════════════ 쇼핑 팁 ════════════
+const TIPS = [
+  {icon:"💴", title:"면세 (免税) 완벽 활용",color:"#4a7c59",tips:[
+    "여권 필수 지참. 한 매장에서 세전 ¥5,000 이상 구매 시 8~10% 면세 가능",
+    "백화점·빅카메라·돈키호테 등 대형 매장은 전관 합산 면세 적용",
+    "면세 카운터는 보통 별도 위치. '免税できますか？(멘제이 데키마스카)' 확인",
+    "식품·소모품은 별도 봉인 포장. 일본 내에서 개봉 불가",
+  ]},
+  {icon:"💳", title:"결제 전략",color:"#6b8fb5",tips:[
+    "하나·신한 트래블 카드: 환전 수수료 0%. 현지 ATM 인출도 유리",
+    "현금만 받는 빈티지샵·소형 가게 많음. ¥50,000 정도는 현금 환전 필수",
+    "7-Eleven ATM이 한국 카드 인출 가장 안정적. 수수료 ¥110",
+    "PayPay(페이페이)는 한국인도 등록 가능. 일부 가게에서 추가 할인",
+  ]},
+  {icon:"🏪", title:"쇼핑 성지 구역별 전략",color:"#c8622a",tips:[
+    "하라주쿠·오모테산도: Beams, United Arrows 등 편집샵 집중. 평일 오전이 한산",
+    "시모키타자와: 빈티지 20~30곳 밀집. 토요일은 줄 섬 → 평일 추천",
+    "아메요코(우에노): 군용·워크웨어 빈티지 저렴. 흥정 어느 정도 가능",
+    "아사쿠사: 수제 부츠 전문점(Clinch, Wesco). 사전 예약 필요한 곳도 있음",
+    "돈키호테: 과자·드럭스토어 물품 한 번에 해결. 심야까지 영업",
+  ]},
+  {icon:"📦", title:"짐·배송 노하우",color:"#8f6bb5",tips:[
+    "타쿠하이(宅配): 숙소→공항 택배. 전날 저녁까지 맡기면 당일 공항 수령. ¥2,000~3,000",
+    "야마토 운수·사가와: 편의점에서 접수 가능. 큰 짐은 이게 훨씬 편함",
+    "캐리어 추가: 돈키호테·이온에서 ¥3,000~5,000짜리 추가 캐리어 구매 후 짐 분산",
+    "공항 면세점은 출국 직전. 주류·초콜릿은 여기서 구매하는 게 가장 저렴",
+  ]},
+  {icon:"⏰", title:"타이밍 & 절약 팁",color:"#b89f7a",tips:[
+    "세일 시즌: 1월 초(新年セール)·7월 초(夏セール). 30~50% 할인 흔함",
+    "아울렛: 오다이바·고템바 프리미엄 아울렛. 고템바는 후지산 뷰. 당일치기 가능",
+    "메루카리(メルカリ): 숙소에서 검색해 근처 점포 수령. 새상품 30~40% 싸게",
+    "마감 세일: 백화점 지하 식품관 오후 6~7시 30~50% 스티커. 과자 선물용으로 최고",
+    "영수증 보관: 환불·교환 대비. 특히 빈티지 고가 아이템",
+  ]},
+];
+
+function renderTips(){
+  let html='';
+  TIPS.forEach(sec=>{
+    html+=`<div style="margin-bottom:16px">
+      <div class="jpstitle" style="background:${sec.color}">${sec.icon} ${sec.title}</div>
+      <div style="border:1px solid ${sec.color};border-top:none">`;
+    sec.tips.forEach((tip,i)=>{
+      html+=`<div style="padding:10px 14px;border-bottom:${i<sec.tips.length-1?'1px dashed #e8dcc8':'none'};font-size:12px;color:#3d2b1a;line-height:1.6">
+        <span style="color:${sec.color};font-weight:700;margin-right:6px">▸</span>${tip}
+      </div>`;
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('tips-body').innerHTML=html;
+}
+
+// ════════════ 전체 렌더 ════════════
 document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('rate-input').value=S.rate;
   const sv=localStorage.getItem('ak_savedAt');
   if(sv)document.getElementById('save-time').innerHTML='🕐 <strong>'+sv+'</strong>';
   try{await openDB();S.imgs=await dbLoadImgs();}catch(e){console.warn('IndexedDB 불가');}
-  renderGuide();renderAll();renderJP();
+  renderGuide();renderAll();renderJP();renderGifts();renderTips();
 });
 </script>
 </body>
