@@ -381,6 +381,52 @@ const ALL = CATS.flatMap(c=>c.items);
 const ICAT = {};
 CATS.forEach(c=>c.items.forEach(i=>ICAT[i.id]=c));
 
+// ════════ 커스텀 아이템 (사용자 추가) ════════
+const CX = JSON.parse(localStorage.getItem('ak_custom')||'[]');
+// CATS에 커스텀 아이템 주입
+CX.forEach(cx=>{
+  const cat=CATS.find(c=>c.id===cx.catId);
+  if(cat){cat.items.push(cx);ALL.push(cx);ICAT[cx.id]=cat;}
+});
+
+function saveCX(){localStorage.setItem('ak_custom',JSON.stringify(CX));}
+
+function addCustomItem(catId){
+  const nameEl=document.getElementById('cx-name-'+catId);
+  const priceEl=document.getElementById('cx-price-'+catId);
+  const name=(nameEl.value||'').trim();
+  const price=parseInt(priceEl.value)||0;
+  if(!name)return;
+  const id='cx_'+Date.now();
+  const item={id,catId,name,price,model:'직접 추가',en:name,custom:true};
+  CX.push(item);
+  const cat=CATS.find(c=>c.id===catId);
+  cat.items.push(item);ALL.push(item);ICAT[id]=cat;
+  saveCX();
+  nameEl.value='';priceEl.value='';
+  document.getElementById('cx-form-'+catId).style.display='none';
+  renderAll();
+}
+
+function deleteCustomItem(id){
+  const idx=CX.findIndex(c=>c.id===id);
+  if(idx<0)return;
+  const catId=CX[idx].catId;
+  CX.splice(idx,1);
+  const cat=CATS.find(c=>c.id===catId);
+  cat.items=cat.items.filter(i=>i.id!==id);
+  const ai=ALL.findIndex(i=>i.id===id);
+  if(ai>=0)ALL.splice(ai,1);
+  delete ICAT[id];
+  saveCX();renderAll();
+}
+
+function toggleCXForm(catId){
+  const f=document.getElementById('cx-form-'+catId);
+  f.style.display=f.style.display==='none'?'flex':'none';
+  if(f.style.display==='flex')document.getElementById('cx-name-'+catId).focus();
+}
+
 const GUIDE = [
   {area:"하라주쿠 / 오모테산도",color:"#6b8fb5",shops:[
     {name:"Beams Japan",note:"일본 편집샵 대표. 아메카지 전 카테고리"},
@@ -762,6 +808,7 @@ function card(item){
       <div class="iline"><span class="ico">🏪</span><input type="text" placeholder="구매처 / 매장" value="${S.str[item.id]||''}" onchange="uf(S.str,'${item.id}',this.value)"/></div>
       <button class="mbtn${hasMemo?' has':''}" onclick="toggleMemo('${item.id}')">${hasMemo?'✏ 메모 ▾':mo?'메모 ▴':'메모 +'}</button>
       ${memoSec}
+      ${item.custom?`<button onclick="deleteCustomItem('${item.id}')" style="margin-top:6px;font-size:10px;color:#b05a4a;border:1px dashed #b05a4a;background:transparent;padding:3px 10px;width:100%">✕ 이 아이템 삭제</button>`:''}
     </div>
   </div>
 </div>`;
@@ -787,7 +834,21 @@ function renderCats(){
         <div class="left"><span style="font-size:13px">${cat.icon}</span><span class="name">${cat.label}</span></div>
         <div class="right"><span class="cat-badge" style="${bst}">${done}/${cat.items.length}</span><span style="font-size:10px;opacity:.5">${open?'▲':'▼'}</span></div>
       </button>
-      ${open?`<div class="cat-body">${vis.map(card).join('')}</div>`:''}
+      ${open?`<div class="cat-body">
+        ${vis.map(card).join('')}
+        <div style="padding:8px 10px;border-top:1px dashed #d4c5a9;background:#faf7f0">
+          <button onclick="toggleCXForm('${cat.id}')" style="font-size:11px;font-weight:700;color:#b89f7a;border:1.5px dashed #d4c5a9;padding:5px 12px;background:transparent;width:100%">＋ 아이템 직접 추가</button>
+          <div id="cx-form-${cat.id}" style="display:none;gap:6px;margin-top:6px;align-items:center;flex-wrap:wrap">
+            <input id="cx-name-${cat.id}" type="text" placeholder="아이템명 (예: 오아시스 데님)"
+              style="flex:1;min-width:120px;border:1px solid #d4c5a9;padding:6px 8px;font-size:12px;background:#fff;outline:none"
+              onkeydown="if(event.key==='Enter')addCustomItem('${cat.id}')"/>
+            <input id="cx-price-${cat.id}" type="number" placeholder="예상가 ¥"
+              style="width:90px;border:1px solid #d4c5a9;padding:6px 8px;font-size:12px;background:#fff;outline:none"
+              onkeydown="if(event.key==='Enter')addCustomItem('${cat.id}')"/>
+            <button onclick="addCustomItem('${cat.id}')" style="font-size:11px;font-weight:700;background:#3d2b1a;color:#f5f0e8;border:none;padding:7px 14px">추가</button>
+          </div>
+        </div>
+      </div>`:''}
     </div>`;
   });
   document.getElementById('cat-list').innerHTML=html;
@@ -1034,6 +1095,50 @@ const GIFTS = [
 
 const GS = JSON.parse(localStorage.getItem('ak_gifts')||'{}');
 const GP = JSON.parse(localStorage.getItem('ak_giftpaid')||'{}');
+const GX = JSON.parse(localStorage.getItem('ak_gift_custom')||'[]');
+// 커스텀 선물 아이템 주입
+GX.forEach(gx=>{
+  const cat=GIFTS.find(c=>c.cat===gx.cat);
+  if(cat)cat.items.push(gx);
+});
+
+function giftCatKey(catName){return btoa(unescape(encodeURIComponent(catName))).replace(/[^a-zA-Z0-9]/g,'');}
+
+function saveGX(){localStorage.setItem('ak_gift_custom',JSON.stringify(GX));}
+
+function addCustomGift(catName){
+  const gkey=giftCatKey(catName);
+  const nameEl=document.getElementById('gx-name-'+gkey);
+  const priceEl=document.getElementById('gx-price-'+gkey);
+  const name=(nameEl.value||'').trim();
+  const price=parseInt(priceEl.value)||0;
+  if(!name)return;
+  const item={cat:catName,name,price,ml:null,where:'직접 추가',note:'',custom:true};
+  GX.push(item);
+  const cat=GIFTS.find(c=>c.cat===catName);
+  if(cat)cat.items.push(item);
+  saveGX();nameEl.value='';priceEl.value='';
+  document.getElementById('gx-form-'+gkey).style.display='none';
+  renderGifts();
+}
+
+function deleteCustomGift(catName,name){
+  const idx=GX.findIndex(g=>g.cat===catName&&g.name===name);
+  if(idx>=0)GX.splice(idx,1);
+  const cat=GIFTS.find(c=>c.cat===catName);
+  if(cat)cat.items=cat.items.filter(i=>!(i.custom&&i.name===name));
+  const id=giftId(catName,name);
+  delete GS[id];delete GP[id];
+  localStorage.setItem('ak_gifts',JSON.stringify(GS));
+  localStorage.setItem('ak_giftpaid',JSON.stringify(GP));
+  saveGX();renderGifts();
+}
+
+function toggleGXForm(key){
+  const f=document.getElementById('gx-form-'+key);
+  f.style.display=f.style.display==='none'?'flex':'none';
+  if(f.style.display==='flex')document.getElementById('gx-name-'+key).focus();
+}
 
 function giftId(cat,name){return (cat+name).replace(/\s/g,'_').replace(/[^\w가-힣]/g,'');}
 
@@ -1065,7 +1170,7 @@ function renderGifts(){
       const st=GS[id];
       const done=st==='done', skip=st==='skip';
       const paidVal=GP[id]||'';
-      html+=`<div style="padding:10px 13px;border-bottom:${idx<cat.items.length-1?'1px dashed #e8dcc8':'none'};background:${done?'rgba(74,124,89,.07)':skip?'rgba(176,90,74,.04)':'transparent'}">
+      html+=`<div style="padding:10px 13px;border-bottom:1px dashed #e8dcc8;background:${done?'rgba(74,124,89,.07)':skip?'rgba(176,90,74,.04)':'transparent'}">
         <div style="display:flex;align-items:flex-start;gap:10px">
           <div style="flex:1">
             <div style="font-size:13px;font-weight:700;color:${item.rare?'#b05a4a':skip?'#ccc':'#3d2b1a'};text-decoration:${skip?'line-through':'none'}">${item.name}${item.ml?` <span style="font-size:10px;color:#888;font-weight:400">${item.ml}ml</span>`:''}
@@ -1081,13 +1186,31 @@ function renderGifts(){
               <span style="font-size:10px;color:#c8622a">${paidVal?'≈ '+Math.round(paidVal/100*S.rate).toLocaleString()+'원':''}</span>
             </div>`:''}
           </div>
-          <div style="display:flex;gap:5px;flex-shrink:0;margin-top:2px">
-            <button onclick="toggleGift('${id}','done')" style="font-size:11px;font-weight:700;padding:5px 10px;border:1.5px solid ${done?'#4a7c59':'#d4c5a9'};background:${done?'rgba(74,124,89,.12)':'transparent'};color:${done?'#4a7c59':'#b89f7a'}">✓ 구매</button>
-            <button onclick="toggleGift('${id}','skip')" style="font-size:11px;padding:5px 8px;border:1.5px solid ${skip?'#b05a4a':'#d4c5a9'};background:${skip?'rgba(176,90,74,.08)':'transparent'};color:${skip?'#b05a4a':'#b89f7a'}">✕</button>
+          <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0;margin-top:2px;align-items:flex-end">
+            <div style="display:flex;gap:5px">
+              <button onclick="toggleGift('${id}','done')" style="font-size:11px;font-weight:700;padding:5px 10px;border:1.5px solid ${done?'#4a7c59':'#d4c5a9'};background:${done?'rgba(74,124,89,.12)':'transparent'};color:${done?'#4a7c59':'#b89f7a'}">✓ 구매</button>
+              <button onclick="toggleGift('${id}','skip')" style="font-size:11px;padding:5px 8px;border:1.5px solid ${skip?'#b05a4a':'#d4c5a9'};background:${skip?'rgba(176,90,74,.08)':'transparent'};color:${skip?'#b05a4a':'#b89f7a'}">✕</button>
+            </div>
+            ${item.custom?`<button onclick="deleteCustomGift('${cat.cat}','${item.name}')" style="font-size:9px;color:#b05a4a;border:1px dashed #b05a4a;background:transparent;padding:3px 8px">✕ 삭제</button>`:''}
           </div>
         </div>
       </div>`;
     });
+
+    // + 추가 버튼
+    const gkey=btoa(unescape(encodeURIComponent(cat.cat))).replace(/[^a-zA-Z0-9]/g,'');
+    html+=`<div style="padding:8px 10px;background:#faf7f0">
+      <button onclick="toggleGXForm('${gkey}')" style="font-size:11px;font-weight:700;color:${cat.color};border:1.5px dashed ${cat.color};padding:5px 12px;background:transparent;width:100%;opacity:.8">＋ 직접 추가</button>
+      <div id="gx-form-${gkey}" style="display:none;gap:6px;margin-top:6px;align-items:center;flex-wrap:wrap">
+        <input id="gx-name-${gkey}" type="text" placeholder="선물 이름"
+          style="flex:1;min-width:120px;border:1px solid #d4c5a9;padding:6px 8px;font-size:12px;background:#fff;outline:none"
+          onkeydown="if(event.key==='Enter')addCustomGift('${cat.cat}')"/>
+        <input id="gx-price-${gkey}" type="number" placeholder="예상가 ¥"
+          style="width:90px;border:1px solid #d4c5a9;padding:6px 8px;font-size:12px;background:#fff;outline:none"
+          onkeydown="if(event.key==='Enter')addCustomGift('${cat.cat}')"/>
+        <button onclick="addCustomGift('${cat.cat}')" style="font-size:11px;font-weight:700;background:${cat.color};color:#fff;border:none;padding:7px 14px">추가</button>
+      </div>
+    </div>`;
 
     // 술 카테고리 리터 바
     const hasAlcohol = cat.items.some(i=>i.ml);
@@ -1132,14 +1255,22 @@ function renderGifts(){
   });
 
   let estTotal=0,paidTotal=0,cnt=0;
-  GIFTS.forEach(cat=>cat.items.forEach(item=>{
-    const id=giftId(cat.cat,item.name);
-    if(GS[id]==='done'){
+  // fixed 아이템 (닷사이23 등) 항상 포함
+  GIFTS.forEach(cat=>{
+    if(cat.fixed){
+      estTotal+=cat.fixed.price;
+      paidTotal+=cat.fixed.price;
       cnt++;
-      estTotal+=item.price;
-      paidTotal+=GP[id]!=null?GP[id]:item.price;
     }
-  }));
+    cat.items.forEach(item=>{
+      const id=giftId(cat.cat,item.name);
+      if(GS[id]==='done'){
+        cnt++;
+        estTotal+=item.price;
+        paidTotal+=GP[id]!=null?GP[id]:item.price;
+      }
+    });
+  });
   const hasPaid=Object.keys(GP).length>0;
   html+=`<div style="border:2px solid #c8622a;padding:12px 15px;margin-top:4px;background:rgba(200,98,42,.05)">
     <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:#c8622a;margin-bottom:6px">🎁 선물 구매 합계</div>
