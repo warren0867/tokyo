@@ -163,6 +163,7 @@ textarea{resize:vertical;}
 <nav class="global-nav">
   <button class="active" onclick="switchPage('checklist')">🛍 체크리스트</button>
   <button onclick="switchPage('gifts')">🎁 선물</button>
+  <button onclick="switchPage('food')">🍜 맛집</button>
   <button onclick="switchPage('tips')">💡 쇼핑팁</button>
   <button onclick="switchPage('japanese')">🗾 일본어</button>
 </nav>
@@ -238,6 +239,20 @@ textarea{resize:vertical;}
     <div id="summary-list"></div>
   </div>
   <div class="footer" id="footer-text">◆ AMEKAJI WARDROBE ◆</div>
+</div>
+</div>
+
+<!-- ══ 맛집 ══ -->
+<div id="page-food" class="page">
+<div class="inner">
+  <div class="jphdr">
+    <div class="sub">Tokyo Food Guide</div>
+    <div class="title">🍜 도쿄 맛집</div>
+    <div class="desc">꼭 먹어야 할 음식 버킷리스트</div>
+  </div>
+  <div id="food-stats" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"></div>
+  <div id="food-list"></div>
+  <div class="footer">◆ TOKYO FOOD BUCKET LIST ◆</div>
 </div>
 </div>
 
@@ -1031,6 +1046,142 @@ function renderJP(){
 // ════════════ 전체 렌더 ════════════
 function renderAll(){updateStats();renderFilter();renderCats();if(S.view==='summary')renderSummary();}
 
+// ════════════ 맛집 리스트 ════════════
+const FOODS = [
+  {cat:"🍣 스시 · 해산물", color:"#2c5f8a", items:[
+    {name:"에도마에 스시 오마카세",    price:"¥15,000~", reserve:true,  must:true,  station:"긴자·신바시",       note:"도쿄 오면 한 번은 필수. 카운터석 오마카세. 타베로그·오픈테이블로 1~2달 전 예약"},
+    {name:"스탠딩 스시 (立ち食い寿司)",price:"¥2,000~",  reserve:false, must:true,  station:"츠키지·유라쿠초",   note:"서서 먹는 스시. 싸고 신선. 유라쿠초 가드레일 밑이 성지. 줄 서면 5분"},
+    {name:"회전초밥 (스시로·하나마루)",price:"¥1,500~",  reserve:false, must:false, station:"어디서든",          note:"1접시 ¥110~180. 일본 퀄리티는 한국과 차원이 다름"},
+    {name:"우나기동 (장어덮밥)",       price:"¥2,800~",  reserve:false, must:true,  station:"아사쿠사·우에노",   note:"아사쿠사 '야마노야 카하야' 100년 노포. 점심 ¥2,800. 줄 각오"},
+  ]},
+  {cat:"🍜 라멘 · 면요리", color:"#8a3c2c", items:[
+    {name:"츠케멘",                    price:"¥1,000~",  reserve:false, must:true,  station:"이케부쿠로·도쿄역", note:"국물에 면 찍어먹기. 로쿠린샤(도쿄역 구내)가 유명. 줄 30분 기본"},
+    {name:"돈코츠 라멘",               price:"¥900~",    reserve:false, must:false, station:"어디서든",          note:"이치란·이치후도. 1인 칸막이석. 심야도 오픈. 혼자 먹어도 전혀 어색하지 않음"},
+    {name:"우동 (카케·붓카케)",        price:"¥500~",    reserve:false, must:true,  station:"어디서든",          note:"마루가메 제면 ¥290~. 쫄깃한 수타우동. 토핑 추가해도 ¥600 이하"},
+    {name:"소바 (모리소바·자루소바)",  price:"¥800~",    reserve:false, must:false, station:"진보초·아자부쥬반",  note:"메밀향 진한 냉소바. 쯔유에 찍어먹기. 빕구르망 소바집 추천"},
+    {name:"쇼유 라멘 (도쿄 스타일)",   price:"¥900~",    reserve:false, must:false, station:"어디서든",          note:"도쿄 정통 간장 라멘. 타이쇼켄·무기토오리브가 유명 노포"},
+  ]},
+  {cat:"🥩 고기 요리", color:"#5a3a1a", items:[
+    {name:"와규 야키니쿠",             price:"¥8,000~",  reserve:true,  must:true,  station:"니시아자부·긴자",   note:"A5 와규 직화구이. 점심 런치세트가 가성비 좋음 (¥3,000~). 저녁은 예약 필수"},
+    {name:"야키토리",                  price:"¥2,000~",  reserve:false, must:true,  station:"신주쿠·유라쿠초",   note:"유라쿠초 가드레일 아래 야키토리 골목이 성지. 소금·타레 둘 다 주문 추천"},
+    {name:"규카츠 (소고기 돈카츠)",   price:"¥2,000~",  reserve:false, must:true,  station:"시부야·신주쿠",     note:"소고기 튀김을 레어로. 모토무라가 유명. 한국에 없는 경험"},
+    {name:"스키야키",                  price:"¥6,000~",  reserve:true,  must:false, station:"긴자·신주쿠",       note:"얇은 와규를 날달걀에 찍어먹는 전골. 미야시타 스키야키(긴자) 야경 유명"},
+    {name:"돈카츠·카츠산도",           price:"¥1,500~",  reserve:false, must:false, station:"어디서든",          note:"두꺼운 돼지고기 튀김. 카츠산도(샌드위치 버전)가 특히 맛있음"},
+  ]},
+  {cat:"🍱 덮밥 · 정식", color:"#4a7c59", items:[
+    {name:"카이센동 (해산물덮밥)",     price:"¥2,000~",  reserve:false, must:true,  station:"츠키지·도요스",     note:"신선한 해산물 듬뿍. 츠키지 시장 근처 점심이 가장 저렴하고 신선"},
+    {name:"텐동 (튀김덮밥)",          price:"¥1,500~",  reserve:false, must:false, station:"아사쿠사·하라주쿠",  note:"카네코한노스케(하라주쿠) 줄서지만 가성비 좋음. 새우튀김 듬뿍"},
+    {name:"오야코동 (닭달걀덮밥)",    price:"¥1,000~",  reserve:false, must:false, station:"어디서든",          note:"촉촉한 달걀과 닭고기. 일본 가정식의 정수. 센다가야 '타마히데' 원조"},
+    {name:"규동 (소고기덮밥)",        price:"¥400~",    reserve:false, must:false, station:"어디서든",          note:"요시노야·마츠야 24시간. ¥400대. 도쿄 직장인 점심. 가성비 1위"},
+  ]},
+  {cat:"🍶 이자카야 · 술자리", color:"#6b4c8a", items:[
+    {name:"이자카야 (신주쿠 골든가이)",price:"¥3,000~",  reserve:false, must:true,  station:"신주쿠",            note:"10석 이하 초소형 바 100여 곳. 오너와 대화하는 문화. 혼자도 OK. 도쿄 필수 체험"},
+    {name:"오뎅 (관동식)",            price:"¥1,500~",  reserve:false, must:true,  station:"어디서든",          note:"가쓰오부시 육수 오뎅. 편의점 오뎅도 훌륭. 다시마·무·두부 조합이 깊음"},
+    {name:"몬자야키",                  price:"¥1,500~",  reserve:false, must:true,  station:"츠키시마",          note:"도쿄 독자 철판요리. 묽은 반죽+재료 볶아먹기. 츠키시마 몬자거리 성지"},
+    {name:"크래프트 비어 이자카야",   price:"¥3,000~",  reserve:false, must:false, station:"시부야·기치조지",   note:"일본 지역 크래프트 비어와 안주. 야키토리+생맥주 조합이 최고"},
+  ]},
+  {cat:"🍡 길거리 · 간식", color:"#c8622a", items:[
+    {name:"타코야키",                  price:"¥600~",    reserve:false, must:true,  station:"어디서든",          note:"문어 들어간 일본 국민 간식. 오사카 원조지만 도쿄에서도 맛있음"},
+    {name:"편의점 오니기리·샌드위치", price:"¥150~",    reserve:false, must:true,  station:"어디서든",          note:"세븐일레븐 달걀 샌드위치·참치마요 오니기리. 일본 여행자 필수 체험"},
+    {name:"멜론빵 (메론판)",          price:"¥250~",    reserve:false, must:false, station:"아사쿠사·하라주쿠",  note:"갓 구운 멜론빵. 아사쿠사 카도야가 유명. 겉바속촉"},
+    {name:"하라주쿠 크레이프",        price:"¥500~",    reserve:false, must:false, station:"하라주쿠 다케시타도리", note:"하라주쿠 명물. 다케시타 거리에 10곳 이상. 달콤한 간식"},
+  ]},
+];
+
+const FS = JSON.parse(localStorage.getItem('ak_food')||'{}');
+const FX = JSON.parse(localStorage.getItem('ak_food_custom')||'[]');
+FX.forEach(fx=>{const cat=FOODS.find(c=>c.cat===fx.cat);if(cat)cat.items.push(fx);});
+
+function foodId(cat,name){return ('f'+(cat+name)).replace(/\s/g,'_').replace(/[^\w가-힣]/g,'');}
+function foodCatKey(c){return btoa(unescape(encodeURIComponent(c))).replace(/[^a-zA-Z0-9]/g,'');}
+function saveFX(){localStorage.setItem('ak_food_custom',JSON.stringify(FX));}
+
+function addCustomFood(catName){
+  const k=foodCatKey(catName);
+  const n=(document.getElementById('fx-name-'+k).value||'').trim();
+  const p=document.getElementById('fx-price-'+k).value||'-';
+  if(!n)return;
+  const item={cat:catName,name:n,price:p,reserve:false,must:false,station:'',note:'',custom:true};
+  FX.push(item);const cat=FOODS.find(c=>c.cat===catName);if(cat)cat.items.push(item);
+  saveFX();document.getElementById('fx-name-'+k).value='';document.getElementById('fx-price-'+k).value='';
+  document.getElementById('fx-form-'+k).style.display='none';renderFoods();
+}
+function deleteCustomFood(catName,name){
+  const idx=FX.findIndex(f=>f.cat===catName&&f.name===name);if(idx>=0)FX.splice(idx,1);
+  const cat=FOODS.find(c=>c.cat===catName);if(cat)cat.items=cat.items.filter(i=>!(i.custom&&i.name===name));
+  delete FS[foodId(catName,name)];localStorage.setItem('ak_food',JSON.stringify(FS));saveFX();renderFoods();
+}
+function toggleFXForm(k){
+  const f=document.getElementById('fx-form-'+k);
+  f.style.display=f.style.display==='none'?'flex':'none';
+  if(f.style.display==='flex')document.getElementById('fx-name-'+k).focus();
+}
+function toggleFood(id,v){
+  if(FS[id]===v)delete FS[id];else FS[id]=v;
+  localStorage.setItem('ak_food',JSON.stringify(FS));renderFoods();
+}
+
+function renderFoods(){
+  let total=0,done=0,want=0;
+  FOODS.forEach(cat=>cat.items.forEach(item=>{
+    total++;const st=FS[foodId(cat.cat,item.name)];
+    if(st==='done')done++;if(st==='want')want++;
+  }));
+  document.getElementById('food-stats').innerHTML=`
+    <div style="border:2px solid #4a7c59;padding:10px 12px;background:rgba(74,124,89,.06)">
+      <div style="font-size:9px;font-weight:700;color:#4a7c59;letter-spacing:1px;margin-bottom:3px">✓ 먹은 음식</div>
+      <div style="font-size:22px;font-weight:900;color:#4a7c59">${done}<small style="font-size:12px;color:#9a7a5a"> / ${total}</small></div>
+    </div>
+    <div style="border:2px solid #6b8fb5;padding:10px 12px;background:rgba(107,143,181,.06)">
+      <div style="font-size:9px;font-weight:700;color:#6b8fb5;letter-spacing:1px;margin-bottom:3px">♥ 먹고 싶은</div>
+      <div style="font-size:22px;font-weight:900;color:#6b8fb5">${want}<small style="font-size:12px;color:#9a7a5a"> 개</small></div>
+    </div>`;
+
+  let html='';
+  FOODS.forEach(cat=>{
+    const doneN=cat.items.filter(i=>FS[foodId(cat.cat,i.name)]==='done').length;
+    html+=`<div style="margin-bottom:16px">
+      <div class="jpstitle" style="background:${cat.color}">${cat.cat} <span style="font-size:10px;opacity:.7;margin-left:6px">${doneN}/${cat.items.length}</span></div>
+      <div style="border:1px solid ${cat.color};border-top:none">`;
+    cat.items.forEach(item=>{
+      const id=foodId(cat.cat,item.name);
+      const st=FS[id];
+      const isDone=st==='done',isWant=st==='want',isSkip=st==='skip';
+      const bg=isDone?'rgba(74,124,89,.07)':isWant?'rgba(107,143,181,.07)':isSkip?'rgba(176,90,74,.04)':'transparent';
+      html+=`<div style="padding:11px 13px;border-bottom:1px dashed #e8dcc8;background:${bg}">
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:3px">
+              <span style="font-size:13px;font-weight:700;color:${isSkip?'#ccc':isDone?'#4a7c59':'#3d2b1a'};text-decoration:${isSkip?'line-through':'none'}">${item.name}</span>
+              ${item.must?'<span style="font-size:9px;background:#c8622a;color:#fff;padding:1px 6px;font-weight:700">필수</span>':''}
+              ${item.reserve?'<span style="font-size:9px;border:1px solid #b05a4a;color:#b05a4a;padding:1px 6px;font-weight:700">예약필요</span>':''}
+            </div>
+            ${item.station?`<div style="font-size:10px;font-weight:700;color:${cat.color};margin-bottom:3px">📍 ${item.station}</div>`:''}
+            <div style="font-size:10px;color:#9a7a5a;line-height:1.6">${item.note}</div>
+            <div style="font-size:11px;font-weight:700;color:#3d2b1a;margin-top:4px">${item.price}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
+            <button onclick="toggleFood('${id}','done')" style="font-size:10px;font-weight:700;padding:5px 8px;border:1.5px solid ${isDone?'#4a7c59':'#d4c5a9'};background:${isDone?'rgba(74,124,89,.15)':'transparent'};color:${isDone?'#4a7c59':'#b89f7a'}">✓ 먹음</button>
+            <button onclick="toggleFood('${id}','want')" style="font-size:10px;font-weight:700;padding:5px 8px;border:1.5px solid ${isWant?'#6b8fb5':'#d4c5a9'};background:${isWant?'rgba(107,143,181,.12)':'transparent'};color:${isWant?'#6b8fb5':'#b89f7a'}">♥ 예정</button>
+            <button onclick="toggleFood('${id}','skip')" style="font-size:10px;padding:5px 8px;border:1.5px solid ${isSkip?'#b05a4a':'#d4c5a9'};background:${isSkip?'rgba(176,90,74,.08)':'transparent'};color:${isSkip?'#b05a4a':'#b89f7a'}">✕ 패스</button>
+            ${item.custom?`<button onclick="deleteCustomFood('${cat.cat}','${item.name}')" style="font-size:9px;color:#b05a4a;border:1px dashed #b05a4a;background:transparent;padding:3px 5px">삭제</button>`:''}
+          </div>
+        </div>
+      </div>`;
+    });
+    const k=foodCatKey(cat.cat);
+    html+=`<div style="padding:8px 10px;background:#faf7f0">
+      <button onclick="toggleFXForm('${k}')" style="font-size:11px;font-weight:700;color:${cat.color};border:1.5px dashed ${cat.color};padding:5px 12px;background:transparent;width:100%;opacity:.8">＋ 직접 추가</button>
+      <div id="fx-form-${k}" style="display:none;gap:6px;margin-top:6px;align-items:center;flex-wrap:wrap">
+        <input id="fx-name-${k}" type="text" placeholder="음식 이름" style="flex:1;min-width:120px;border:1px solid #d4c5a9;padding:6px 8px;font-size:12px;background:#fff;outline:none" onkeydown="if(event.key==='Enter')addCustomFood('${cat.cat}')"/>
+        <input id="fx-price-${k}" type="text" placeholder="가격대" style="width:80px;border:1px solid #d4c5a9;padding:6px 8px;font-size:12px;background:#fff;outline:none" onkeydown="if(event.key==='Enter')addCustomFood('${cat.cat}')"/>
+        <button onclick="addCustomFood('${cat.cat}')" style="font-size:11px;font-weight:700;background:${cat.color};color:#fff;border:none;padding:7px 14px">추가</button>
+      </div>
+    </div></div>`;
+  });
+  document.getElementById('food-list').innerHTML=html;
+}
+
 // ════════════ 선물 리스트 ════════════
 const GIFTS = [
   {cat:"🍫 과자 · 식품", color:"#c8622a", items:[
@@ -1355,7 +1506,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
   const sv=localStorage.getItem('ak_savedAt');
   if(sv)document.getElementById('save-time').innerHTML='🕐 <strong>'+sv+'</strong>';
   try{await openDB();S.imgs=await dbLoadImgs();}catch(e){console.warn('IndexedDB 불가');}
-  renderGuide();renderAll();renderJP();renderGifts();renderTips();
+  renderGuide();renderAll();renderJP();renderGifts();renderTips();renderFoods();
 });
 </script>
 </body>
